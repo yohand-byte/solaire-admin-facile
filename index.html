@@ -1966,6 +1966,7 @@
         };
 
         const landingApp = initializeApp(firebaseConfigLanding);
+        window.FIREBASE_APPCHECK_DEBUG_TOKEN = '7482058D-3D55-464D-A602-30FBA2A2C8B4';
         initializeAppCheck(landingApp, {
             provider: new ReCaptchaV3Provider('marcokimyohan'),
             isTokenAutoRefreshEnabled: true
