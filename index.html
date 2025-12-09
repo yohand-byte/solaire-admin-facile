@@ -1790,26 +1790,55 @@
         // =====================
         // FORM SUBMISSIONS
         // =====================
-        function handleMainFormSubmit(e) {
+        const FIREBASE_API_KEY = 'AIzaSyBdQP61dhT8it9_Ua-U8u-xgh40DLnfNbg';
+        const FIRESTORE_URL = `https://firestore.googleapis.com/v1/projects/solaire-admin/databases/(default)/documents/leads?key=${FIREBASE_API_KEY}`;
+
+        async function handleMainFormSubmit(e) {
             e.preventDefault();
-            
-            // Get form data
-            const formData = new FormData(e.target);
+            const form = e.target;
+            const formData = new FormData(form);
             const data = Object.fromEntries(formData);
-            
-            console.log('Form submitted:', data);
-            
-            // Show success message
-            alert('✅ Merci ! Nous vous rappelons sous 24h avec une solution concrète pour débloquer vos dossiers.');
-            
-            // Reset form
-            e.target.reset();
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // In production, send to CRM/email service
-            // fetch('/api/submit', { method: 'POST', body: JSON.stringify(data) })
+
+            // Map landing fields -> CRM lead fields
+            const fullName = `${data.prenom || ''} ${data.nom || ''}`.trim();
+            const payload = {
+                fields: {
+                    fullName: { stringValue: fullName },
+                    email: { stringValue: data.email || '' },
+                    phone: { stringValue: data.telephone || '' },
+                    source: { stringValue: 'Landing page' },
+                    priority: { stringValue: data.priorite || 'Moyenne' },
+                    blocked_files_count: { stringValue: data.nombre_dossiers || '' },
+                    blocking_type: { stringValue: data.blocage || '' },
+                    desired_pack: { stringValue: data.pack || '' },
+                    notes: { stringValue: data.message || '' },
+                    status: { stringValue: 'Nouveau' },
+                    createdAt: { timestampValue: new Date().toISOString() }
+                }
+            };
+
+            try {
+                form.querySelector('button[type="submit"]').disabled = true;
+                const res = await fetch(FIRESTORE_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!res.ok) {
+                    console.error('Firestore error', await res.text());
+                    alert('⚠️ Erreur réseau. Réessayez dans un instant.');
+                } else {
+                    alert('✅ Merci ! Nous vous rappelons sous 24h avec une solution concrète pour débloquer vos dossiers.');
+                    form.reset();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            } catch (err) {
+                console.error('submit lead failed', err);
+                alert('⚠️ Impossible d’enregistrer pour le moment. Vérifiez votre connexion.');
+            } finally {
+                form.querySelector('button[type="submit"]').disabled = false;
+            }
         }
         
         function handleExitFormSubmit(e) {
