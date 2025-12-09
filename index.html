@@ -472,6 +472,36 @@
             </div>
         </div>
     </section>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app-check.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+        const firebaseConfigLanding = {
+            apiKey: "AIzaSyBdQP61dhT8it9_Ua-U8u-xgh40DLnfNbg",
+            authDomain: "solaire-admin.firebaseapp.com",
+            projectId: "solaire-admin",
+            storageBucket: "solaire-admin.firebasestorage.app",
+            messagingSenderId: "294963767896",
+            appId: "1:294963767896:web:a2f6590fba1de9a0d2782d",
+            measurementId: "G-G0WMPNNMWD"
+        };
+
+        const landingApp = initializeApp(firebaseConfigLanding);
+        initializeAppCheck(landingApp, {
+            provider: new ReCaptchaV3Provider('marcokimyohan'),
+            isTokenAutoRefreshEnabled: true
+        });
+        const landingDb = getFirestore(landingApp);
+
+        // Expose helper for form handler
+        window.landingAddLead = (data) => {
+            return addDoc(collection(landingDb, 'leads'), {
+                ...data,
+                createdAt: serverTimestamp()
+            });
+        };
+    </script>
     
     <!-- SECTION DOULEUR -->
     <section class="py-20 bg-gradient-to-b from-gray-50 to-white" id="douleur">
@@ -1790,8 +1820,15 @@
         // =====================
         // FORM SUBMISSIONS
         // =====================
-        const FIREBASE_API_KEY = 'AIzaSyBdQP61dhT8it9_Ua-U8u-xgh40DLnfNbg';
-        const FIRESTORE_URL = `https://firestore.googleapis.com/v1/projects/solaire-admin/databases/(default)/documents/leads?key=${FIREBASE_API_KEY}`;
+        const firebaseConfigLanding = {
+            apiKey: "AIzaSyBdQP61dhT8it9_Ua-U8u-xgh40DLnfNbg",
+            authDomain: "solaire-admin.firebaseapp.com",
+            projectId: "solaire-admin",
+            storageBucket: "solaire-admin.firebasestorage.app",
+            messagingSenderId: "294963767896",
+            appId: "1:294963767896:web:a2f6590fba1de9a0d2782d",
+            measurementId: "G-G0WMPNNMWD"
+        };
 
         async function handleMainFormSubmit(e) {
             e.preventDefault();
@@ -1799,40 +1836,26 @@
             const formData = new FormData(form);
             const data = Object.fromEntries(formData);
 
-            // Map landing fields -> CRM lead fields
             const fullName = `${data.prenom || ''} ${data.nom || ''}`.trim();
-            const payload = {
-                fields: {
-                    fullName: { stringValue: fullName },
-                    email: { stringValue: data.email || '' },
-                    phone: { stringValue: data.telephone || '' },
-                    source: { stringValue: 'Landing page' },
-                    priority: { stringValue: data.priorite || 'Moyenne' },
-                    blocked_files_count: { stringValue: data.nombre_dossiers || '' },
-                    blocking_type: { stringValue: data.blocage || '' },
-                    desired_pack: { stringValue: data.pack || '' },
-                    notes: { stringValue: data.message || '' },
-                    status: { stringValue: 'Nouveau' },
-                    createdAt: { timestampValue: new Date().toISOString() }
-                }
-            };
 
             try {
                 form.querySelector('button[type="submit"]').disabled = true;
-                const res = await fetch(FIRESTORE_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                await window.landingAddLead({
+                    fullName,
+                    email: data.email || '',
+                    phone: data.telephone || '',
+                    source: 'Landing page',
+                    priority: data.priorite || 'Moyenne',
+                    blocked_files_count: data.nombre_dossiers || '',
+                    blocking_type: data.blocage || '',
+                    desired_pack: data.pack || '',
+                    notes: data.message || '',
+                    status: 'Nouveau'
                 });
 
-                if (!res.ok) {
-                    console.error('Firestore error', await res.text());
-                    alert('⚠️ Erreur réseau. Réessayez dans un instant.');
-                } else {
-                    alert('✅ Merci ! Nous vous rappelons sous 24h avec une solution concrète pour débloquer vos dossiers.');
-                    form.reset();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
+                alert('✅ Merci ! Nous vous rappelons sous 24h avec une solution concrète pour débloquer vos dossiers.');
+                form.reset();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             } catch (err) {
                 console.error('submit lead failed', err);
                 alert('⚠️ Impossible d’enregistrer pour le moment. Vérifiez votre connexion.');
