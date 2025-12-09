@@ -472,36 +472,6 @@
             </div>
         </div>
     </section>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app-check.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-
-        const firebaseConfigLanding = {
-            apiKey: "AIzaSyBdQP61dhT8it9_Ua-U8u-xgh40DLnfNbg",
-            authDomain: "solaire-admin.firebaseapp.com",
-            projectId: "solaire-admin",
-            storageBucket: "solaire-admin.firebasestorage.app",
-            messagingSenderId: "294963767896",
-            appId: "1:294963767896:web:a2f6590fba1de9a0d2782d",
-            measurementId: "G-G0WMPNNMWD"
-        };
-
-        const landingApp = initializeApp(firebaseConfigLanding);
-        initializeAppCheck(landingApp, {
-            provider: new ReCaptchaV3Provider('marcokimyohan'),
-            isTokenAutoRefreshEnabled: true
-        });
-        const landingDb = getFirestore(landingApp);
-
-        // Expose helper for form handler
-        window.landingAddLead = (data) => {
-            return addDoc(collection(landingDb, 'leads'), {
-                ...data,
-                createdAt: serverTimestamp()
-            });
-        };
-    </script>
     
     <!-- SECTION DOULEUR -->
     <section class="py-20 bg-gradient-to-b from-gray-50 to-white" id="douleur">
@@ -1311,8 +1281,8 @@
                         
                         <div>
                             <p class="text-gray-600 mb-2">📧 Email :</p>
-                            <a href="mailto:contact@solairefacile.com" class="text-2xl font-bold text-blue-600 hover:text-blue-700">
-                                contact@solairefacile.com
+                            <a href="/cdn-cgi/l/email-protection#1d7e7273697c7e695d6e72717c746f787b7c7e747178337e7270" class="text-2xl font-bold text-blue-600 hover:text-blue-700">
+                                <span class="__cf_email__" data-cfemail="9cfff3f2e8fdffe8dceff3f0fdf5eef9fafdfff5f0f9b2fff3f1">[email&#160;protected]</span>
                             </a>
                             <p class="text-sm text-gray-600 mt-2">(Réponse < 2h en journée)</p>
                         </div>
@@ -1409,7 +1379,7 @@
                         <h3 class="font-bold text-xl mb-4">CONTACT</h3>
                         <ul class="space-y-2 text-gray-400">
                             <li><a href="tel:+33777227434" class="hover:text-white transition">+33 7 77 22 74 34</a></li>
-                            <li><a href="mailto:contact@solairefacile.com" class="hover:text-white transition">contact@solairefacile.com</a></li>
+                            <li><a href="/cdn-cgi/l/email-protection#a9cac6c7ddc8cadde9dac6c5c8c0dbcccfc8cac0c5cc87cac6c4" class="hover:text-white transition"><span class="__cf_email__" data-cfemail="83e0ecedf7e2e0f7c3f0ecefe2eaf1e6e5e2e0eaefe6ade0ecee">[email&#160;protected]</span></a></li>
                             <li>9 av. Président Wilson<br>75016 Paris</li>
                         </ul>
                     </div>
@@ -1584,7 +1554,79 @@
         </div>
     </div>
     
-    <script>
+    <!-- SUCCESS MODAL (STYLÉ!) -->
+    <div id="successModal" class="modal">
+        <div class="modal-content max-w-2xl text-center">
+            <!-- Animation success -->
+            <div class="mb-6">
+                <div class="w-24 h-24 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center mx-auto animate-bounce">
+                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+            </div>
+            
+            <!-- Titre -->
+            <h2 class="text-4xl font-black text-gray-900 mb-4">
+                🎉 DEMANDE REÇUE !
+            </h2>
+            
+            <!-- Message -->
+            <p class="text-xl text-gray-700 mb-6 leading-relaxed">
+                Merci <strong id="successName"></strong> ! 
+            </p>
+            
+            <div class="bg-gradient-to-br from-blue-50 to-green-50 rounded-2xl p-8 mb-8">
+                <p class="text-lg text-gray-800 mb-4">
+                    <strong>Nous avons bien reçu votre demande concernant vos dossiers bloqués.</strong>
+                </p>
+                
+                <div class="space-y-3 text-left max-w-md mx-auto">
+                    <div class="flex items-start space-x-3">
+                        <span class="text-green-500 text-2xl flex-shrink-0">✓</span>
+                        <span class="text-gray-700"><strong>Un expert vous rappelle sous 24h</strong></span>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <span class="text-green-500 text-2xl flex-shrink-0">✓</span>
+                        <span class="text-gray-700">Solution concrète et chiffrée</span>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <span class="text-green-500 text-2xl flex-shrink-0">✓</span>
+                        <span class="text-gray-700">Démarrage immédiat possible</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Email de confirmation -->
+            <p class="text-gray-600 mb-8">
+                📧 Vous allez recevoir un email de confirmation à :<br>
+                <strong class="text-blue-600" id="successEmail"></strong>
+            </p>
+            
+            <!-- En attendant -->
+            <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-6 mb-8">
+                <h3 class="font-bold text-yellow-800 mb-3">⚡ En attendant notre appel :</h3>
+                <div class="space-y-2 text-left text-yellow-900">
+                    <p>• Préparez la liste de vos dossiers bloqués</p>
+                    <p>• Notez depuis combien de temps ils traînent</p>
+                    <p>• Identifiez les plus urgents</p>
+                </div>
+            </div>
+            
+            <!-- CTA -->
+            <div class="space-y-4">
+                <button onclick="closeSuccessModal()" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-4 px-8 rounded-xl text-lg transition shadow-lg">
+                    PARFAIT, J'AI COMPRIS !
+                </button>
+                
+                <p class="text-sm text-gray-500">
+                    Besoin urgent ? Appelez-nous : <a href="tel:+33777227434" class="text-blue-600 font-semibold underline">+33 7 77 22 74 34</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // =====================
         // INITIALIZATION
         // =====================
@@ -1820,48 +1862,161 @@
         // =====================
         // FORM SUBMISSIONS
         // =====================
-        const firebaseConfigLanding = {
-            apiKey: "AIzaSyBdQP61dhT8it9_Ua-U8u-xgh40DLnfNbg",
-            authDomain: "solaire-admin.firebaseapp.com",
-            projectId: "solaire-admin",
-            storageBucket: "solaire-admin.firebasestorage.app",
-            messagingSenderId: "294963767896",
-            appId: "1:294963767896:web:a2f6590fba1de9a0d2782d",
-            measurementId: "G-G0WMPNNMWD"
-        };
-
-        async function handleMainFormSubmit(e) {
+        function handleMainFormSubmit(e) {
             e.preventDefault();
-            const form = e.target;
-            const formData = new FormData(form);
+            
+            // Get form data
+            const formData = new FormData(e.target);
             const data = Object.fromEntries(formData);
-
-            const fullName = `${data.prenom || ''} ${data.nom || ''}`.trim();
-
-            try {
-                form.querySelector('button[type="submit"]').disabled = true;
-                await window.landingAddLead({
-                    fullName,
-                    email: data.email || '',
-                    phone: data.telephone || '',
-                    source: 'Landing page',
-                    priority: data.priorite || 'Moyenne',
-                    blocked_files_count: data.nombre_dossiers || '',
-                    blocking_type: data.blocage || '',
-                    desired_pack: data.pack || '',
-                    notes: data.message || '',
-                    status: 'Nouveau'
-                });
-
-                alert('✅ Merci ! Nous vous rappelons sous 24h avec une solution concrète pour débloquer vos dossiers.');
-                form.reset();
+            
+            console.log('Form submitted:', data);
+            
+            // ====================================
+            // OPTION 1 : ZAPIER WEBHOOK
+            // ====================================
+            // Remplace par ton URL Zapier
+            const ZAPIER_WEBHOOK_URL = 'VOTRE_URL_ZAPIER_ICI';
+            
+            // Envoi vers Zapier (décommente quand tu as l'URL)
+            /*
+            fetch(ZAPIER_WEBHOOK_URL, {
+                method: 'POST',
+                body: JSON.stringify(data)
+            }).then(response => {
+                console.log('✅ Lead envoyé à Zapier:', response);
+            }).catch(error => {
+                console.error('❌ Erreur envoi Zapier:', error);
+            });
+            */
+            
+            // ====================================
+            // OPTION 2 : MAKE (INTEGROMAT) WEBHOOK
+            // ====================================
+            // Remplace par ton URL Make
+            const MAKE_WEBHOOK_URL = 'VOTRE_URL_MAKE_ICI';
+            
+            // Envoi vers Make (décommente quand tu as l'URL)
+            /*
+            fetch(MAKE_WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(response => {
+                console.log('✅ Lead envoyé à Make:', response);
+            }).catch(error => {
+                console.error('❌ Erreur envoi Make:', error);
+            });
+            */
+            
+            // ====================================
+            // OPTION 3 : AIRTABLE DIRECT
+            // ====================================
+            // Configuration Airtable
+            const AIRTABLE_BASE_ID = 'VOTRE_BASE_ID'; // Ex: appXXXXXXXXXXXXXX
+            const AIRTABLE_TABLE_NAME = 'Leads'; // Nom de ta table
+            const AIRTABLE_API_KEY = 'VOTRE_API_KEY'; // pat...
+            
+            // Envoi vers Airtable (décommente quand tu as les infos)
+            /*
+            fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fields: {
+                        'Prénom': data.prenom,
+                        'Nom': data.nom,
+                        'Téléphone': data.telephone,
+                        'Email': data.email,
+                        'Nombre dossiers': data.nombre_dossiers,
+                        'Blocage': data.blocage,
+                        'Pack': data.pack,
+                        'Date': new Date().toISOString(),
+                        'Statut': 'Nouveau'
+                    }
+                })
+            }).then(response => response.json())
+            .then(result => {
+                console.log('✅ Lead créé dans Airtable:', result);
+            }).catch(error => {
+                console.error('❌ Erreur Airtable:', error);
+            });
+            */
+            
+            // ====================================
+            // OPTION 4 : GOOGLE SHEETS (via Apps Script)
+            // ====================================
+            // URL de ton Google Apps Script
+            const GOOGLE_SCRIPT_URL = 'VOTRE_URL_GOOGLE_SCRIPT';
+            
+            // Envoi vers Google Sheets (décommente quand tu as l'URL)
+            /*
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(() => {
+                console.log('✅ Lead envoyé à Google Sheets');
+            }).catch(error => {
+                console.error('❌ Erreur Google Sheets:', error);
+            });
+            */
+            
+            // ====================================
+            // OPTION 5 : EMAIL DIRECT (EmailJS)
+            // ====================================
+            // Configuration EmailJS : https://www.emailjs.com/
+            /*
+            emailjs.send('VOTRE_SERVICE_ID', 'VOTRE_TEMPLATE_ID', {
+                from_name: `${data.prenom} ${data.nom}`,
+                from_email: data.email,
+                phone: data.telephone,
+                dossiers: data.nombre_dossiers,
+                blocage: data.blocage,
+                pack: data.pack
+            }).then(() => {
+                console.log('✅ Email envoyé via EmailJS');
+            }).catch(error => {
+                console.error('❌ Erreur EmailJS:', error);
+            });
+            */
+            
+            // Show success modal (le beau popup stylé!)
+            showSuccessModal(data);
+            
+            // Reset form
+            e.target.reset();
+            
+            // Scroll to top
+            setTimeout(() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-            } catch (err) {
-                console.error('submit lead failed', err);
-                alert('⚠️ Impossible d’enregistrer pour le moment. Vérifiez votre connexion.');
-            } finally {
-                form.querySelector('button[type="submit"]').disabled = false;
-            }
+            }, 500);
+        }
+        
+        // Fonction pour afficher le modal de succès
+        function showSuccessModal(data) {
+            const modal = document.getElementById('successModal');
+            const nameElement = document.getElementById('successName');
+            const emailElement = document.getElementById('successEmail');
+            
+            // Remplir les infos personnalisées
+            nameElement.textContent = data.prenom || data.nom || '';
+            emailElement.textContent = data.email || '';
+            
+            // Ouvrir le modal
+            modal.classList.add('open');
+            
+            // Confettis (optionnel - ajoute canvas-confetti si tu veux)
+            // confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        }
+        
+        // Fonction pour fermer le modal
+        function closeSuccessModal() {
+            const modal = document.getElementById('successModal');
+            modal.classList.remove('open');
         }
         
         function handleExitFormSubmit(e) {
@@ -1899,15 +2054,4 @@
         // Track scroll depth
         let scrollTracked = { 25: false, 50: false, 75: false };
         window.addEventListener('scroll', () => {
-            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            
-            Object.keys(scrollTracked).forEach(threshold => {
-                if (scrollPercent >= threshold && !scrollTracked[threshold]) {
-                    trackEvent('Scroll', 'depth', `${threshold}%`);
-                    scrollTracked[threshold] = true;
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+            const scrollPercent = (window.scrollY / (document.documen
