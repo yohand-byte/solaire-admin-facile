@@ -1984,16 +1984,15 @@
             });
             */
             
-            // Show success modal (le beau popup stylé!)
-            showSuccessModal(data);
-            
-            // Reset form
-            e.target.reset();
-            
-            // Scroll to top
-            setTimeout(() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 500);
+            try {
+                await sendLeadToFirestore(data);
+                showSuccessModal(data);
+                e.target.reset();
+                setTimeout(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, 500);
+            } catch (err) {
+                console.error('Firestore lead error', err);
+                alert('⚠️ Impossible d’enregistrer pour le moment. Réessayez dans un instant.');
+            }
         }
         
         // Fonction pour afficher le modal de succès
@@ -2063,6 +2062,44 @@
                 }
             });
         });
+    </script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app-check.js";
+
+        const firebaseConfigLanding = {
+            apiKey: "AIzaSyBdQP61dhT8it9_Ua-U8u-xgh40DLnfNbg",
+            authDomain: "solaire-admin.firebaseapp.com",
+            projectId: "solaire-admin",
+            storageBucket: "solaire-admin.firebasestorage.app",
+            messagingSenderId: "294963767896",
+            appId: "1:294963767896:web:a2f6590fba1de9a0d2782d",
+            measurementId: "G-G0WMPNNMWD"
+        };
+
+        const landingApp = initializeApp(firebaseConfigLanding);
+        initializeAppCheck(landingApp, {
+            provider: new ReCaptchaV3Provider('marcokimyohan'),
+            isTokenAutoRefreshEnabled: true
+        });
+        const landingDb = getFirestore(landingApp);
+
+        window.sendLeadToFirestore = async function(data) {
+            await addDoc(collection(landingDb, 'leads'), {
+                fullName: `${data.prenom || ''} ${data.nom || ''}`.trim(),
+                email: data.email || '',
+                phone: data.telephone || '',
+                source: 'Landing page',
+                priority: data.priorite || 'Moyenne',
+                blocked_files_count: data.nombre_dossiers || '',
+                blocking_type: data.blocage || '',
+                desired_pack: data.pack || '',
+                notes: data.message || '',
+                status: 'Nouveau',
+                createdAt: serverTimestamp()
+            });
+        }
     </script>
 </body>
 </html>
