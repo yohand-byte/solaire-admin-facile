@@ -2054,4 +2054,15 @@
         // Track scroll depth
         let scrollTracked = { 25: false, 50: false, 75: false };
         window.addEventListener('scroll', () => {
-            const scrollPercent = (window.scrollY / (document.documen
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            
+            Object.keys(scrollTracked).forEach(threshold => {
+                if (scrollPercent >= threshold && !scrollTracked[threshold]) {
+                    trackEvent('Scroll', 'depth', `${threshold}%`);
+                    scrollTracked[threshold] = true;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
