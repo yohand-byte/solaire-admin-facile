@@ -1,0 +1,1861 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Externalisez 100% de votre administratif (Consuel, Enedis, EDF OA). Chantiers terminés = factures encaissées en 12 jours au lieu de 45. Ligne dédiée client incluse.">
+    <title>Solaire Facile - Back-office pour Installateurs PV | Gagnez 2 semaines de trésorerie</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        
+        /* Gradient Hero Animé */
+        .hero-gradient {
+            background: linear-gradient(135deg, #2563EB 0%, #3B82F6 25%, #06B6D4 50%, #10B981 100%);
+            background-size: 400% 400%;
+            animation: gradient-shift 15s ease infinite;
+        }
+        
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Particules flottantes */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+            33% { transform: translateY(-100px) translateX(50px) rotate(120deg); }
+            66% { transform: translateY(-200px) translateX(-50px) rotate(240deg); }
+        }
+        
+        /* CTA Button avec effet lift */
+        .cta-primary {
+            background: linear-gradient(135deg, #10B981, #059669);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .cta-primary:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .cta-primary:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(16, 185, 129, 0.5);
+        }
+        
+        .cta-primary:active {
+            transform: translateY(-2px) scale(0.98);
+        }
+        
+        /* Glass morphism cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+        
+        /* Pulse animation */
+        .pulse-gentle {
+            animation: pulse-gentle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse-gentle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .7; }
+        }
+        
+        /* Counter animation */
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        /* Sticky bar */
+        .sticky-bar {
+            transform: translateY(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .sticky-bar.visible {
+            transform: translateY(0);
+        }
+        
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            padding: 16px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            transform: translateX(-400px);
+            transition: transform 0.3s ease-in-out;
+            z-index: 9999;
+            max-width: 350px;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        /* Chatbot */
+        .chatbot {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+        }
+        
+        .chatbot-bubble {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #10B981, #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
+            transition: all 0.3s;
+            animation: bounce-gentle 2s infinite;
+        }
+        
+        @keyframes bounce-gentle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .chatbot-bubble:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 40px rgba(16, 185, 129, 0.6);
+        }
+        
+        .chatbot-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            max-height: 500px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            display: none;
+            flex-direction: column;
+        }
+        
+        .chatbot-window.open {
+            display: flex;
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal.open {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: scaleIn 0.3s;
+        }
+        
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Form inputs */
+        input, select, textarea {
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #10B981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+        
+        /* Testimonial cards 3D */
+        .testimonial-card {
+            transition: transform 0.3s;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-8px) rotateY(2deg);
+        }
+        
+        /* Pack cards */
+        .pack-card {
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .pack-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+        
+        .pack-recommended {
+            border: 3px solid #10B981;
+            position: relative;
+        }
+        
+        /* Badge floating */
+        .floating-badge {
+            animation: float-badge 3s ease-in-out infinite;
+        }
+        
+        @keyframes float-badge {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Accordion */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .accordion-content.open {
+            max-height: 500px;
+        }
+        
+        /* Timeline */
+        .timeline-step {
+            position: relative;
+            padding-left: 80px;
+        }
+        
+        .timeline-step::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 60px;
+            width: 2px;
+            height: calc(100% - 60px);
+            background: linear-gradient(to bottom, #10B981, transparent);
+        }
+        
+        .timeline-step:last-child::before {
+            display: none;
+        }
+        
+        .timeline-icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #10B981, #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        /* Exit intent */
+        .exit-intent {
+            display: none;
+            position: fixed;
+            z-index: 10001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .exit-intent.show {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .chatbot-window {
+                width: calc(100vw - 40px);
+                right: 20px;
+            }
+            
+            .toast {
+                left: 10px;
+                right: 10px;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    
+    <!-- STICKY BAR -->
+    <div id="stickyBar" class="sticky-bar fixed top-0 left-0 right-0 bg-white shadow-lg z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <button onclick="scrollToForm()" class="cta-primary text-white font-bold py-3 px-8 rounded-full text-sm">
+                👈 Débloquez vos dossiers
+            </button>
+            <a href="tel:+33777227434" class="text-blue-600 font-bold text-lg hover:text-blue-700">
+                📞 +33 7 77 22 74 34
+            </a>
+        </div>
+    </div>
+    
+    <!-- HERO SECTION -->
+    <section class="hero-gradient relative overflow-hidden min-h-screen flex items-center">
+        <!-- Particules -->
+        <div class="particles">
+            <div class="particle" style="width: 10px; height: 10px; left: 10%; top: 20%; animation-delay: 0s;"></div>
+            <div class="particle" style="width: 15px; height: 15px; left: 80%; top: 30%; animation-delay: 2s;"></div>
+            <div class="particle" style="width: 8px; height: 8px; left: 30%; top: 60%; animation-delay: 4s;"></div>
+            <div class="particle" style="width: 12px; height: 12px; left: 70%; top: 70%; animation-delay: 6s;"></div>
+            <div class="particle" style="width: 20px; height: 20px; left: 50%; top: 40%; animation-delay: 8s;"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-6xl mx-auto">
+                <!-- Badge flottant -->
+                <div class="text-center mb-8" data-aos="fade-down">
+                    <span class="floating-badge inline-block bg-white/20 backdrop-blur-md text-white px-6 py-3 rounded-full font-semibold text-sm border border-white/30">
+                        🔥 137 dossiers débloqués cette semaine
+                    </span>
+                </div>
+                
+                <!-- Headline -->
+                <div class="text-center mb-12" data-aos="fade-up" data-aos-delay="200">
+                    <h1 class="text-5xl md:text-7xl font-black text-white mb-6 leading-tight">
+                        INSTALLATION TERMINÉE.<br>
+                        <span class="text-yellow-300">FACTURE BLOQUÉE.</span>
+                    </h1>
+                    <p class="text-2xl md:text-3xl text-white/90 font-semibold mb-4">
+                        Pendant que vous relancez Enedis,<br>
+                        vos concurrents posent 3 toits de plus.
+                    </p>
+                    <div class="h-1 w-32 bg-yellow-300 mx-auto rounded-full my-8"></div>
+                    <p class="text-3xl md:text-4xl text-white font-bold">
+                        Externalisez 100% de votre administratif.<br>
+                        <span class="text-yellow-300">Encaissez 2x plus vite.</span>
+                    </p>
+                </div>
+                
+                <!-- CTA Principal -->
+                <div class="text-center mb-8" data-aos="fade-up" data-aos-delay="400">
+                    <button onclick="scrollToForm()" class="cta-primary text-white font-bold py-6 px-12 rounded-full text-xl inline-flex items-center space-x-3 relative z-10">
+                        <span>🚀 JE VEUX DÉBLOQUER MES DOSSIERS</span>
+                    </button>
+                    <p class="mt-4 text-white/80 text-sm">
+                        ✅ Réponse < 24h • Sans engagement • 94% de satisfaction
+                    </p>
+                </div>
+                
+                <!-- CTA Secondaire -->
+                <div class="text-center" data-aos="fade-up" data-aos-delay="600">
+                    <a href="#comment-ca-marche" class="text-white font-semibold text-lg hover:text-yellow-300 transition inline-flex items-center space-x-2">
+                        <span>Voir comment ça marche</span>
+                        <span class="animate-bounce">↓</span>
+                    </a>
+                </div>
+                
+                <!-- Trust indicators -->
+                <div class="mt-16 flex justify-center items-center space-x-8 flex-wrap gap-4" data-aos="fade-up" data-aos-delay="800">
+                    <div class="text-center text-white">
+                        <div class="text-4xl font-bold counter" data-target="2847">0</div>
+                        <div class="text-sm opacity-80">Dossiers traités</div>
+                    </div>
+                    <div class="text-center text-white">
+                        <div class="text-4xl font-bold">94%</div>
+                        <div class="text-sm opacity-80">Satisfaction</div>
+                    </div>
+                    <div class="text-center text-white">
+                        <div class="text-4xl font-bold">12j</div>
+                        <div class="text-sm opacity-80">Délai moyen</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- SECTION DOULEUR -->
+    <section class="py-20 bg-gradient-to-b from-gray-50 to-white" id="douleur">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-black text-center mb-4" data-aos="fade-up">
+                    ❌ COMBIEN D'ARGENT PERDEZ-VOUS<br>EN CE MOMENT ?
+                </h2>
+                <p class="text-xl text-gray-600 text-center mb-16" data-aos="fade-up" data-aos-delay="100">
+                    Calculons ensemble le coût réel de votre administratif
+                </p>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Douleur 1 -->
+                    <div class="bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition" data-aos="fade-up" data-aos-delay="200">
+                        <div class="text-6xl mb-6">💰</div>
+                        <h3 class="text-3xl font-bold text-red-600 mb-4">15 000€ BLOQUÉS</h3>
+                        <p class="text-gray-700 mb-4 leading-relaxed">
+                            Chantiers terminés depuis 2 mois. Consuel en attente. Enedis qui ne répond pas.
+                        </p>
+                        <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-500">
+                            <p class="text-sm text-gray-700">
+                                <strong>Calcul :</strong> 6 chantiers × 2 500€ de retard = <span class="text-red-600 font-bold">15 000€ immobilisés</span>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Douleur 2 -->
+                    <div class="bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition" data-aos="fade-up" data-aos-delay="400">
+                        <div class="text-6xl mb-6">⏰</div>
+                        <h3 class="text-3xl font-bold text-orange-600 mb-4">15H/SEMAINE PERDUES</h3>
+                        <p class="text-gray-700 mb-4 leading-relaxed">
+                            = 780 heures par an sur des portails<br>
+                            = 26 toitures supplémentaires<br>
+                            = 65 000€ de CA en fumée
+                        </p>
+                        <div class="bg-orange-50 p-4 rounded-lg border-l-4 border-orange-500">
+                            <p class="text-sm text-gray-700">
+                                <strong>Votre taux horaire × temps admin</strong><br>= Manque à gagner calculable
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Douleur 3 -->
+                    <div class="bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition" data-aos="fade-up" data-aos-delay="600">
+                        <div class="text-6xl mb-6">📞</div>
+                        <h3 class="text-3xl font-bold text-purple-600 mb-4">8 APPELS/JOUR</h3>
+                        <p class="text-gray-700 mb-4 leading-relaxed">
+                            Clients anxieux qui vous harcèlent :<br>
+                            "Où en est mon dossier ?"<br>
+                            "Pourquoi ce retard ?"<br>
+                            "Vous m'aviez promis..."
+                        </p>
+                        <div class="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500">
+                            <p class="text-sm text-gray-700">
+                                Pression permanente. Épuisement.<br>
+                                <strong>Risque d'avis négatifs.</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Calculateur CTA -->
+                <div class="text-center mt-12" data-aos="fade-up" data-aos-delay="800">
+                    <button onclick="openCalculator()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-full text-lg transition shadow-lg hover:shadow-xl">
+                        📊 Calculer mon coût exact →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- SECTION SOLUTION -->
+    <section class="py-20 bg-white" id="comment-ca-marche">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-4xl md:text-5xl font-black mb-6">
+                        🚀 SOLAIRE FACILE : VOTRE BACK-OFFICE EXTERNALISÉ
+                    </h2>
+                    <p class="text-2xl text-gray-700 font-semibold mb-4">
+                        Vous installez. Nous finalisons. Vous encaissez.
+                    </p>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Imaginez : Tous vos dossiers traités par une équipe dédiée pendant que vous êtes sur les toits.
+                        <strong>Plus de portails. Plus de relances. Plus de clients qui rappellent.</strong>
+                    </p>
+                </div>
+                
+                <!-- Timeline 3 étapes -->
+                <div class="space-y-12 mt-16">
+                    <!-- Étape 1 -->
+                    <div class="timeline-step" data-aos="fade-right" data-aos-delay="200">
+                        <div class="timeline-icon text-white">
+                            📤
+                        </div>
+                        <div class="bg-gradient-to-br from-blue-50 to-white p-8 rounded-2xl shadow-lg">
+                            <h3 class="text-2xl font-bold text-blue-600 mb-3">1. VOUS NOUS ENVOYEZ VOS DOSSIERS</h3>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2">✓</span>
+                                    <span>Consuel / Enedis / EDF OA</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2">✓</span>
+                                    <span>Même incomplets, même en vrac</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2">✓</span>
+                                    <span>Via email, plateforme ou WhatsApp</span>
+                                </li>
+                            </ul>
+                            <div class="mt-4 inline-block bg-blue-100 text-blue-700 px-4 py-2 rounded-full font-semibold">
+                                ⏱️ Temps pour vous : 5 minutes
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Étape 2 -->
+                    <div class="timeline-step" data-aos="fade-right" data-aos-delay="400">
+                        <div class="timeline-icon text-white">
+                            ⚙️
+                        </div>
+                        <div class="bg-gradient-to-br from-purple-50 to-white p-8 rounded-2xl shadow-lg">
+                            <h3 class="text-2xl font-bold text-purple-600 mb-3">2. ON PILOTE L'ADMINISTRATIF</h3>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2">✓</span>
+                                    <span>Constitution complète des dossiers</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2">✓</span>
+                                    <span>Dépôts sur tous les portails</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2">✓</span>
+                                    <span>Relances systématiques et structurées</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2">✓</span>
+                                    <span>Suivi en temps réel sur dashboard</span>
+                                </li>
+                            </ul>
+                            <div class="mt-4 inline-block bg-purple-100 text-purple-700 px-4 py-2 rounded-full font-semibold">
+                                ⏱️ Temps pour vous : 0 minute
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Étape 3 -->
+                    <div class="timeline-step" data-aos="fade-right" data-aos-delay="600">
+                        <div class="timeline-icon text-white">
+                            ✅
+                        </div>
+                        <div class="bg-gradient-to-br from-green-50 to-white p-8 rounded-2xl shadow-lg">
+                            <h3 class="text-2xl font-bold text-green-600 mb-3">3. MISE EN SERVICE & FACTURATION</h3>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2">✓</span>
+                                    <span>Client raccordé</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2">✓</span>
+                                    <span>Contrat EDF OA activé</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2">✓</span>
+                                    <span>Vous recevez la notification</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2">✓</span>
+                                    <span>Vous facturez sous 48h</span>
+                                </li>
+                            </ul>
+                            <div class="mt-4 inline-block bg-green-100 text-green-700 px-4 py-2 rounded-full font-semibold">
+                                ⏱️ Temps gagné : 2 semaines de trésorerie
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Stats comparaison -->
+                <div class="mt-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-10 text-white text-center" data-aos="zoom-in">
+                    <p class="text-xl mb-4">Traitement moyen avec nous :</p>
+                    <div class="text-6xl font-black mb-4">12 JOURS</div>
+                    <p class="text-xl opacity-90">vs 45 jours en solo</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- SECTION USP (Ligne dédiée) -->
+    <section class="py-20 bg-gradient-to-b from-green-50 to-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="bg-gradient-to-br from-green-100 to-teal-50 rounded-3xl p-10 md:p-16 shadow-2xl border-4 border-green-300" data-aos="fade-up">
+                    <div class="text-center mb-8">
+                        <h2 class="text-4xl md:text-5xl font-black text-green-700 mb-4">
+                            📞 LA LIGNE DÉDIÉE QUI CHANGE TOUT
+                        </h2>
+                        <p class="text-xl text-gray-700">
+                            L'argument que nos concurrents ne peuvent pas copier
+                        </p>
+                    </div>
+                    
+                    <!-- Scénario comparatif -->
+                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <!-- Avant -->
+                        <div class="bg-red-50 p-6 rounded-xl border-l-4 border-red-500">
+                            <h3 class="font-bold text-red-700 mb-3 text-lg">❌ SCÉNARIO CLASSIQUE</h3>
+                            <p class="text-gray-700 text-sm mb-2"><strong>15h23</strong> → Vous êtes sur un toit</p>
+                            <p class="text-gray-700 text-sm mb-2">📞 <strong>Client :</strong> "Pourquoi mon Consuel n'est toujours pas passé ?!"</p>
+                            <p class="text-gray-700 text-sm mb-2"><strong>Vous :</strong> "Euh... je vais vérifier et vous rappelle"</p>
+                            <p class="text-red-600 font-semibold text-sm mt-4">
+                                → Descente d'échelle. Connexion portail. Recherche. Stress.
+                            </p>
+                        </div>
+                        
+                        <!-- Après -->
+                        <div class="bg-green-50 p-6 rounded-xl border-l-4 border-green-500">
+                            <h3 class="font-bold text-green-700 mb-3 text-lg">✅ AVEC SOLAIRE FACILE</h3>
+                            <p class="text-gray-700 text-sm mb-2"><strong>15h23</strong> → Vous êtes sur un toit</p>
+                            <p class="text-gray-700 text-sm mb-2">📞 Client appelle <strong>NOTRE numéro dédié</strong></p>
+                            <p class="text-gray-700 text-sm mb-2 italic">
+                                "Bonjour M. Dupont, je suis Laura, assistante de [Votre Entreprise]. Votre dossier Consuel est validé depuis hier. Le raccordement Enedis est planifié pour mardi prochain. Je vous envoie un SMS de confirmation."
+                            </p>
+                            <p class="text-green-600 font-semibold text-sm mt-4">
+                                → Client rassuré. Vous restez concentré. Chantier avance.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Témoignage -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <div class="flex items-start space-x-4">
+                            <div class="flex-shrink-0">
+                                <div class="w-16 h-16 bg-gradient-to-br from-green-400 to-teal-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                                    TD
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-gray-700 italic mb-4 leading-relaxed">
+                                    "Avant, 60% de mes appels = clients stressés qui veulent un update. Maintenant, ils ont un numéro dédié. Je ne décroche plus que pour les vraies urgences chantier. <strong>Game changer absolu.</strong>"
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-bold text-gray-900">Thomas D.</p>
+                                        <p class="text-sm text-gray-600">23 installations/mois • Toulouse</p>
+                                    </div>
+                                    <div class="text-yellow-400 text-xl">
+                                        ⭐⭐⭐⭐⭐
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- SECTION PACKS -->
+    <section class="py-20 bg-white" id="packs">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-black text-center mb-4" data-aos="fade-up">
+                    CHOISISSEZ VOTRE NIVEAU DE DÉLÉGATION
+                </h2>
+                <p class="text-xl text-gray-600 text-center mb-16" data-aos="fade-up" data-aos-delay="100">
+                    3 formules. Toutes sans engagement.
+                </p>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Pack 1 -->
+                    <div class="pack-card bg-white rounded-2xl shadow-xl p-8 border-2 border-gray-200" data-aos="fade-up" data-aos-delay="200">
+                        <div class="mb-6">
+                            <h3 class="text-2xl font-bold text-blue-600 mb-2">⬜ PACK VALIDATION</h3>
+                            <p class="text-gray-600 text-sm">Idéal pour : Installateurs qui gèrent déjà Enedis/EDF OA</p>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <p class="text-sm text-gray-600 mb-4">Inclus :</p>
+                            <ul class="space-y-3">
+                                <li class="flex items-start text-sm">
+                                    <span class="text-green-500 mr-2 flex-shrink-0">✓</span>
+                                    <span>Déclaration préalable Mairie</span>
+                                </li>
+                                <li class="flex items-start text-sm">
+                                    <span class="text-green-500 mr-2 flex-shrink-0">✓</span>
+                                    <span>Dossier Consuel complet</span>
+                                </li>
+                                <li class="flex items-start text-sm">
+                                    <span class="text-green-500 mr-2 flex-shrink-0">✓</span>
+                                    <span>Suivi jusqu'à attestation</span>
+                                </li>
+                                <li class="flex items-start text-sm">
+                                    <span class="text-green-500 mr-2 flex-shrink-0">✓</span>
+                                    <span>Dashboard de suivi en ligne</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <p class="text-sm text-gray-600 mb-1">Délai moyen :</p>
+                            <p class="text-2xl font-bold text-blue-600">15 jours</p>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <p class="text-sm text-gray-600 mb-1">À partir de :</p>
+                            <p class="text-4xl font-black text-gray-900">149€<span class="text-lg text-gray-600">/dossier</span></p>
+                        </div>
+                        
+                        <button onclick="selectPack('validation')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl transition">
+                            CHOISIR CE PACK
+                        </button>
+                    </div>
+                    
+                    <!-- Pack 2 -->
+                    <div class="pack-card bg-white rounded-2xl shadow-xl p-8 border-2 border-gray-200" data-aos="fade-up" data-aos-delay="400">
+                        <div class="mb-6">
+                            <h3 class="text-2xl font-bold text-purple-600 mb-2">⬜ PACK MISE EN SERVICE</h3>
+                            <p class="text-gray-600 text-sm">Idéal pour : Gagner 2 semaines de trésorerie</p>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <p class="text-sm text-gray-600 mb-4">Inclus :</p>
+                            <ul class="space-y-3">
+                                <li class="flex items-start text-sm">
+                                    <span class="text-green-500 mr-2 flex-shrink-0">✓</span>
+                                    <span>Tout le Pack Validation</span>
+                                </li>
+                                <li class="flex items-start text-sm">
+                                    <span class="text-green-500 mr-2 flex-shrink-0">✓</span>
+                                    <span>+ Dossier de raccordement Enedis</span>
+                                </li>
+                                <li class="flex items-start text-sm">
+                                    <span class="text-green-500 mr-2 flex-shrink-0">✓</span>
+                                    <span>+ Suivi jusqu'à mise en service compteur</span>
+                                </li>
+                                <li class="flex items-start text-sm">
+                                    <span class="text-green-500 mr-2 flex-shrink-0">✓</span>
+                                    <span>+ Notification SMS à chaque étape</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <p class="text-sm text-gray-600 mb-1">Délai moyen :</p>
+                            <p class="text-2xl font-bold text-purple-600">25 jours</p>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <p class="text-sm text-gray-600 mb-1">À partir de :</p>
+                            <p class="text-4xl font-black text-gray-900">249€<span class="text-lg text-gray-600">/dossier</span></p>
+                        </div>
+                        
+                        <button onclick="selectPack('mise_en_service')" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-6 rounded-xl transition">
+                            CHOISIR CE PACK
+                        </button>
+                    </div>
+                    
+                    <!-- Pack 3 - RECOMMANDÉ -->
+                    <div class="pack-card pack-recommended bg-gradient-to-br from-green-50 to-teal-50 rounded-2xl shadow-2xl p-8 transform md:scale-105" data-aos="fade-up" data-aos-delay="600">
+                        <div class="text-right mb-4">
+                            <span class="inline-block bg-gradient-to-r from-green-500 to-teal-500 text-white px-4 py-1 rounded-full text-sm font-bold">
+                                ⭐ RECOMMANDÉ
+                            </span>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <h3 class="text-2xl font-bold text-green-600 mb-2">⬜ PACK ZÉRO STRESS</h3>
+                            <p class="text-gray-700 text-sm font-semibold">Le choix de 73% de nos clients</p>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <p class="text-sm text-gray-700 mb-4 font-semibold">Inclus :</p>
+                            <ul class="space-y-3">
+                                <li class="flex items-start text-sm">
+                                    <span class="text-green-500 mr-2 flex-shrink-0">✓</span>
+                                    <span>Tout le Pack Mise en Service</span>
+                                </li>
+                                <li class="flex items-start text-sm">
+                                    <span class="text-green-500 mr-2 flex-shrink-0">✓</span>
+                                    <span><strong>+ Contrat EDF OA</strong></span>
+                                </li>
+                                <li class="flex items-start text-sm">
+                                    <span class="text-green-500 mr-2 flex-shrink-0">✓</span>
+                                    <span><strong>+ LIGNE DÉDIÉE pour vos clients</strong></span>
+                                </li>
+                                <li class="flex items-start text-sm">
+                                    <span class="text-green-500 mr-2 flex-shrink-0">✓</span>
+                                    <span>+ Support téléphonique illimité</span>
+                                </li>
+                                <li class="flex items-start text-sm">
+                                    <span class="text-green-500 mr-2 flex-shrink-0">✓</span>
+                                    <span>+ Gestion des litiges/retards</span>
+                                </li>
+                                <li class="flex items-start text-sm">
+                                    <span class="text-green-500 mr-2 flex-shrink-0">✓</span>
+                                    <span>+ Garantie délai ou remboursé</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="mb-4 bg-white/70 p-4 rounded-lg">
+                            <p class="text-sm text-gray-700 mb-1">💰 <strong>ROI :</strong> Récupérez 2x le coût en temps gagné</p>
+                            <p class="text-sm text-gray-700">🎯 <strong>Économie :</strong> 15h × 80€/h = 1 200€</p>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <p class="text-sm text-gray-700 mb-1">Délai moyen :</p>
+                            <p class="text-2xl font-bold text-green-600">30 jours</p>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <p class="text-sm text-gray-700 mb-1">À partir de :</p>
+                            <p class="text-4xl font-black text-gray-900">399€<span class="text-lg text-gray-600">/dossier</span></p>
+                        </div>
+                        
+                        <button onclick="selectPack('zero_stress')" class="w-full cta-primary text-white font-bold py-4 px-6 rounded-xl text-lg">
+                            🚀 JE VEUX CE PACK
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- SECTION TÉMOIGNAGES -->
+    <section class="py-20 bg-gray-50" id="temoignages">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-black text-center mb-4" data-aos="fade-up">
+                    ILS ONT ARRÊTÉ DE PERDRE LEUR TEMPS<br>(ET LEUR ARGENT)
+                </h2>
+                <p class="text-xl text-gray-600 text-center mb-16" data-aos="fade-up" data-aos-delay="100">
+                    Des résultats concrets, mesurables, vérifiés
+                </p>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Témoignage 1 -->
+                    <div class="testimonial-card bg-white rounded-2xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="200">
+                        <div class="flex items-center mb-6">
+                            <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mr-4">
+                                TL
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-900">Thomas L.</p>
+                                <p class="text-sm text-gray-600">Solaire Pro 33</p>
+                                <p class="text-xs text-gray-500">12 toitures/mois • Bordeaux</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 mb-4 leading-relaxed italic">
+                            "Avant Solaire Facile : 3 semaines pour clôturer un dossier. Après : 10 jours en moyenne. <strong>Résultat : je facture 2x plus vite = +30% de trésorerie disponible.</strong> En 6 mois, j'ai pu embaucher un second poseur."
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-yellow-400">⭐⭐⭐⭐⭐</span>
+                            <span class="text-xs text-gray-500">Client depuis Mars 2024</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Témoignage 2 -->
+                    <div class="testimonial-card bg-white rounded-2xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="400">
+                        <div class="flex items-center mb-6">
+                            <div class="w-16 h-16 bg-gradient-to-br from-green-400 to-teal-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mr-4">
+                                NK
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-900">Nadia K.</p>
+                                <p class="text-sm text-gray-600">NK Énergies</p>
+                                <p class="text-xs text-gray-500">Spécialiste résidentiel • Lyon</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 mb-4 leading-relaxed italic">
+                            "Les clients appelaient 4-5 fois par semaine pour 'un point sur le dossier'. C'était épuisant. <strong>Maintenant ils ont la ligne dédiée. Moi je reste concentrée sur les chantiers.</strong> Mon taux de satisfaction Google est passé de 4.2 à 4.9 étoiles."
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-yellow-400">⭐⭐⭐⭐⭐</span>
+                            <span class="text-xs text-gray-500">Client depuis Juin 2024</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Témoignage 3 -->
+                    <div class="testimonial-card bg-white rounded-2xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="600">
+                        <div class="flex items-center mb-6">
+                            <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mr-4">
+                                MD
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-900">Marc D.</p>
+                                <p class="text-sm text-gray-600">Énergie Verte 44</p>
+                                <p class="text-xs text-gray-500">15-20 chantiers/mois • Nantes</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 mb-4 leading-relaxed italic">
+                            "J'hésitais à payer pour externaliser. Mais quand j'ai calculé mon coût horaire × temps admin... J'étais en train de perdre 1 500€/mois. <strong>Depuis que j'ai délégué, j'ai pu prendre 4 chantiers de plus par mois. ROI en 3 semaines.</strong>"
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-yellow-400">⭐⭐⭐⭐⭐</span>
+                            <span class="text-xs text-gray-500">Client depuis Jan 2024</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Link tous avis -->
+                <div class="text-center mt-12" data-aos="fade-up" data-aos-delay="800">
+                    <a href="#" class="text-blue-600 hover:text-blue-700 font-semibold text-lg inline-flex items-center">
+                        Voir tous les avis (67) →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- SECTION STATS -->
+    <section class="py-16 bg-gradient-to-r from-blue-600 to-purple-600">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
+                    <div data-aos="zoom-in" data-aos-delay="100">
+                        <div class="text-5xl md:text-6xl font-black mb-2 counter" data-target="2847">0</div>
+                        <div class="text-sm md:text-base opacity-90">DOSSIERS TRAITÉS</div>
+                        <div class="text-xs opacity-75 mt-1">depuis janvier 2024</div>
+                    </div>
+                    <div data-aos="zoom-in" data-aos-delay="200">
+                        <div class="text-5xl md:text-6xl font-black mb-2">94%</div>
+                        <div class="text-sm md:text-base opacity-90">SATISFACTION</div>
+                        <div class="text-xs opacity-75 mt-1">clients vérifiés</div>
+                    </div>
+                    <div data-aos="zoom-in" data-aos-delay="300">
+                        <div class="text-5xl md:text-6xl font-black mb-2">12j</div>
+                        <div class="text-sm md:text-base opacity-90">DÉLAI MOYEN</div>
+                        <div class="text-xs opacity-75 mt-1">vs 45j en solo</div>
+                    </div>
+                    <div data-aos="zoom-in" data-aos-delay="400">
+                        <div class="text-5xl md:text-6xl font-black mb-2">1.2M€</div>
+                        <div class="text-sm md:text-base opacity-90">DÉBLOQUÉS</div>
+                        <div class="text-xs opacity-75 mt-1">de trésorerie</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- SECTION FORMULAIRE -->
+    <section class="py-20 bg-gradient-to-b from-white to-gray-50" id="formulaire">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl p-8 md:p-16 shadow-2xl border-4 border-blue-200" data-aos="fade-up">
+                    <h2 class="text-4xl md:text-5xl font-black text-center mb-4">
+                        ⚡ DÉBLOQUEZ VOS DOSSIERS MAINTENANT
+                    </h2>
+                    <p class="text-xl text-gray-700 text-center mb-12">
+                        Dites-nous combien de dossiers bloquent. On vous rappelle sous 24h avec une solution concrète.
+                    </p>
+                    
+                    <form id="mainForm" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <!-- Prénom -->
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Votre prénom *</label>
+                                <input type="text" name="prenom" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-green-500 transition">
+                            </div>
+                            
+                            <!-- Nom -->
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Votre nom *</label>
+                                <input type="text" name="nom" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-green-500 transition">
+                            </div>
+                        </div>
+                        
+                        <!-- Téléphone -->
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Votre téléphone *</label>
+                            <input type="tel" name="telephone" required placeholder="+33 6 12 34 56 78" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-green-500 transition">
+                        </div>
+                        
+                        <!-- Email -->
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Email professionnel *</label>
+                            <input type="email" name="email" required placeholder="votre.email@entreprise.com" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-green-500 transition">
+                        </div>
+                        
+                        <!-- Nombre dossiers -->
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Nombre de dossiers bloqués actuellement *</label>
+                            <select name="nombre_dossiers" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-green-500 transition bg-white">
+                                <option value="">-- Choisir --</option>
+                                <option value="1-5">1 à 5 dossiers</option>
+                                <option value="6-10">6 à 10 dossiers</option>
+                                <option value="11-20">11 à 20 dossiers</option>
+                                <option value="21-50">21 à 50 dossiers</option>
+                                <option value="50+">Plus de 50 dossiers (contact prioritaire)</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Principal blocage -->
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Principal blocage actuel *</label>
+                            <select name="blocage" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-green-500 transition bg-white">
+                                <option value="">-- Choisir --</option>
+                                <option value="consuel">❌ Consuel en attente</option>
+                                <option value="enedis">❌ Enedis qui ne répond pas</option>
+                                <option value="edf_oa">❌ EDF OA bloqué</option>
+                                <option value="tout">❌ Tout est bloqué (SOS)</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Pack souhaité -->
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Pack souhaité *</label>
+                            <div class="grid md:grid-cols-3 gap-4">
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="pack" value="validation" required class="peer sr-only">
+                                    <div class="p-4 border-2 border-gray-300 rounded-xl peer-checked:border-blue-500 peer-checked:bg-blue-50 transition text-center">
+                                        <p class="font-bold text-sm">Validation</p>
+                                    </div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="pack" value="mise_en_service" class="peer sr-only">
+                                    <div class="p-4 border-2 border-gray-300 rounded-xl peer-checked:border-purple-500 peer-checked:bg-purple-50 transition text-center">
+                                        <p class="font-bold text-sm">Mise en Service</p>
+                                    </div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="pack" value="zero_stress" class="peer sr-only">
+                                    <div class="p-4 border-2 border-gray-300 rounded-xl peer-checked:border-green-500 peer-checked:bg-green-50 transition text-center">
+                                        <p class="font-bold text-sm">Zéro Stress ⭐</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Checkbox RGPD -->
+                        <div class="flex items-start">
+                            <input type="checkbox" id="consent" required class="mt-1 mr-3 w-5 h-5 text-green-500 border-gray-300 rounded focus:ring-green-500">
+                            <label for="consent" class="text-sm text-gray-700">
+                                J'accepte d'être recontacté par Solaire Facile pour débloquer mes dossiers. Mes données sont traitées conformément à la politique de confidentialité.
+                            </label>
+                        </div>
+                        
+                        <!-- Submit button -->
+                        <button type="submit" class="w-full cta-primary text-white font-bold py-5 px-8 rounded-xl text-lg">
+                            🚀 JE VEUX DÉBLOQUER MES DOSSIERS MAINTENANT
+                        </button>
+                        
+                        <!-- Micro-copy réassurance -->
+                        <div class="text-center space-y-2 text-sm text-gray-600">
+                            <p>🔒 Vos données sont sécurisées • Pas de spam</p>
+                            <p>✅ Un expert vous appelle sous 24h max</p>
+                            <p>💰 Aucun paiement à cette étape</p>
+                        </div>
+                    </form>
+                    
+                    <!-- Engagement box -->
+                    <div class="mt-12 bg-white p-8 rounded-xl shadow-lg border-2 border-green-200">
+                        <h3 class="font-bold text-green-700 text-xl mb-4">✅ NOTRE ENGAGEMENT</h3>
+                        <div class="space-y-3">
+                            <p class="flex items-start text-gray-700">
+                                <span class="text-green-500 mr-2 flex-shrink-0">✓</span>
+                                <span>Rappel sous 24h garanti</span>
+                            </p>
+                            <p class="flex items-start text-gray-700">
+                                <span class="text-green-500 mr-2 flex-shrink-0">✓</span>
+                                <span>Solution concrète et chiffrée</span>
+                            </p>
+                            <p class="flex items-start text-gray-700">
+                                <span class="text-green-500 mr-2 flex-shrink-0">✓</span>
+                                <span>Démarrage immédiat possible</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- SECTION FAQ -->
+    <section class="py-20 bg-white" id="faq">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-black text-center mb-4" data-aos="fade-up">
+                    VOS QUESTIONS. NOS RÉPONSES CLAIRES.
+                </h2>
+                <p class="text-xl text-gray-600 text-center mb-16" data-aos="fade-up" data-aos-delay="100">
+                    Toutes les objections levées en 2 minutes
+                </p>
+                
+                <div class="space-y-4">
+                    <!-- FAQ 1 -->
+                    <div class="border-2 border-gray-200 rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                        <button onclick="toggleAccordion(this)" class="w-full px-6 py-5 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition">
+                            <span class="font-bold text-left">❓ "C'est pas un peu cher 399€/dossier ?"</span>
+                            <span class="text-2xl">+</span>
+                        </button>
+                        <div class="accordion-content px-6 py-0">
+                            <div class="py-5 text-gray-700 leading-relaxed">
+                                <p class="mb-3"><strong>✅ Calcul simple :</strong></p>
+                                <ul class="space-y-2 ml-4">
+                                    <li>• Votre temps = 15h @ 80€/h = <strong>1 200€</strong></li>
+                                    <li>• Retard trésorerie = 2 semaines = coût opportunité</li>
+                                    <li>• Stress client = risque avis négatif = perte CA futur</li>
+                                </ul>
+                                <p class="mt-4 font-semibold text-green-700">Notre service vous FAIT GAGNER de l'argent, pas dépenser.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 2 -->
+                    <div class="border-2 border-gray-200 rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="300">
+                        <button onclick="toggleAccordion(this)" class="w-full px-6 py-5 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition">
+                            <span class="font-bold text-left">❓ "Comment je sais que vous allez vraiment traiter mes dossiers ?"</span>
+                            <span class="text-2xl">+</span>
+                        </button>
+                        <div class="accordion-content px-6 py-0">
+                            <div class="py-5 text-gray-700 leading-relaxed">
+                                <p class="mb-3"><strong>✅ Dashboard en temps réel accessible 24/7</strong></p>
+                                <p class="mb-3">Vous voyez exactement où en est chaque dossier :</p>
+                                <ul class="space-y-2 ml-4">
+                                    <li>• Statut : En cours / Déposé / Validé</li>
+                                    <li>• Prochaine action + date</li>
+                                    <li>• Historique des relances</li>
+                                </ul>
+                                <p class="mt-4"><strong>+ Notifications SMS à chaque avancement</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 3 -->
+                    <div class="border-2 border-gray-200 rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="400">
+                        <button onclick="toggleAccordion(this)" class="w-full px-6 py-5 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition">
+                            <span class="font-bold text-left">❓ "J'ai des dossiers ULTRA urgents qui traînent depuis 3 mois..."</span>
+                            <span class="text-2xl">+</span>
+                        </button>
+                        <div class="accordion-content px-6 py-0">
+                            <div class="py-5 text-gray-700 leading-relaxed">
+                                <p class="mb-3"><strong>✅ Pack SOS Déblocage Express disponible :</strong></p>
+                                <ul class="space-y-2 ml-4">
+                                    <li>• Prise en charge sous 48h</li>
+                                    <li>• Relances quotidiennes intensives</li>
+                                    <li>• Contact direct avec les organismes</li>
+                                    <li>• Reporting journalier</li>
+                                </ul>
+                                <p class="mt-4 font-semibold text-red-600">Appelez le <a href="tel:+33777227434" class="underline">+33 7 77 22 74 34</a> pour activation immédiate.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 4 -->
+                    <div class="border-2 border-gray-200 rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="500">
+                        <button onclick="toggleAccordion(this)" class="w-full px-6 py-5 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition">
+                            <span class="font-bold text-left">❓ "Je dois m'engager sur combien de temps ?"</span>
+                            <span class="text-2xl">+</span>
+                        </button>
+                        <div class="accordion-content px-6 py-0">
+                            <div class="py-5 text-gray-700 leading-relaxed">
+                                <p class="mb-3"><strong>✅ Aucun engagement.</strong></p>
+                                <p class="mb-3">Vous payez au dossier traité. Vous arrêtez quand vous voulez. Si on est mauvais, vous partez. Point.</p>
+                                <p class="mt-4 text-green-700 font-semibold">(Spoiler : taux de rétention = 91%)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 5 -->
+                    <div class="border-2 border-gray-200 rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="600">
+                        <button onclick="toggleAccordion(this)" class="w-full px-6 py-5 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition">
+                            <span class="font-bold text-left">❓ "Et si vous plantez un dossier ?"</span>
+                            <span class="text-2xl">+</span>
+                        </button>
+                        <div class="accordion-content px-6 py-0">
+                            <div class="py-5 text-gray-700 leading-relaxed">
+                                <p class="mb-3"><strong>✅ Garantie satisfait ou remboursé :</strong></p>
+                                <p class="mb-3">Si on ne déboucle pas votre dossier dans le délai annoncé (hors cas force majeure type grève nationale Enedis) :</p>
+                                <p class="text-green-700 font-bold text-lg mb-3">→ Remboursement intégral + 100€ de dédommagement.</p>
+                                <p class="text-sm text-gray-600">En 2 ans : 1 seul remboursement sur 2 847 dossiers.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- SECTION CONTACT DIRECT -->
+    <section class="py-20 bg-gradient-to-b from-gray-50 to-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto">
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-10 md:p-16 text-center shadow-xl border-2 border-purple-200" data-aos="fade-up">
+                    <h2 class="text-3xl md:text-4xl font-black text-purple-700 mb-6">
+                        VOUS PRÉFÉREZ PARLER DIRECTEMENT À QUELQU'UN ?
+                    </h2>
+                    <p class="text-xl text-gray-700 mb-10">
+                        On comprend. L'administratif, c'est déjà assez chiant.<br>
+                        Pas envie de remplir un formulaire en plus.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <p class="text-gray-600 mb-2">📞 Appelez-nous maintenant :</p>
+                            <a href="tel:+33777227434" class="text-4xl font-black text-blue-600 hover:text-blue-700">
+                                +33 7 77 22 74 34
+                            </a>
+                            <p class="text-sm text-gray-600 mt-2">(Lun-Ven 9h-19h • Sam 9h-13h)</p>
+                        </div>
+                        
+                        <div class="h-px bg-gray-300 max-w-xs mx-auto"></div>
+                        
+                        <div>
+                            <p class="text-gray-600 mb-2">📧 Email :</p>
+                            <a href="mailto:contact@solairefacile.com" class="text-2xl font-bold text-blue-600 hover:text-blue-700">
+                                contact@solairefacile.com
+                            </a>
+                            <p class="text-sm text-gray-600 mt-2">(Réponse < 2h en journée)</p>
+                        </div>
+                        
+                        <div class="h-px bg-gray-300 max-w-xs mx-auto"></div>
+                        
+                        <div>
+                            <p class="text-gray-600 mb-4">📅 Ou prenez RDV en 30 secondes :</p>
+                            <a href="https://www.solairefacile.com/rdv" target="_blank" class="inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-10 rounded-full text-lg transition">
+                                Voir les créneaux disponibles
+                            </a>
+                            <p class="text-sm text-gray-600 mt-4">
+                                🕐 Créneaux dispo aujourd'hui : <strong>14h30 • 16h00 • 17h30</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA FINAL -->
+    <section class="py-20 bg-gradient-to-r from-green-500 to-teal-500 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute w-96 h-96 bg-white rounded-full -top-20 -left-20"></div>
+            <div class="absolute w-96 h-96 bg-white rounded-full -bottom-20 -right-20"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-4xl mx-auto text-center text-white">
+                <h2 class="text-4xl md:text-6xl font-black mb-6" data-aos="fade-up">
+                    PRÊT À REPRENDRE LE CONTRÔLE<br>DE VOTRE TEMPS ?
+                </h2>
+                <p class="text-xl md:text-2xl mb-8 opacity-90" data-aos="fade-up" data-aos-delay="200">
+                    Pendant que vous lisez ça, vos concurrents qui ont externalisé<br>
+                    sont en train de signer leur 3ème chantier de la semaine.
+                </p>
+                <p class="text-2xl md:text-3xl font-bold mb-10" data-aos="fade-up" data-aos-delay="400">
+                    Arrêtez de perdre de l'argent.<br>
+                    Déléguez l'administratif. Concentrez-vous sur l'essentiel.
+                </p>
+                
+                <button onclick="scrollToForm()" class="bg-white text-green-600 font-black py-6 px-12 rounded-full text-xl hover:bg-gray-100 transition shadow-2xl inline-flex items-center space-x-3 mb-8" data-aos="zoom-in" data-aos-delay="600">
+                    <span>🚀 JE DÉLÈGUE MES DOSSIERS MAINTENANT</span>
+                </button>
+                
+                <p class="text-lg opacity-90" data-aos="fade-up" data-aos-delay="800">
+                    Ou appelez : <a href="tel:+33777227434" class="font-bold underline hover:no-underline">+33 7 77 22 74 34</a>
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- FOOTER -->
+    <footer class="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid md:grid-cols-4 gap-8 mb-12">
+                    <!-- Col 1 -->
+                    <div>
+                        <h3 class="font-bold text-xl mb-4">SOLAIRE FACILE</h3>
+                        <ul class="space-y-2 text-gray-400">
+                            <li><a href="#" class="hover:text-white transition">À propos</a></li>
+                            <li><a href="#" class="hover:text-white transition">Notre équipe</a></li>
+                            <li><a href="#" class="hover:text-white transition">Pourquoi nous ?</a></li>
+                            <li><a href="#temoignages" class="hover:text-white transition">Témoignages</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Col 2 -->
+                    <div>
+                        <h3 class="font-bold text-xl mb-4">SERVICES</h3>
+                        <ul class="space-y-2 text-gray-400">
+                            <li><a href="#packs" class="hover:text-white transition">Pack Validation</a></li>
+                            <li><a href="#packs" class="hover:text-white transition">Pack Mise en Service</a></li>
+                            <li><a href="#packs" class="hover:text-white transition">Pack Zéro Stress</a></li>
+                            <li><a href="#" class="hover:text-white transition">Tarifs</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Col 3 -->
+                    <div>
+                        <h3 class="font-bold text-xl mb-4">RESSOURCES</h3>
+                        <ul class="space-y-2 text-gray-400">
+                            <li><a href="#" class="hover:text-white transition">Blog</a></li>
+                            <li><a href="#faq" class="hover:text-white transition">FAQ</a></li>
+                            <li><a href="#" class="hover:text-white transition">Guide gratuit</a></li>
+                            <li><a href="#" class="hover:text-white transition">Cas clients</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Col 4 -->
+                    <div>
+                        <h3 class="font-bold text-xl mb-4">CONTACT</h3>
+                        <ul class="space-y-2 text-gray-400">
+                            <li><a href="tel:+33777227434" class="hover:text-white transition">+33 7 77 22 74 34</a></li>
+                            <li><a href="mailto:contact@solairefacile.com" class="hover:text-white transition">contact@solairefacile.com</a></li>
+                            <li>9 av. Président Wilson<br>75016 Paris</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Divider -->
+                <div class="h-px bg-gray-700 mb-8"></div>
+                
+                <!-- Bottom -->
+                <div class="text-center text-gray-400 space-y-4">
+                    <p class="text-xl italic font-serif">
+                        "Pour atteindre les sommets, appuyez-vous sur nous."
+                    </p>
+                    <p class="text-sm">
+                        © 2025 Solaire Facile • <a href="#" class="hover:text-white transition">Mentions légales</a> • <a href="#" class="hover:text-white transition">CGV</a> • <a href="#" class="hover:text-white transition">Politique de confidentialité</a>
+                    </p>
+                    <p class="text-xs">
+                        RCS Paris 123 456 789 • SIRET 123 456 789 00012
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- CHATBOT -->
+    <div class="chatbot">
+        <div class="chatbot-bubble" onclick="toggleChatbot()">
+            <span class="text-3xl">💬</span>
+        </div>
+        <div id="chatbotWindow" class="chatbot-window">
+            <div class="bg-gradient-to-r from-green-500 to-teal-500 p-4 rounded-t-2xl flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                        <span class="text-xl">👋</span>
+                    </div>
+                    <div>
+                        <p class="font-bold text-white">Julie - Solaire Facile</p>
+                        <p class="text-xs text-white/80">En ligne</p>
+                    </div>
+                </div>
+                <button onclick="toggleChatbot()" class="text-white hover:text-gray-200">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="p-4 flex-1 overflow-y-auto bg-gray-50" style="max-height: 400px;">
+                <div class="space-y-4">
+                    <div class="bg-white p-4 rounded-xl rounded-tl-none shadow">
+                        <p class="text-gray-700 text-sm">
+                            Salut ! Je suis Julie. 👋<br><br>
+                            Des questions sur nos packs ?<br>
+                            Combien de dossiers tu galères à finaliser en ce moment ?
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 bg-white border-t border-gray-200 rounded-b-2xl">
+                <div class="grid grid-cols-2 gap-2 mb-3">
+                    <button onclick="chatResponse('5-10 dossiers')" class="bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs py-2 px-3 rounded-lg transition">
+                        J'ai 5-10 dossiers bloqués
+                    </button>
+                    <button onclick="scrollToForm()" class="bg-green-50 hover:bg-green-100 text-green-700 text-xs py-2 px-3 rounded-lg transition">
+                        Je veux le Pack Zéro Stress
+                    </button>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="chatResponse('delai')" class="bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs py-2 px-3 rounded-lg transition">
+                        Quel est votre délai moyen ?
+                    </button>
+                    <button onclick="location.href='tel:+33777227434'" class="bg-orange-50 hover:bg-orange-100 text-orange-700 text-xs py-2 px-3 rounded-lg transition">
+                        Parler à un humain
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- MODAL CALCULATEUR ROI -->
+    <div id="calculatorModal" class="modal">
+        <div class="modal-content">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-3xl font-black">📊 CALCULEZ VOTRE COÛT RÉEL</h2>
+                <button onclick="closeCalculator()" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <form id="calculatorForm" class="space-y-6">
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Nombre de dossiers en cours</label>
+                    <input type="number" id="calc_dossiers" min="1" value="6" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Temps moyen passé par dossier (heures)</label>
+                    <input type="number" id="calc_temps" min="1" value="15" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Votre taux horaire (€/h)</label>
+                    <input type="number" id="calc_taux" min="1" value="80" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Retard moyen actuel (semaines)</label>
+                    <input type="number" id="calc_retard" min="1" value="3" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl">
+                </div>
+                
+                <button type="button" onclick="calculateROI()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl">
+                    CALCULER MON COÛT
+                </button>
+            </form>
+            
+            <div id="calculatorResult" class="hidden mt-8 p-8 bg-gradient-to-br from-red-50 to-orange-50 rounded-xl border-l-4 border-red-500">
+                <!-- Résultat injecté par JS -->
+            </div>
+            
+            <div id="calculatorCTA" class="hidden mt-6 text-center">
+                <button onclick="closeCalculator(); scrollToForm();" class="cta-primary text-white font-bold py-4 px-10 rounded-full text-lg">
+                    JE VEUX RÉCUPÉRER CET ARGENT →
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- EXIT INTENT POPUP -->
+    <div id="exitIntent" class="exit-intent">
+        <div class="modal-content max-w-2xl">
+            <div class="text-center mb-8">
+                <div class="text-6xl mb-4">⚠️</div>
+                <h2 class="text-4xl font-black mb-4">ATTENDEZ ! UN DERNIER TRUC...</h2>
+                <p class="text-xl text-gray-700">
+                    Téléchargez gratuitement notre guide :
+                </p>
+                <h3 class="text-2xl font-bold text-blue-600 mt-4">
+                    "Les 7 erreurs qui bloquent<br>vos dossiers Consuel/Enedis"
+                </h3>
+            </div>
+            
+            <form id="exitForm" class="max-w-md mx-auto">
+                <div class="flex space-x-3">
+                    <input type="email" placeholder="Votre email professionnel" required class="flex-1 px-4 py-3 border-2 border-gray-300 rounded-xl">
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3 rounded-xl whitespace-nowrap">
+                        TÉLÉCHARGER
+                    </button>
+                </div>
+                <p class="text-xs text-gray-500 text-center mt-4">
+                    PDF gratuit • Envoi immédiat • Pas de spam
+                </p>
+            </form>
+            
+            <div class="text-center mt-8">
+                <button onclick="closeExitIntent()" class="text-gray-500 hover:text-gray-700 text-sm underline">
+                    Non merci, je préfère continuer à perdre du temps
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- TOAST NOTIFICATIONS -->
+    <div id="toast" class="toast">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <span>🔔</span>
+            </div>
+            <div class="flex-1">
+                <p class="font-bold text-gray-900 text-sm" id="toastText"></p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // =====================
+        // INITIALIZATION
+        // =====================
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 100
+            });
+            
+            // Counters animation
+            animateCounters();
+            
+            // Sticky bar
+            window.addEventListener('scroll', handleStickyBar);
+            
+            // Exit intent
+            document.addEventListener('mouseleave', handleExitIntent);
+            
+            // Chatbot auto-show
+            setTimeout(showChatbotPrompt, 15000);
+            
+            // Social proof notifications
+            startSocialProofNotifications();
+            
+            // Form handlers
+            document.getElementById('mainForm').addEventListener('submit', handleMainFormSubmit);
+            document.getElementById('exitForm').addEventListener('submit', handleExitFormSubmit);
+        });
+        
+        // =====================
+        // COUNTERS
+        // =====================
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += step;
+                    if (current >= target) {
+                        counter.textContent = target.toLocaleString();
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = Math.floor(current).toLocaleString();
+                    }
+                }, 16);
+            });
+        }
+        
+        // =====================
+        // STICKY BAR
+        // =====================
+        function handleStickyBar() {
+            const stickyBar = document.getElementById('stickyBar');
+            if (window.scrollY > window.innerHeight * 0.5) {
+                stickyBar.classList.add('visible');
+            } else {
+                stickyBar.classList.remove('visible');
+            }
+        }
+        
+        // =====================
+        // NAVIGATION
+        // =====================
+        function scrollToForm() {
+            document.getElementById('formulaire').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function selectPack(packName) {
+            const radioButton = document.querySelector(`input[name="pack"][value="${packName}"]`);
+            if (radioButton) {
+                radioButton.checked = true;
+            }
+            scrollToForm();
+        }
+        
+        // =====================
+        // ACCORDION FAQ
+        // =====================
+        function toggleAccordion(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('span:last-child');
+            
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                icon.textContent = '+';
+            } else {
+                // Close all others
+                document.querySelectorAll('.accordion-content.open').forEach(item => {
+                    item.classList.remove('open');
+                    item.previousElementSibling.querySelector('span:last-child').textContent = '+';
+                });
+                
+                content.classList.add('open');
+                icon.textContent = '−';
+            }
+        }
+        
+        // =====================
+        // CHATBOT
+        // =====================
+        let chatbotShown = false;
+        
+        function toggleChatbot() {
+            const chatbotWindow = document.getElementById('chatbotWindow');
+            chatbotWindow.classList.toggle('open');
+        }
+        
+        function showChatbotPrompt() {
+            if (!chatbotShown) {
+                const bubble = document.querySelector('.chatbot-bubble');
+                bubble.style.animation = 'bounce-gentle 0.5s ease-in-out 3';
+                chatbotShown = true;
+            }
+        }
+        
+        function chatResponse(type) {
+            if (type === 'delai') {
+                alert('Notre délai moyen est de 12 jours vs 45 jours en solo ! Remplissez le formulaire pour un devis personnalisé.');
+                toggleChatbot();
+                scrollToForm();
+            } else {
+                toggleChatbot();
+                scrollToForm();
+            }
+        }
+        
+        // =====================
+        // CALCULATOR
+        // =====================
+        function openCalculator() {
+            document.getElementById('calculatorModal').classList.add('open');
+        }
+        
+        function closeCalculator() {
+            document.getElementById('calculatorModal').classList.remove('open');
+        }
+        
+        function calculateROI() {
+            const dossiers = parseInt(document.getElementById('calc_dossiers').value);
+            const temps = parseInt(document.getElementById('calc_temps').value);
+            const taux = parseInt(document.getElementById('calc_taux').value);
+            const retard = parseInt(document.getElementById('calc_retard').value);
+            
+            const coutTemps = dossiers * temps * taux;
+            const heuresTotal = dossiers * temps;
+            const coutMensuel = Math.round(coutTemps);
+            
+            const resultDiv = document.getElementById('calculatorResult');
+            const ctaDiv = document.getElementById('calculatorCTA');
+            
+            resultDiv.innerHTML = `
+                <h3 class="text-3xl font-black text-red-600 mb-6">RÉSULTAT DE VOTRE CALCUL</h3>
+                <div class="space-y-4 text-lg">
+                    <p class="flex items-center justify-between">
+                        <span class="font-semibold">💸 Vous perdez :</span>
+                        <span class="text-3xl font-black text-red-600">${coutMensuel.toLocaleString()}€/mois</span>
+                    </p>
+                    <p class="flex items-center justify-between">
+                        <span class="font-semibold">⏰ Soit :</span>
+                        <span class="text-2xl font-bold">${heuresTotal} heures gaspillées</span>
+                    </p>
+                    <p class="flex items-center justify-between">
+                        <span class="font-semibold">🚀 Avec nous :</span>
+                        <span class="text-2xl font-bold text-green-600">Récupération en ${retard * 2} jours</span>
+                    </p>
+                    <p class="flex items-center justify-between">
+                        <span class="font-semibold">💰 ROI :</span>
+                        <span class="text-2xl font-bold text-green-600">${(coutMensuel / (dossiers * 399)).toFixed(1)}x dès le 1er mois</span>
+                    </p>
+                </div>
+            `;
+            
+            resultDiv.classList.remove('hidden');
+            ctaDiv.classList.remove('hidden');
+        }
+        
+        // =====================
+        // EXIT INTENT
+        // =====================
+        let exitShown = false;
+        
+        function handleExitIntent(e) {
+            if (e.clientY <= 0 && !exitShown) {
+                document.getElementById('exitIntent').classList.add('show');
+                exitShown = true;
+            }
+        }
+        
+        function closeExitIntent() {
+            document.getElementById('exitIntent').classList.remove('show');
+        }
+        
+        // =====================
+        // SOCIAL PROOF TOASTS
+        // =====================
+        function startSocialProofNotifications() {
+            const notifications = [
+                'Maxime L. (Toulouse) vient de débloquer 3 dossiers • Il y a 8 min',
+                'Sophie K. (Lille) a choisi le Pack Zéro Stress • Il y a 23 min',
+                '12 dossiers finalisés aujourd\'hui • En temps réel',
+                'Antoine B. (Lyon) a économisé 1 200€ ce mois • Il y a 1h',
+                'Marie D. (Bordeaux) recommande Solaire Facile • Il y a 45 min'
+            ];
+            
+            let index = 0;
+            
+            function showNotification() {
+                const toast = document.getElementById('toast');
+                const toastText = document.getElementById('toastText');
+                
+                toastText.textContent = notifications[index];
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 5000);
+                
+                index = (index + 1) % notifications.length;
+            }
+            
+            // First notification after 5 seconds
+            setTimeout(showNotification, 5000);
+            
+            // Then every 30 seconds
+            setInterval(showNotification, 30000);
+        }
+        
+        // =====================
+        // FORM SUBMISSIONS
+        // =====================
+        function handleMainFormSubmit(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            console.log('Form submitted:', data);
+            
+            // Show success message
+            alert('✅ Merci ! Nous vous rappelons sous 24h avec une solution concrète pour débloquer vos dossiers.');
+            
+            // Reset form
+            e.target.reset();
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // In production, send to CRM/email service
+            // fetch('/api/submit', { method: 'POST', body: JSON.stringify(data) })
+        }
+        
+        function handleExitFormSubmit(e) {
+            e.preventDefault();
+            
+            const email = e.target.querySelector('input[type="email"]').value;
+            
+            console.log('Guide requested:', email);
+            
+            // Show success
+            alert('✅ Guide envoyé ! Consultez votre boîte email dans quelques instants.');
+            
+            closeExitIntent();
+            
+            // In production, send email
+            // fetch('/api/send-guide', { method: 'POST', body: JSON.stringify({ email }) })
+        }
+        
+        // =====================
+        // TRACKING (pour Google Analytics)
+        // =====================
+        function trackEvent(category, action, label) {
+            // In production with GA:
+            // gtag('event', action, { 'event_category': category, 'event_label': label });
+            console.log('Track:', category, action, label);
+        }
+        
+        // Track CTA clicks
+        document.querySelectorAll('.cta-primary').forEach(button => {
+            button.addEventListener('click', () => {
+                trackEvent('CTA', 'click', button.textContent.trim());
+            });
+        });
+        
+        // Track scroll depth
+        let scrollTracked = { 25: false, 50: false, 75: false };
+        window.addEventListener('scroll', () => {
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            
+            Object.keys(scrollTracked).forEach(threshold => {
+                if (scrollPercent >= threshold && !scrollTracked[threshold]) {
+                    trackEvent('Scroll', 'depth', `${threshold}%`);
+                    scrollTracked[threshold] = true;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
