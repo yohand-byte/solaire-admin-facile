@@ -1862,138 +1862,24 @@
         // =====================
         // FORM SUBMISSIONS
         // =====================
-        function handleMainFormSubmit(e) {
+        async function handleMainFormSubmit(e) {
             e.preventDefault();
             
             // Get form data
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData);
             
-            console.log('Form submitted:', data);
-            
-            // ====================================
-            // OPTION 1 : ZAPIER WEBHOOK
-            // ====================================
-            // Remplace par ton URL Zapier
-            const ZAPIER_WEBHOOK_URL = 'VOTRE_URL_ZAPIER_ICI';
-            
-            // Envoi vers Zapier (décommente quand tu as l'URL)
-            /*
-            fetch(ZAPIER_WEBHOOK_URL, {
-                method: 'POST',
-                body: JSON.stringify(data)
-            }).then(response => {
-                console.log('✅ Lead envoyé à Zapier:', response);
-            }).catch(error => {
-                console.error('❌ Erreur envoi Zapier:', error);
-            });
-            */
-            
-            // ====================================
-            // OPTION 2 : MAKE (INTEGROMAT) WEBHOOK
-            // ====================================
-            // Remplace par ton URL Make
-            const MAKE_WEBHOOK_URL = 'VOTRE_URL_MAKE_ICI';
-            
-            // Envoi vers Make (décommente quand tu as l'URL)
-            /*
-            fetch(MAKE_WEBHOOK_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            }).then(response => {
-                console.log('✅ Lead envoyé à Make:', response);
-            }).catch(error => {
-                console.error('❌ Erreur envoi Make:', error);
-            });
-            */
-            
-            // ====================================
-            // OPTION 3 : AIRTABLE DIRECT
-            // ====================================
-            // Configuration Airtable
-            const AIRTABLE_BASE_ID = 'VOTRE_BASE_ID'; // Ex: appXXXXXXXXXXXXXX
-            const AIRTABLE_TABLE_NAME = 'Leads'; // Nom de ta table
-            const AIRTABLE_API_KEY = 'VOTRE_API_KEY'; // pat...
-            
-            // Envoi vers Airtable (décommente quand tu as les infos)
-            /*
-            fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    fields: {
-                        'Prénom': data.prenom,
-                        'Nom': data.nom,
-                        'Téléphone': data.telephone,
-                        'Email': data.email,
-                        'Nombre dossiers': data.nombre_dossiers,
-                        'Blocage': data.blocage,
-                        'Pack': data.pack,
-                        'Date': new Date().toISOString(),
-                        'Statut': 'Nouveau'
-                    }
-                })
-            }).then(response => response.json())
-            .then(result => {
-                console.log('✅ Lead créé dans Airtable:', result);
-            }).catch(error => {
-                console.error('❌ Erreur Airtable:', error);
-            });
-            */
-            
-            // ====================================
-            // OPTION 4 : GOOGLE SHEETS (via Apps Script)
-            // ====================================
-            // URL de ton Google Apps Script
-            const GOOGLE_SCRIPT_URL = 'VOTRE_URL_GOOGLE_SCRIPT';
-            
-            // Envoi vers Google Sheets (décommente quand tu as l'URL)
-            /*
-            fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            }).then(() => {
-                console.log('✅ Lead envoyé à Google Sheets');
-            }).catch(error => {
-                console.error('❌ Erreur Google Sheets:', error);
-            });
-            */
-            
-            // ====================================
-            // OPTION 5 : EMAIL DIRECT (EmailJS)
-            // ====================================
-            // Configuration EmailJS : https://www.emailjs.com/
-            /*
-            emailjs.send('VOTRE_SERVICE_ID', 'VOTRE_TEMPLATE_ID', {
-                from_name: `${data.prenom} ${data.nom}`,
-                from_email: data.email,
-                phone: data.telephone,
-                dossiers: data.nombre_dossiers,
-                blocage: data.blocage,
-                pack: data.pack
-            }).then(() => {
-                console.log('✅ Email envoyé via EmailJS');
-            }).catch(error => {
-                console.error('❌ Erreur EmailJS:', error);
-            });
-            */
-            
-            // Show success modal (le beau popup stylé!)
-            showSuccessModal(data);
-            
-            // Reset form
-            e.target.reset();
-            
-            // Scroll to top
-            setTimeout(() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 500);
+            try {
+                await sendLeadToFirestore(data);
+                showSuccessModal(data);
+                e.target.reset();
+                setTimeout(() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 500);
+            } catch (err) {
+                console.error('Firestore lead error', err);
+                alert('⚠️ Impossible d’enregistrer pour le moment. Réessayez dans un instant.');
+            }
         }
         
         // Fonction pour afficher le modal de succès
