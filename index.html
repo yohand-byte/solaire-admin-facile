@@ -1179,43 +1179,60 @@
             });
         });
         
-        // Diagnostic Form Handler -> envoi direct Firestore (collection 'leads')
-        const diagnosticForm = document.getElementById('diagnosticForm');
-        if (diagnosticForm) {
-            diagnosticForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const data = new FormData(diagnosticForm);
-                const needs = Array.from(document.querySelectorAll('input[name="needs"]:checked')).map(cb => cb.value);
-                try {
-                    await addDoc(collection(db, 'leads'), {
-                        source: 'Landing admin v3',
-                        fullName: data.get('profile') || '',
-                        company: data.get('profile') || '',
-                        blocked_files_count: data.get('installs') || '',
-                        needs,
-                        email: data.get('email') || '',
-                        phone: data.get('phone') || '',
-                        status: 'Nouveau',
-                        priority: 'Moyenne',
-                        createdAt: serverTimestamp()
-                    });
-                } catch (err) {
-                    alert('Envoi impossible pour le moment. Réessaie dans quelques minutes.');
-                    console.error(err);
-                    return;
-                }
-                // Message de succès
-                const successDiv = document.createElement('div');
-                successDiv.className = 'mt-6 p-6 bg-green-50 border-2 border-green-500 rounded-2xl text-center';
-                successDiv.innerHTML = `
-                    <i class="fas fa-check-circle text-green-500 text-4xl mb-3"></i>
-                    <h4 class="text-2xl font-bold text-gray-900 mb-2">Diagnostic envoyé !</h4>
-                    <p class="text-gray-600">Nous vous contactons sous 24h avec votre recommandation personnalisée.</p>
-                `;
-                diagnosticForm.replaceWith(successDiv);
-                successDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            });
-        }
+// Diagnostic Form Handler -> envoi vers l'API Cloud Run (solaire-api)
+const diagnosticForm = document.getElementById('diagnosticForm');
+
+if (diagnosticForm) {
+  diagnosticForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const data = new FormData(diagnosticForm);
+
+    const needs = Array.from(
+      document.querySelectorAll('input[name="needs"]:checked')
+    ).map(el => el.value);
+
+    const payload = {
+      name: data.get('profile') || '',
+      email: data.get('email') || '',
+      phone: data.get('phone') || '',
+      source: 'landing-admin-facile',
+      needs
+    };
+
+    try {
+      const res = await fetch('https://solaire-api-828508661560.europe-west1.run.app/leads', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Api-Token': 'saftoken-123'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const body = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        alert(`Erreur ${res.status} : ${body.error || body.message || 'API'}`);
+        return;
+      }
+
+      const successDiv = document.createElement('div');
+      successDiv.className = 'mt-6 p-6 bg-green-50 border-2 border-green-500 rounded-2xl text-center';
+      successDiv.innerHTML = `
+        <i class="fas fa-check-circle text-green-500 text-4xl mb-3"></i>
+        <h4 class="text-2xl font-bold text-gray-900 mb-2">Diagnostic envoyé !</h4>
+        <p class="text-gray-600">ID : ${body.id || 'créé'}</p>
+      `;
+
+      diagnosticForm.replaceWith(successDiv);
+      successDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch (err) {
+      console.error(err);
+      alert('Erreur réseau : ' + (err?.message || err));
+    }
+  });
+}      
         
         // Intersection Observer for fade-in animations
         const observer = new IntersectionObserver((entries) => {
