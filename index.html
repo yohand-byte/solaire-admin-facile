@@ -72,6 +72,38 @@
         .chatbot-input button {background:#FF9F1C; color:#0D1117; border:none; border-radius:10px; padding:0 12px; font-weight:700; cursor:pointer;}
         .chat-actions {display:flex; justify-content:space-between; padding:8px 12px; gap:8px;}
         .chat-actions button {flex:1; padding:6px 8px; border-radius:10px; border:1px solid #30363D; background:rgba(255,255,255,0.05); color:#C9D1D9; font-size:0.85rem; cursor:pointer;}
+
+        /* Live tracker */
+        .live-tracker {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: linear-gradient(90deg, #FF9F1C, #00A8E8, #00C9A7);
+            color: #fff;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
+        .live-marquee {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 18s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .live-pill {display:inline-flex; align-items:center; gap:6px; margin-right:28px; font-weight:700;}
+        .live-dot {width:10px; height:10px; border-radius:50%; background:#ff4d4d; animation:pulse 1.3s infinite;}
+        @keyframes pulse {0%,100%{transform:scale(1);}50%{transform:scale(1.4);} }
+
+        /* Video testimonials */
+        .video-grid {display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:1.5rem;}
+        .video-card {background:#0D1117; border:1px solid #30363D; border-radius:16px; padding:1rem; box-shadow:0 10px 30px rgba(0,0,0,0.25); transition:transform 0.2s ease, box-shadow 0.2s ease;}
+        .video-card:hover {transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,0,0,0.3);}
+        .video-quote {color:#C9D1D9; font-size:0.95rem; margin:0.75rem 0;}
         
         .pulse-glow {
             animation: pulse-glow 2s ease-in-out infinite;
@@ -238,6 +270,16 @@
                     Rejoint par <strong>47 installateurs solaires</strong> ce mois-ci
                 </p>
             </div>
+        </div>
+    </section>
+
+    <!-- LIVE TRACKER -->
+    <section class="live-tracker">
+        <div class="live-marquee">
+            <span class="live-pill"><span class="live-dot"></span>🔴 LIVE: <span id="live-diagnostics">47</span> installateurs diagnostiqués ce mois-ci</span>
+            <span class="live-pill">📊 <span id="live-conv">3</span> conversions en cours</span>
+            <span class="live-pill">⚡ Prochaine mise en service dans <span id="live-mes">4</span> jours</span>
+            <span class="live-pill">😊 <span id="live-sat">150</span> clients satisfaits</span>
         </div>
     </section>
 
@@ -483,6 +525,45 @@
                             <span class="text-gray-700">Suivi de l'instruction</span>
                         </li>
                     </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VIDEO TESTIMONIALS -->
+    <section class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 section-fade">
+                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">🎬 Ce Que Disent Nos Installateurs</h2>
+                <p class="text-xl text-gray-600">Découvrez comment Solaire Facile a transformé leur back-office</p>
+            </div>
+            <div class="video-grid">
+                <div class="video-card section-fade">
+                    <div class="mb-3">
+                        <iframe class="w-full h-56 rounded-xl" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Témoignage Marc" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="text-white font-bold text-lg">Marc Durand</h3>
+                    <p class="text-orange-400 text-sm font-semibold">Solar Provence (12 installations/mois)</p>
+                    <p class="video-quote">\"Avant Solaire Facile, je passais 15h/semaine sur l'admin. Maintenant c'est 2h! Les délais Consuel ont diminué de 40%.\"</p>
+                    <p class="text-gray-400 text-sm">Durée: 45s</p>
+                </div>
+                <div class="video-card section-fade">
+                    <div class="mb-3">
+                        <iframe class="w-full h-56 rounded-xl" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Témoignage Sophie" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="text-white font-bold text-lg">Sophie Leclerc</h3>
+                    <p class="text-orange-400 text-sm font-semibold">Énergie Solaire Ouest (28 installations/mois)</p>
+                    <p class="video-quote">\"3 mois après, mes dossiers Enedis passent sans problème. Gain de temps énorme et clients satisfaits.\"</p>
+                    <p class="text-gray-400 text-sm">Durée: 50s</p>
+                </div>
+                <div class="video-card section-fade">
+                    <div class="mb-3">
+                        <iframe class="w-full h-56 rounded-xl" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Témoignage Thomas" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="text-white font-bold text-lg">Thomas Martin</h3>
+                    <p class="text-orange-400 text-sm font-semibold">InnoBuild (20 installations/mois)</p>
+                    <p class="video-quote">\"Ce n'est pas juste un service, c'est un partenaire. Ils gèrent tout, je me concentre sur l'installation.\"</p>
+                    <p class="text-gray-400 text-sm">Durée: 48s</p>
                 </div>
             </div>
         </div>
