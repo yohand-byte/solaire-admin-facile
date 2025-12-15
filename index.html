@@ -67,6 +67,9 @@
         .msg {margin-bottom:10px; padding:10px 12px; border-radius:12px; max-width:90%; line-height:1.4; font-size:0.93rem;}
         .user {background:rgba(255,159,28,0.15); border:1px solid rgba(255,159,28,0.35); margin-left:auto; color:#C9D1D9;}
         .bot {background:rgba(0,168,232,0.12); border:1px solid rgba(0,168,232,0.35); color:#C9D1D9;}
+        .chat-suggestions {padding:10px 12px; display:flex; flex-wrap:wrap; gap:8px; background:#0D1117; border-bottom:1px solid #30363D;}
+        .chat-pill {padding:8px 10px; background:rgba(255,159,28,0.15); color:#FF9F1C; border:1px solid rgba(255,159,28,0.35); border-radius:999px; cursor:pointer; font-size:0.85rem; transition:all .15s ease;}
+        .chat-pill:hover {background:rgba(255,159,28,0.25);}
         .chatbot-input {display:flex; gap:8px; padding:10px; background:#0D1117; border-top:1px solid #30363D;}
         .chatbot-input input {flex:1; background:#0D1117; color:#C9D1D9; border:1px solid #30363D; border-radius:10px; padding:10px;}
         .chatbot-input button {background:#FF9F1C; color:#0D1117; border:none; border-radius:10px; padding:0 12px; font-weight:700; cursor:pointer;}
@@ -295,6 +298,12 @@
         <div class="chatbot-header">
             <span>Assistant IA Solaire</span>
             <button id="chatbot-close" style="background:transparent;border:none;font-weight:800;color:#0D1117;">✕</button>
+        </div>
+        <div class="chat-suggestions" id="chatbot-suggestions">
+            <div class="chat-pill" data-question="Quel est le délai pour Enedis ?">Délai Enedis</div>
+            <div class="chat-pill" data-question="Comment obtenir l'attestation Consuel ?">Attestation Consuel</div>
+            <div class="chat-pill" data-question="Quel est le prix de vos services ?">Tarifs</div>
+            <div class="chat-pill" data-question="Quels documents vous envoyer ?">Documents à fournir</div>
         </div>
         <div class="chatbot-messages" id="chatbot-messages"></div>
         <div class="chat-actions">
@@ -1520,6 +1529,7 @@ if (diagnosticForm) {
         const messages = document.getElementById('chatbot-messages');
         const copyBtn = document.getElementById('chatbot-copy');
         const clearBtn = document.getElementById('chatbot-clear');
+        const suggestions = document.querySelectorAll('.chat-pill');
         let lastSend = 0;
 
         const appendMsg = (text, type) => {
@@ -1565,6 +1575,13 @@ if (diagnosticForm) {
         clearBtn?.addEventListener('click', ()=>{
           messages.innerHTML='';
           localStorage.removeItem('sf_chat_history');
+        });
+
+        suggestions.forEach(pill=>{
+          pill.addEventListener('click', ()=>{
+            input.value = pill.dataset.question || pill.textContent;
+            sendMessage();
+          });
         });
     </script>
 </body>
