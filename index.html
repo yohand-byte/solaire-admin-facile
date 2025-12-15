@@ -57,6 +57,21 @@
         .float {
             animation: float 6s ease-in-out infinite;
         }
+
+        /* Chatbot */
+        .chatbot-bubble {position:fixed; bottom:22px; right:22px; width:56px; height:56px; border-radius:50%; background:#FF9F1C; color:#0D1117; display:flex; align-items:center; justify-content:center; font-weight:800; cursor:pointer; box-shadow:0 12px 30px rgba(0,0,0,0.35); z-index:90; transition:transform .15s ease, box-shadow .15s ease;}
+        .chatbot-bubble:hover {transform:translateY(-2px); box-shadow:0 18px 40px rgba(0,0,0,0.4);}        
+        .chatbot-window {position:fixed; bottom:90px; right:20px; width:320px; max-width:92vw; height:440px; background:#0D1117; border:1px solid #30363D; border-radius:16px; box-shadow:0 18px 50px rgba(0,0,0,0.45); display:none; flex-direction:column; z-index:95; overflow:hidden;}
+        .chatbot-header {padding:12px 14px; background:linear-gradient(90deg,#FF9F1C,#00A8E8); color:#0D1117; font-weight:800; display:flex; justify-content:space-between; align-items:center;}
+        .chatbot-messages {flex:1; padding:12px; overflow-y:auto; background:#0D1117;}
+        .msg {margin-bottom:10px; padding:10px 12px; border-radius:12px; max-width:90%; line-height:1.4; font-size:0.93rem;}
+        .user {background:rgba(255,159,28,0.15); border:1px solid rgba(255,159,28,0.35); margin-left:auto; color:#C9D1D9;}
+        .bot {background:rgba(0,168,232,0.12); border:1px solid rgba(0,168,232,0.35); color:#C9D1D9;}
+        .chatbot-input {display:flex; gap:8px; padding:10px; background:#0D1117; border-top:1px solid #30363D;}
+        .chatbot-input input {flex:1; background:#0D1117; color:#C9D1D9; border:1px solid #30363D; border-radius:10px; padding:10px;}
+        .chatbot-input button {background:#FF9F1C; color:#0D1117; border:none; border-radius:10px; padding:0 12px; font-weight:700; cursor:pointer;}
+        .chat-actions {display:flex; justify-content:space-between; padding:8px 12px; gap:8px;}
+        .chat-actions button {flex:1; padding:6px 8px; border-radius:10px; border:1px solid #30363D; background:rgba(255,255,255,0.05); color:#C9D1D9; font-size:0.85rem; cursor:pointer;}
         
         .pulse-glow {
             animation: pulse-glow 2s ease-in-out infinite;
@@ -225,6 +240,24 @@
             </div>
         </div>
     </section>
+
+    <!-- Chatbot Widget -->
+    <div id="chatbot-bubble" class="chatbot-bubble" title="Besoin d'aide?">💬</div>
+    <div id="chatbot-window" class="chatbot-window">
+        <div class="chatbot-header">
+            <span>Assistant IA Solaire</span>
+            <button id="chatbot-close" style="background:transparent;border:none;font-weight:800;color:#0D1117;">✕</button>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages"></div>
+        <div class="chat-actions">
+            <button id="chatbot-copy">Copy</button>
+            <button id="chatbot-clear">Clear</button>
+        </div>
+        <div class="chatbot-input">
+            <input id="chatbot-input" type="text" placeholder="Posez votre question..." />
+            <button id="chatbot-send">Envoyer</button>
+        </div>
+    </div>
     
     <!-- Diagnostic Section -->
     <section id="diagnostic" class="py-20 bg-white">
@@ -1299,6 +1332,111 @@ if (diagnosticForm) {
                 icon.classList.toggle('fa-chevron-down');
                 icon.classList.toggle('fa-chevron-up');
             });
+        });
+
+        // Live tracker data (hardcoded)
+        const liveData = {
+            diagnostiquesThisMonth: 47,
+            inConversation: 3,
+            daysUntilNextMES: 4,
+            clientsSatisfied: 150
+        };
+        const updateLive = () => {
+            const d = document.getElementById('live-diagnostics');
+            const c = document.getElementById('live-conv');
+            const m = document.getElementById('live-mes');
+            const s = document.getElementById('live-sat');
+            if (!d) return;
+            liveData.diagnostiquesThisMonth += Math.floor(Math.random()*2); // +0 or +1
+            d.textContent = liveData.diagnostiquesThisMonth;
+            c.textContent = liveData.inConversation;
+            m.textContent = Math.max(0, liveData.daysUntilNextMES - Math.floor(Math.random()*2));
+            s.textContent = liveData.clientsSatisfied;
+        };
+        setInterval(updateLive, 5000);
+
+        // Chatbot logic
+        const cfg = {
+          endpoint: 'https://api.anthropic.com/v1/messages',
+          apiKey: '', // Insérer CLAUDE_API_KEY
+          model: 'claude-sonnet-4-20250514',
+          maxTokens: 500,
+          systemPrompt: `Tu es l'assistant IA de Solaire Facile Admin, une plateforme \nback-office pour installateurs solaires.\n\nTon rôle:\n1. Accueillir chaleureusement les visiteurs\n2. Répondre aux questions sur nos services\n3. Qualifier les leads (volume, besoins, timeline)\n4. Capturer email pour suivi\n5. Proposer diagnostic gratuit ou RDV\n\nTone: Friendly, professionnel, enthousiaste, expert\n\nServices que tu connais:\n- Attestations Consuel (5-10j, montage + suivi + relances)\n- Raccordement Enedis (15-30j, demandes + suivi + mise en service)\n- Contrats EDF OA (10-15j, montage + signatures)\n- DP Mairie (1-2 mois, constitution + dépôt + suivi)\n\nQuand tu ne sais pas: "Je vais vous connecter à notre équipe"\n\nQuestions de qualification à poser:\n1. "Vous êtes installateur solaire? Combien d'installations par mois?"\n2. "Quel est votre plus gros pain point? (délais, administratif, autre)"\n3. "Vous seriez intéressé par un diagnostic gratuit?"\n4. Si intéressé: "Laissez-moi votre email, je vous envoie les infos"\nNe pas demander: numéro téléphone (sauf s'ils offrent)`
+        };
+
+        const bubble = document.getElementById('chatbot-bubble');
+        const win = document.getElementById('chatbot-window');
+        const closeBtn = document.getElementById('chatbot-close');
+        const sendBtn = document.getElementById('chatbot-send');
+        const input = document.getElementById('chatbot-input');
+        const messages = document.getElementById('chatbot-messages');
+        const copyBtn = document.getElementById('chatbot-copy');
+        const clearBtn = document.getElementById('chatbot-clear');
+        let lastSend = 0;
+
+        const appendMsg = (text, type) => {
+          const div = document.createElement('div');
+          div.className = `msg ${type}`;
+          div.textContent = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+        };
+
+        const loading = document.createElement('div');
+        loading.className = 'msg bot';
+        loading.textContent = 'Claude est en train de rédiger...';
+
+        const sendMessage = async () => {
+          const now = Date.now();
+          if (now - lastSend < 1000) return; // rate limit 1s
+          const content = input.value.trim();
+          if (!content) return;
+          appendMsg(content, 'user');
+          input.value = '';
+          messages.appendChild(loading);
+          messages.scrollTop = messages.scrollHeight;
+          lastSend = now;
+          try {
+            const res = await fetch(cfg.endpoint, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': cfg.apiKey || (window.CLAUDE_API_KEY || ''),
+                'anthropic-version': '2023-06-01'
+              },
+              body: JSON.stringify({
+                model: cfg.model,
+                max_tokens: cfg.maxTokens,
+                system: cfg.systemPrompt,
+                messages: [{ role: 'user', content }]
+              })
+            });
+            const data = await res.json();
+            loading.remove();
+            const reply = data?.content?.[0]?.text || "Je vais vous connecter à notre équipe.";
+            appendMsg(reply, 'bot');
+            localStorage.setItem('sf_chat_history', messages.innerHTML);
+          } catch (e) {
+            loading.remove();
+            appendMsg("Erreur, réessayez plus tard", 'bot');
+          }
+        };
+
+        // Restore history
+        const saved = localStorage.getItem('sf_chat_history');
+        if (saved) messages.innerHTML = saved;
+
+        bubble?.addEventListener('click', ()=> win.style.display = win.style.display==='flex'?'none':'flex');
+        closeBtn?.addEventListener('click', ()=> win.style.display='none');
+        sendBtn?.addEventListener('click', sendMessage);
+        input?.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); sendMessage(); }});
+        copyBtn?.addEventListener('click', ()=>{
+          const text = Array.from(messages.querySelectorAll('.msg')).map(m=>m.textContent).join('\n');
+          navigator.clipboard.writeText(text);
+        });
+        clearBtn?.addEventListener('click', ()=>{
+          messages.innerHTML='';
+          localStorage.removeItem('sf_chat_history');
         });
     </script>
 </body>
