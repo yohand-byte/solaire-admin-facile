@@ -104,6 +104,12 @@
         .video-card {background:#0D1117; border:1px solid #30363D; border-radius:16px; padding:1rem; box-shadow:0 10px 30px rgba(0,0,0,0.25); transition:transform 0.2s ease, box-shadow 0.2s ease;}
         .video-card:hover {transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,0,0,0.3);}
         .video-quote {color:#C9D1D9; font-size:0.95rem; margin:0.75rem 0;}
+        .avatar {width:110px; height:110px; border-radius:50%; border:3px solid #FF9F1C; box-shadow:0 10px 25px rgba(0,0,0,0.25);}
+        .audio-player {width:100%; margin-top:12px;}
+        .testimonial-info h3 {color:#FF9F1C; font-weight:800; font-size:1.1rem; margin-top:0.75rem;}
+        .testimonial-info .company {color:#00A8E8; font-weight:600; font-size:0.95rem;}
+        .testimonial-info .quote {color:#C9D1D9; font-style:italic; margin:0.6rem 0;}
+        .testimonial-info .duration {color:#00C9A7; font-size:0.85rem; font-weight:700;}
         
         .pulse-glow {
             animation: pulse-glow 2s ease-in-out infinite;
@@ -530,40 +536,57 @@
         </div>
     </section>
 
-    <!-- VIDEO TESTIMONIALS -->
-    <section class="py-20 bg-white">
+    <!-- TESTIMONIALS AUDIO -->
+    <section class="py-20 bg-white" id="testimonials">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12 section-fade">
                 <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">🎬 Ce Que Disent Nos Installateurs</h2>
-                <p class="text-xl text-gray-600">Découvrez comment Solaire Facile a transformé leur back-office</p>
+                <p class="text-xl text-gray-600">Audio + avatars générés : l'expérience Solaire Facile racontée par ceux qui l'utilisent</p>
             </div>
             <div class="video-grid">
                 <div class="video-card section-fade">
-                    <div class="mb-3">
-                        <iframe class="w-full h-56 rounded-xl" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Témoignage Marc" allowfullscreen></iframe>
+                    <div class="video-container text-center">
+                        <img class="avatar mx-auto" src="https://avataaars.com/?avatarStyle=Transparent&topType=ShortHairSides&accessoriesType=Prescription02&hairColor=BrownDark&facialHairType=BeardLight&facialHairColor=BrownDark&clotheType=ShirtCrewNeck&clotheColor=Blue01&eyeType=Default&eyebrowType=Default&mouthType=Smile&skinColor=Light" alt="Marc Durand">
+                        <audio class="audio-player" controls>
+                            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                        </audio>
                     </div>
-                    <h3 class="text-white font-bold text-lg">Marc Durand</h3>
-                    <p class="text-orange-400 text-sm font-semibold">Solar Provence (12 installations/mois)</p>
-                    <p class="video-quote">\"Avant Solaire Facile, je passais 15h/semaine sur l'admin. Maintenant c'est 2h! Les délais Consuel ont diminué de 40%.\"</p>
-                    <p class="text-gray-400 text-sm">Durée: 45s</p>
+                    <div class="testimonial-info">
+                        <h3>Marc Durand</h3>
+                        <p class="company">Solar Provence (12 inst/mois)</p>
+                        <p class="quote">"Avant Solaire Facile, je passais 15h/semaine sur l'admin. Maintenant c'est 2h ! Les délais Consuel ont diminué de 40%."</p>
+                        <span class="duration">Durée audio : 45s</span>
+                    </div>
                 </div>
-                <div class="video-card section-fade">
-                    <div class="mb-3">
-                        <iframe class="w-full h-56 rounded-xl" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Témoignage Sophie" allowfullscreen></iframe>
+
+                <div class="video-card section-fade" style="transition-delay:0.1s;">
+                    <div class="video-container text-center">
+                        <img class="avatar mx-auto" src="https://avataaars.com/?avatarStyle=Transparent&topType=LongHairStraight&hairColor=Brown&facialHairType=Blank&clotheType=BlazerShirt&clotheColor=Red&eyeType=Happy&eyebrowType=DefaultNatural&mouthType=Smile&skinColor=Light" alt="Sophie Leclerc">
+                        <audio class="audio-player" controls>
+                            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+                        </audio>
                     </div>
-                    <h3 class="text-white font-bold text-lg">Sophie Leclerc</h3>
-                    <p class="text-orange-400 text-sm font-semibold">Énergie Solaire Ouest (28 installations/mois)</p>
-                    <p class="video-quote">\"3 mois après, mes dossiers Enedis passent sans problème. Gain de temps énorme et clients satisfaits.\"</p>
-                    <p class="text-gray-400 text-sm">Durée: 50s</p>
+                    <div class="testimonial-info">
+                        <h3>Sophie Leclerc</h3>
+                        <p class="company">Énergie Solaire Ouest (28 inst/mois)</p>
+                        <p class="quote">"3 mois après, mes dossiers Enedis passent sans problème. C'est un gain de temps énorme et mes clients sont satisfaits."</p>
+                        <span class="duration">Durée audio : 50s</span>
+                    </div>
                 </div>
-                <div class="video-card section-fade">
-                    <div class="mb-3">
-                        <iframe class="w-full h-56 rounded-xl" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Témoignage Thomas" allowfullscreen></iframe>
+
+                <div class="video-card section-fade" style="transition-delay:0.2s;">
+                    <div class="video-container text-center">
+                        <img class="avatar mx-auto" src="https://avataaars.com/?avatarStyle=Transparent&topType=ShortHairShaggyMullet&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=Gray01&eyeType=Default&eyebrowType=Default&mouthType=Smile&skinColor=Light" alt="Thomas Martin">
+                        <audio class="audio-player" controls>
+                            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg">
+                        </audio>
                     </div>
-                    <h3 class="text-white font-bold text-lg">Thomas Martin</h3>
-                    <p class="text-orange-400 text-sm font-semibold">InnoBuild (20 installations/mois)</p>
-                    <p class="video-quote">\"Ce n'est pas juste un service, c'est un partenaire. Ils gèrent tout, je me concentre sur l'installation.\"</p>
-                    <p class="text-gray-400 text-sm">Durée: 48s</p>
+                    <div class="testimonial-info">
+                        <h3>Thomas Martin</h3>
+                        <p class="company">InnoBuild (20 inst/mois)</p>
+                        <p class="quote">"Le plus de Solaire Facile ? L'accompagnement humain. Ce n'est pas juste un service, c'est un partenaire."</p>
+                        <span class="duration">Durée audio : 48s</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1436,13 +1459,57 @@ if (diagnosticForm) {
         };
         setInterval(updateLive, 5000);
 
-        // Chatbot logic
-        const cfg = {
-          endpoint: 'https://api.anthropic.com/v1/messages',
-          apiKey: '', // Insérer CLAUDE_API_KEY
-          model: 'claude-sonnet-4-20250514',
-          maxTokens: 500,
-          systemPrompt: `Tu es l'assistant IA de Solaire Facile Admin, une plateforme \nback-office pour installateurs solaires.\n\nTon rôle:\n1. Accueillir chaleureusement les visiteurs\n2. Répondre aux questions sur nos services\n3. Qualifier les leads (volume, besoins, timeline)\n4. Capturer email pour suivi\n5. Proposer diagnostic gratuit ou RDV\n\nTone: Friendly, professionnel, enthousiaste, expert\n\nServices que tu connais:\n- Attestations Consuel (5-10j, montage + suivi + relances)\n- Raccordement Enedis (15-30j, demandes + suivi + mise en service)\n- Contrats EDF OA (10-15j, montage + signatures)\n- DP Mairie (1-2 mois, constitution + dépôt + suivi)\n\nQuand tu ne sais pas: "Je vais vous connecter à notre équipe"\n\nQuestions de qualification à poser:\n1. "Vous êtes installateur solaire? Combien d'installations par mois?"\n2. "Quel est votre plus gros pain point? (délais, administratif, autre)"\n3. "Vous seriez intéressé par un diagnostic gratuit?"\n4. Si intéressé: "Laissez-moi votre email, je vous envoie les infos"\nNe pas demander: numéro téléphone (sauf s'ils offrent)`
+        // Chatbot Q&A local (gratuit)
+        const qaDatabase = {
+          consuel: {
+            keywords: ["consuel","attestation","certificat","agréé","conformité"],
+            answer: "L'attestation Consuel valide la conformité électrique. Nous montons et suivons 100% du dossier jusqu'à l'obtention (5-10 jours ouvrés après dossier complet)."
+          },
+          enedis: {
+            keywords: ["enedis","raccordement","mise en service","pdl"],
+            answer: "Nous gérons la demande de raccordement Enedis, suivi des travaux et mise en service. Délai moyen 15-30 jours selon la zone."
+          },
+          edf: {
+            keywords: ["edf","obligation d'achat","oa","contrat","achat"],
+            answer: "Contrats EDF OA : nous constituons le dossier, gérons la signature et la validation. Délai typique 10-15 jours."
+          },
+          dp: {
+            keywords: ["dp","mairie","déclaration préalable","permis","autorisation"],
+            answer: "La DP mairie est obligatoire avant installation. On constitue le dossier, on dépose et on suit jusqu'à l'accord (1-2 mois selon mairie)."
+          },
+          tarif: {
+            keywords: ["cout","prix","tarif","combien","facture","paiement"],
+            answer: "Tarifs :\n• À la carte (dossier) si <10 installs/mois\n• Abonnement dégressif dès 10 installs/mois\nFacturation à la livraison du doc validé. Offre lancement -30% 1er mois."
+          },
+          delai: {
+            keywords: ["délai","combien de temps","rapide","urgent","quand"],
+            answer: "Délais moyens : Consuel 5-10j | Enedis 15-30j | EDF OA 10-15j | DP 1-2 mois. Relances systématiques incluses."
+          },
+          documents: {
+            keywords: ["document","fichier","quoi envoyer","que faut","list"],
+            answer: "Pour démarrer :\n• Consuel : PDL, puissance, onduleur\n• Enedis : identifiants client, caractéristiques installation\n• DP : adresse, type d'installation, support de pose."
+          },
+          garantie: {
+            keywords: ["refus","complément","erreur","problème","qui paie"],
+            answer: "Si complément : on vous alerte et on collecte. Si refus technique : analyse, plan d'action, nouveau dépôt. Si erreur de notre part : reprise gratuite."
+          },
+          contact: {
+            keywords: ["contact","mail","phone","téléphone","appel","email","joindre"],
+            answer: "Joignez-nous : 📞 07 77 22 74 34 | ✉️ info@solaire-facile.com | réponse sous 24h (lun-ven 9h-18h)."
+          },
+          default: {
+            answer: "Je n'ai pas compris. Reformulez ou contactez-nous : 📞 07 77 22 74 34 | ✉️ info@solaire-facile.com"
+          }
+        };
+
+        const findBestAnswer = (msg) => {
+          const lower = msg.toLowerCase();
+          for (const data of Object.values(qaDatabase)) {
+            if (data.keywords && data.keywords.some(k => lower.includes(k))) {
+              return data.answer;
+            }
+          }
+          return qaDatabase.default.answer;
         };
 
         const bubble = document.getElementById('chatbot-bubble');
@@ -1463,44 +1530,24 @@ if (diagnosticForm) {
           messages.scrollTop = messages.scrollHeight;
         };
 
-        const loading = document.createElement('div');
-        loading.className = 'msg bot';
-        loading.textContent = 'Claude est en train de rédiger...';
-
-        const sendMessage = async () => {
+        const sendMessage = () => {
           const now = Date.now();
           if (now - lastSend < 1000) return; // rate limit 1s
           const content = input.value.trim();
           if (!content) return;
           appendMsg(content, 'user');
           input.value = '';
-          messages.appendChild(loading);
-          messages.scrollTop = messages.scrollHeight;
           lastSend = now;
-          try {
-            const res = await fetch(cfg.endpoint, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': cfg.apiKey || (window.CLAUDE_API_KEY || ''),
-                'anthropic-version': '2023-06-01'
-              },
-              body: JSON.stringify({
-                model: cfg.model,
-                max_tokens: cfg.maxTokens,
-                system: cfg.systemPrompt,
-                messages: [{ role: 'user', content }]
-              })
-            });
-            const data = await res.json();
-            loading.remove();
-            const reply = data?.content?.[0]?.text || "Je vais vous connecter à notre équipe.";
-            appendMsg(reply, 'bot');
-            localStorage.setItem('sf_chat_history', messages.innerHTML);
-          } catch (e) {
-            loading.remove();
-            appendMsg("Erreur, réessayez plus tard", 'bot');
-          }
+
+          const reply = findBestAnswer(content);
+          appendMsg(reply, 'bot');
+
+          // store Q&A for suivi
+          const timestamp = new Date().toISOString();
+          const history = JSON.parse(localStorage.getItem('chatbot_history') || '[]');
+          history.push({ question: content, answer: reply, timestamp });
+          localStorage.setItem('chatbot_history', JSON.stringify(history));
+          localStorage.setItem('sf_chat_history', messages.innerHTML);
         };
 
         // Restore history
