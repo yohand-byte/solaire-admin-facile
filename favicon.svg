@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="sunGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F59E0B"/>
+      <stop offset="100%" style="stop-color:#EA580C"/>
+    </linearGradient>
+  </defs>
+  <!-- Fond arrondi -->
+  <rect width="512" height="512" rx="96" fill="url(#sunGrad)"/>
+  <!-- Soleil central -->
+  <circle cx="256" cy="256" r="80" fill="white"/>
+  <!-- Rayons -->
+  <g fill="white">
+    <rect x="248" y="80" width="16" height="56" rx="8"/>
+    <rect x="248" y="376" width="16" height="56" rx="8"/>
+    <rect x="80" y="248" width="56" height="16" rx="8"/>
+    <rect x="376" y="248" width="56" height="16" rx="8"/>
+    <!-- Rayons diagonaux -->
+    <rect x="248" y="80" width="16" height="56" rx="8" transform="rotate(45 256 256)"/>
+    <rect x="248" y="80" width="16" height="56" rx="8" transform="rotate(135 256 256)"/>
+    <rect x="248" y="80" width="16" height="56" rx="8" transform="rotate(225 256 256)"/>
+    <rect x="248" y="80" width="16" height="56" rx="8" transform="rotate(315 256 256)"/>
+  </g>
+</svg>
