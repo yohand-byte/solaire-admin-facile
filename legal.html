@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informations légales - Solaire Facile Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --orange-500: #F59E0B;
+            --orange-600: #EA580C;
+            --blue-900: #1e293b;
+            --gray-600: #475569;
+            --gray-500: #64748b;
+            --gray-400: #94a3b8;
+            --gray-200: #e2e8f0;
+            --gray-100: #f1f5f9;
+            --gray-50: #f8fafc;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--gray-50);
+            color: var(--blue-900);
+            line-height: 1.7;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--orange-500), var(--orange-600));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .logo-text strong {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--blue-900);
+        }
+
+        .logo-text span {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--orange-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--blue-900);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--orange-500), var(--orange-600));
+            color: white !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35);
+        }
+
+        /* Main content */
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--blue-900);
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            color: var(--gray-500);
+        }
+
+        .nav-legal {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-legal a {
+            padding: 0.75rem 1.5rem;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 50px;
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .nav-legal a:hover,
+        .nav-legal a.active {
+            background: var(--orange-500);
+            color: white;
+            border-color: var(--orange-500);
+        }
+
+        /* Sections */
+        .legal-section {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .legal-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--blue-900);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--orange-500);
+        }
+
+        .legal-section h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--blue-900);
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .legal-section h3:first-of-type {
+            margin-top: 0;
+        }
+
+        .legal-section p {
+            color: var(--gray-600);
+            margin-bottom: 1rem;
+        }
+
+        .legal-section ul {
+            color: var(--gray-600);
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        .legal-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .legal-section strong {
+            color: var(--blue-900);
+        }
+
+        .placeholder-box {
+            background: var(--gray-100);
+            border: 2px dashed var(--gray-300);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            color: var(--gray-500);
+        }
+
+        .placeholder-box p {
+            margin: 0;
+        }
+
+        .update-date {
+            text-align: right;
+            color: var(--gray-400);
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--gray-200);
+            color: var(--gray-400);
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: var(--orange-500);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-links a:not(.nav-cta) {
+                display: none;
+            }
+
+            main {
+                padding: 6rem 1rem 2rem;
+            }
+
+            .legal-section {
+                padding: 1.5rem;
+            }
+
+            .nav-legal {
+                gap: 0.5rem;
+            }
+
+            .nav-legal a {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="logo">
+            <div class="logo-icon">☀️</div>
+            <div class="logo-text">
+                <strong>SOLAIRE FACILE</strong>
+                <span>Admin</span>
+            </div>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="index.html#pricing">Tarifs</a>
+            <a href="index.html#diagnostic" class="nav-cta">Diagnostic gratuit →</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="page-header">
+            <h1>Informations légales</h1>
+            <p>Dernière mise à jour : Décembre 2024</p>
+        </div>
+
+        <div class="nav-legal">
+            <a href="#mentions">Mentions légales</a>
+            <a href="#cgv">CGV</a>
+            <a href="#confidentialite">Confidentialité</a>
+        </div>
+
+        <!-- MENTIONS LÉGALES -->
+        <section class="legal-section" id="mentions">
+            <h2>Mentions légales</h2>
+            <div class="placeholder-box">
+                <p>🏗️ <strong>En cours de rédaction</strong></p>
+                <p>Les mentions légales complètes seront disponibles prochainement.</p>
+            </div>
+        </section>
+
+        <!-- CGV -->
+        <section class="legal-section" id="cgv">
+            <h2>Conditions Générales de Vente</h2>
+
+            <h3>Article 1 — Objet</h3>
+            <p>Les présentes Conditions Générales de Vente (CGV) régissent les relations contractuelles entre Solaire Facile Admin (ci-après "le Prestataire") et tout professionnel (ci-après "le Client") souscrivant aux services de gestion administrative pour installations photovoltaïques.</p>
+
+            <h3>Article 2 — Services proposés</h3>
+            <p>Le Prestataire propose des services de back-office administratif comprenant :</p>
+            <ul>
+                <li>Constitution et suivi des déclarations préalables de travaux (DP Mairie)</li>
+                <li>Gestion des attestations de conformité Consuel (Bleu et Violet)</li>
+                <li>Demandes de raccordement et mise en service Enedis</li>
+                <li>Constitution des dossiers de contrats EDF Obligation d'Achat</li>
+            </ul>
+
+            <h3>Article 3 — Système de crédits</h3>
+            <p>Les services fonctionnent sur un système de crédits prépayés :</p>
+            <ul>
+                <li>Les crédits sont achetés à l'avance sous forme de packs ou à l'unité</li>
+                <li>Chaque crédit correspond à un dossier complet traité</li>
+                <li><strong>Les crédits n'ont pas de date d'expiration</strong></li>
+                <li><strong>Les crédits ne sont pas remboursables</strong></li>
+            </ul>
+
+            <h3>Article 4 — Tarifs et remises volume</h3>
+            <p>Les tarifs en vigueur sont affichés sur le site. Des remises sont appliquées selon le volume mensuel :</p>
+            <ul>
+                <li>-10% à partir de 20 crédits par mois</li>
+                <li>-20% à partir de 50 crédits par mois</li>
+            </ul>
+
+            <h3>Article 5 — Modalités de paiement</h3>
+            <p>Le paiement est exigible à la commande. Les moyens de paiement acceptés sont :</p>
+            <ul>
+                <li>Virement bancaire</li>
+                <li>Carte bancaire</li>
+                <li>Prélèvement SEPA</li>
+            </ul>
+            <p>Aucune prestation ne sera démarrée avant réception effective du paiement.</p>
+
+            <h3>Article 6 — Droit de rétractation</h3>
+            <p>Conformément à l'article L221-3 du Code de la consommation, les présentes CGV s'adressant exclusivement à des professionnels, <strong>aucun droit de rétractation n'est applicable</strong>.</p>
+
+            <h3>Article 7 — Obligations du Client</h3>
+            <p>Le Client s'engage à :</p>
+            <ul>
+                <li>Fournir des informations exactes et complètes pour chaque dossier</li>
+                <li>Transmettre les documents nécessaires dans les délais convenus</li>
+                <li>Informer le Prestataire de toute modification affectant le dossier</li>
+            </ul>
+
+            <h3>Article 8 — Obligations du Prestataire</h3>
+            <p>Le Prestataire s'engage à :</p>
+            <ul>
+                <li>Traiter les dossiers avec diligence et professionnalisme</li>
+                <li>Informer le Client de l'avancement des démarches</li>
+                <li>Respecter la confidentialité des informations transmises</li>
+            </ul>
+
+            <h3>Article 9 — Refus administratif et reprise</h3>
+            <p>En cas de refus d'un dossier par l'administration concernée :</p>
+            <ul>
+                <li><strong>Reprise gratuite</strong> : le Prestataire corrige et resoumet le dossier sans frais supplémentaires</li>
+                <li><strong>Alternative</strong> : si la reprise n'est pas souhaitée, un avoir équivalent est crédité sur le compte Client</li>
+            </ul>
+            <p>Cette garantie ne s'applique pas si le refus résulte d'informations erronées fournies par le Client ou d'une non-conformité technique de l'installation.</p>
+
+            <h3>Article 10 — Limitation de responsabilité</h3>
+            <p>La responsabilité du Prestataire est limitée au montant des crédits achetés par le Client pour le dossier concerné. Le Prestataire ne saurait être tenu responsable :</p>
+            <ul>
+                <li>Des délais de traitement des administrations</li>
+                <li>Des refus liés à la non-conformité de l'installation</li>
+                <li>Des préjudices indirects ou immatériels</li>
+            </ul>
+
+            <h3>Article 11 — Délais indicatifs</h3>
+            <p>Les délais de traitement dépendent des administrations concernées :</p>
+            <ul>
+                <li>DP Mairie : 1 mois (2 mois en zone protégée)</li>
+                <li>Consuel : 15 à 30 jours</li>
+                <li>Enedis : 2 à 6 semaines</li>
+            </ul>
+            <p>Ces délais sont donnés à titre indicatif et ne constituent pas un engagement contractuel.</p>
+
+            <h3>Article 12 — Propriété intellectuelle</h3>
+            <p>L'ensemble des éléments du site (textes, images, logos) sont la propriété exclusive du Prestataire et ne peuvent être reproduits sans autorisation.</p>
+
+            <h3>Article 13 — Litiges</h3>
+            <p>Les présentes CGV sont soumises au droit français. En cas de litige, une solution amiable sera recherchée avant toute action judiciaire. À défaut, les tribunaux compétents seront ceux du ressort du siège social du Prestataire.</p>
+
+            <p class="update-date">Dernière mise à jour : Décembre 2024</p>
+        </section>
+
+        <!-- CONFIDENTIALITÉ -->
+        <section class="legal-section" id="confidentialite">
+            <h2>Politique de confidentialité</h2>
+
+            <h3>1. Introduction</h3>
+            <p>Solaire Facile Admin s'engage à protéger la vie privée des utilisateurs de son site et de ses services. Cette politique décrit comment nous collectons, utilisons et protégeons vos données personnelles conformément au Règlement Général sur la Protection des Données (RGPD).</p>
+
+            <h3>2. Données collectées</h3>
+            <p>Nous collectons les données suivantes :</p>
+            <ul>
+                <li><strong>Données d'identification</strong> : nom, prénom, raison sociale, email, téléphone</li>
+                <li><strong>Données professionnelles</strong> : numéro SIRET, adresse professionnelle</li>
+                <li><strong>Données des installations</strong> : adresses des chantiers, caractéristiques techniques, numéros PDL</li>
+                <li><strong>Données de navigation</strong> : pages visitées, durée de visite (via Google Analytics)</li>
+            </ul>
+
+            <h3>3. Finalités du traitement</h3>
+            <p>Vos données sont utilisées pour :</p>
+            <ul>
+                <li>Fournir nos services de gestion administrative</li>
+                <li>Communiquer sur l'avancement de vos dossiers</li>
+                <li>Établir les factures et gérer les paiements</li>
+                <li>Améliorer nos services et notre site</li>
+                <li>Répondre à nos obligations légales</li>
+            </ul>
+
+            <h3>4. Base légale</h3>
+            <p>Le traitement de vos données repose sur :</p>
+            <ul>
+                <li><strong>L'exécution du contrat</strong> : pour fournir les services souscrits</li>
+                <li><strong>L'intérêt légitime</strong> : pour améliorer nos services</li>
+                <li><strong>L'obligation légale</strong> : pour la facturation et la comptabilité</li>
+                <li><strong>Le consentement</strong> : pour l'envoi de communications commerciales</li>
+            </ul>
+
+            <h3>5. Partage des données</h3>
+            <p>Vos données peuvent être partagées avec :</p>
+            <ul>
+                <li><strong>Stripe</strong> : pour le traitement sécurisé des paiements</li>
+                <li><strong>Les administrations concernées</strong> : Consuel, Enedis, mairies, EDF (dans le cadre de vos dossiers)</li>
+            </ul>
+            <p>Nous ne vendons jamais vos données à des tiers.</p>
+
+            <h3>6. Cookies</h3>
+            <p>Notre site utilise :</p>
+            <ul>
+                <li><strong>Cookies essentiels</strong> : nécessaires au fonctionnement du site</li>
+                <li><strong>Google Analytics</strong> : pour analyser la fréquentation (anonymisé)</li>
+            </ul>
+            <p>Vous pouvez configurer votre navigateur pour refuser les cookies.</p>
+
+            <h3>7. Durée de conservation</h3>
+            <ul>
+                <li><strong>Données clients actifs</strong> : 3 ans après la dernière activité</li>
+                <li><strong>Prospects non convertis</strong> : 1 an après le dernier contact</li>
+                <li><strong>Données comptables</strong> : 10 ans (obligation légale)</li>
+            </ul>
+
+            <h3>8. Vos droits</h3>
+            <p>Conformément au RGPD, vous disposez des droits suivants :</p>
+            <ul>
+                <li><strong>Droit d'accès</strong> : obtenir une copie de vos données</li>
+                <li><strong>Droit de rectification</strong> : corriger des données inexactes</li>
+                <li><strong>Droit à l'effacement</strong> : demander la suppression de vos données</li>
+                <li><strong>Droit à la portabilité</strong> : recevoir vos données dans un format structuré</li>
+                <li><strong>Droit d'opposition</strong> : vous opposer au traitement de vos données</li>
+            </ul>
+            <p>Pour exercer ces droits, contactez-nous à l'adresse indiquée dans les mentions légales.</p>
+
+            <h3>9. Sécurité</h3>
+            <p>Nous mettons en œuvre des mesures techniques et organisationnelles appropriées pour protéger vos données : chiffrement SSL, accès restreints, sauvegardes sécurisées.</p>
+
+            <h3>10. Modifications</h3>
+            <p>Cette politique peut être mise à jour. La date de dernière modification est indiquée ci-dessous.</p>
+
+            <p class="update-date">Dernière mise à jour : Décembre 2024</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Solaire Facile Admin — <a href="index.html">Retour à l'accueil</a></p>
+    </footer>
+
+    <script>
+        // Highlight active section in nav
+        const sections = document.querySelectorAll('.legal-section');
+        const navLinks = document.querySelectorAll('.nav-legal a');
+
+        function updateActiveNav() {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveNav);
+        updateActiveNav();
+    </script>
+</body>
+</html>

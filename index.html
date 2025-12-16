@@ -3,1420 +3,1758 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solaire Facile Admin - Votre Back-Office Photovoltaïque Simplifié</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Solaire Facile Admin - Back-Office Photovoltaïque Simplifié</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-        
+        :root {
+            --orange-400: #FBBF24;
+            --orange-500: #F59E0B;
+            --orange-600: #EA580C;
+            --blue-500: #3B82F6;
+            --blue-600: #2563EB;
+            --blue-900: #1e293b;
+            --blue-800: #1e3a5f;
+            --purple-500: #8B5CF6;
+            --purple-600: #7C3AED;
+            --emerald-500: #10B981;
+            --emerald-600: #059669;
+            --rose-500: #F43F5E;
+            --rose-600: #E11D48;
+            --gray-600: #475569;
+            --gray-500: #64748b;
+            --gray-400: #94a3b8;
+            --gray-200: #e2e8f0;
+            --gray-100: #f1f5f9;
+            --gray-50: #f8fafc;
+            --white: #ffffff;
+            --green-500: #22c55e;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
         * {
-            font-family: 'Inter', sans-serif;
-        }
-        
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes pulse-glow {
-            0%, 100% {
-                box-shadow: 0 0 20px rgba(251, 146, 60, 0.4);
-            }
-            50% {
-                box-shadow: 0 0 40px rgba(251, 146, 60, 0.8);
-            }
-        }
-        
-        .gradient-bg {
-            background: linear-gradient(-45deg, #FF6B35, #F7931E, #FDB913, #F7931E);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-        }
-        
-        .fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-        
-        .float {
-            animation: float 6s ease-in-out infinite;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* Chatbot */
-        .chatbot-bubble {position:fixed; bottom:22px; right:22px; width:56px; height:56px; border-radius:50%; background:#FF9F1C; color:#0D1117; display:flex; align-items:center; justify-content:center; font-weight:800; cursor:pointer; box-shadow:0 12px 30px rgba(0,0,0,0.35); z-index:90; transition:transform .15s ease, box-shadow .15s ease;}
-        .chatbot-bubble:hover {transform:translateY(-2px); box-shadow:0 18px 40px rgba(0,0,0,0.4);}        
-        .chatbot-window {position:fixed; bottom:90px; right:20px; width:320px; max-width:92vw; height:440px; background:#0D1117; border:1px solid #30363D; border-radius:16px; box-shadow:0 18px 50px rgba(0,0,0,0.45); display:none; flex-direction:column; z-index:95; overflow:hidden;}
-        .chatbot-header {padding:12px 14px; background:linear-gradient(90deg,#FF9F1C,#00A8E8); color:#0D1117; font-weight:800; display:flex; justify-content:space-between; align-items:center;}
-        .chatbot-messages {flex:1; padding:12px; overflow-y:auto; background:#0D1117;}
-        .msg {margin-bottom:10px; padding:10px 12px; border-radius:12px; max-width:90%; line-height:1.4; font-size:0.93rem;}
-        .user {background:rgba(255,159,28,0.15); border:1px solid rgba(255,159,28,0.35); margin-left:auto; color:#C9D1D9;}
-        .bot {background:rgba(0,168,232,0.12); border:1px solid rgba(0,168,232,0.35); color:#C9D1D9;}
-        .chat-suggestions {padding:10px 12px; display:flex; flex-wrap:wrap; gap:8px; background:#0D1117; border-bottom:1px solid #30363D;}
-        .chat-pill {padding:8px 10px; background:rgba(255,159,28,0.15); color:#FF9F1C; border:1px solid rgba(255,159,28,0.35); border-radius:999px; cursor:pointer; font-size:0.85rem; transition:all .15s ease;}
-        .chat-pill:hover {background:rgba(255,159,28,0.25);}
-        .chatbot-input {display:flex; gap:8px; padding:10px; background:#0D1117; border-top:1px solid #30363D;}
-        .chatbot-input input {flex:1; background:#0D1117; color:#C9D1D9; border:1px solid #30363D; border-radius:10px; padding:10px;}
-        .chatbot-input button {background:#FF9F1C; color:#0D1117; border:none; border-radius:10px; padding:0 12px; font-weight:700; cursor:pointer;}
-        .chat-actions {display:flex; justify-content:space-between; padding:8px 12px; gap:8px;}
-        .chat-actions button {flex:1; padding:6px 8px; border-radius:10px; border:1px solid #30363D; background:rgba(255,255,255,0.05); color:#C9D1D9; font-size:0.85rem; cursor:pointer;}
+        html {
+            scroll-behavior: smooth;
+        }
 
-        /* Live tracker */
-        .live-tracker {
-            position: sticky;
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--gray-50);
+            color: var(--blue-900);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
             top: 0;
-            z-index: 50;
-            background: linear-gradient(90deg, #FF9F1C, #00A8E8, #00C9A7);
-            color: #fff;
-            height: 60px;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-        }
-        .live-marquee {
-            display: inline-block;
-            white-space: nowrap;
-            animation: marquee 18s linear infinite;
-        }
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        .live-pill {display:inline-flex; align-items:center; gap:6px; margin-right:28px; font-weight:700;}
-        .live-dot {width:10px; height:10px; border-radius:50%; background:#ff4d4d; animation:pulse 1.3s infinite;}
-        @keyframes pulse {0%,100%{transform:scale(1);}50%{transform:scale(1.4);} }
-
-        /* Video testimonials */
-        .video-grid {display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:1.5rem;}
-        .video-card {background:#0D1117; border:1px solid #30363D; border-radius:16px; padding:1rem; box-shadow:0 10px 30px rgba(0,0,0,0.25); transition:transform 0.2s ease, box-shadow 0.2s ease;}
-        .video-card:hover {transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,0,0,0.3);}
-        .video-quote {color:#C9D1D9; font-size:0.95rem; margin:0.75rem 0;}
-        .avatar {width:110px; height:110px; border-radius:50%; border:3px solid #FF9F1C; box-shadow:0 10px 25px rgba(0,0,0,0.25);}
-        .audio-player {width:100%; margin-top:12px;}
-        .testimonial-info h3 {color:#FF9F1C; font-weight:800; font-size:1.1rem; margin-top:0.75rem;}
-        .testimonial-info .company {color:#00A8E8; font-weight:600; font-size:0.95rem;}
-        .testimonial-info .quote {color:#C9D1D9; font-style:italic; margin:0.6rem 0;}
-        .testimonial-info .duration {color:#00C9A7; font-size:0.85rem; font-weight:700;}
-        
-        .pulse-glow {
-            animation: pulse-glow 2s ease-in-out infinite;
-        }
-        
-        .glass-effect {
+            z-index: 100;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-bottom: 1px solid var(--gray-200);
         }
-        
-        .hover-lift {
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--orange-500), var(--orange-600));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .logo-text strong {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--blue-900);
+        }
+
+        .logo-text span {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--orange-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--blue-900);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--orange-500), var(--orange-600));
+            color: white !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            background: linear-gradient(180deg, rgba(251, 191, 36, 0.08) 0%, var(--gray-50) 50%);
+            position: relative;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(234, 88, 12, 0.1));
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--orange-600);
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: clamp(2.25rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+            color: var(--blue-900);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            max-width: 650px;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero .highlight {
+            color: var(--orange-500);
+            font-weight: 700;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--orange-500), var(--orange-600));
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--white);
+            color: var(--blue-900);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 2px solid var(--gray-200);
             transition: all 0.3s ease;
         }
-        
-        .hover-lift:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+
+        .btn-secondary:hover {
+            border-color: var(--gray-400);
+            background: var(--gray-50);
         }
-        
-        .text-gradient {
-            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+
+        .trust-indicators {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+            justify-content: center;
         }
-        
-        .section-fade {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease-out;
+
+        .trust-indicators span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        
-        .section-fade.visible {
-            opacity: 1;
-            transform: translateY(0);
+
+        .trust-indicators strong {
+            color: var(--blue-900);
         }
-        
-        .stat-number {
-            font-size: 3.5rem;
-            font-weight: 900;
-            line-height: 1;
+
+        .social-proof {
+            margin-top: 1.5rem;
+            color: var(--gray-500);
+            font-size: 0.9rem;
         }
-        
-        .badge-promo {
+
+        .social-proof strong {
+            color: var(--orange-500);
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+            color: var(--blue-900);
+        }
+
+        .section-header p {
+            color: var(--gray-500);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .service-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            font-size: 1.5rem;
+        }
+
+        .service-icon.orange { background: linear-gradient(135deg, #FED7AA, #FDBA74); }
+        .service-icon.green { background: linear-gradient(135deg, #BBF7D0, #86EFAC); }
+        .service-icon.pink { background: linear-gradient(135deg, #FBCFE8, #F9A8D4); }
+        .service-icon.purple { background: linear-gradient(135deg, #E9D5FF, #D8B4FE); }
+
+        .service-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--blue-900);
+        }
+
+        .service-card > p {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .service-features {
+            list-style: none;
+        }
+
+        .service-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            padding: 0.35rem 0;
+        }
+
+        .service-features li::before {
+            content: '✓';
+            color: var(--green-500);
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        /* Diagnostic */
+        .diagnostic-section {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 4rem;
+            box-shadow: var(--shadow-lg);
+            margin: 2rem auto;
+            max-width: 1100px;
+        }
+
+        .diagnostic-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .diagnostic-left h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--blue-900);
+        }
+
+        .diagnostic-left > p {
+            color: var(--gray-500);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .result-preview {
+            background: var(--gray-50);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            border: 1px solid var(--gray-200);
+        }
+
+        .result-preview h4 {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-item .label {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+        }
+
+        .result-item .value {
+            font-weight: 700;
+            color: var(--orange-500);
+        }
+
+        .result-item .value.highlight {
+            font-size: 1.25rem;
+        }
+
+        .diagnostic-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--blue-900);
+        }
+
+        .form-group select,
+        .form-group input {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 0.875rem 1rem;
+            color: var(--blue-900);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--orange-500);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .checkbox-item input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--orange-500);
+            cursor: pointer;
+        }
+
+        .checkbox-item span {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+        }
+
+        /* Pack selection in form */
+        .pack-selection {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+
+        .pack-option {
             position: relative;
-            overflow: hidden;
         }
-        
-        .badge-promo::before {
+
+        .pack-option input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .pack-option label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 10px;
+            border: 2px solid var(--gray-200);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .pack-option label:hover {
+            border-color: var(--gray-400);
+        }
+
+        .pack-option input:checked + label {
+            border-color: var(--orange-500);
+            background: rgba(245, 158, 11, 0.05);
+        }
+
+        .pack-option .pack-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--blue-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .pack-option .pack-price {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+        }
+
+        .pack-option.essentiel label { border-left: 4px solid var(--blue-500); }
+        .pack-option.pro label { border-left: 4px solid var(--orange-500); }
+        .pack-option.serenite label { border-left: 4px solid var(--purple-500); }
+        .pack-option.carte label { border-left: 4px solid var(--emerald-500); }
+
+        .pack-option.essentiel input:checked + label { border-color: var(--blue-500); background: rgba(59, 130, 246, 0.05); }
+        .pack-option.pro input:checked + label { border-color: var(--orange-500); background: rgba(245, 158, 11, 0.05); }
+        .pack-option.serenite input:checked + label { border-color: var(--purple-500); background: rgba(139, 92, 246, 0.05); }
+        .pack-option.carte input:checked + label { border-color: var(--emerald-500); background: rgba(16, 185, 129, 0.05); }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--orange-500), var(--orange-600));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35);
+        }
+
+        .form-note {
+            text-align: center;
+            color: var(--gray-400);
+            font-size: 0.85rem;
+        }
+
+        /* Pricing */
+        .pricing-section {
+            background: linear-gradient(180deg, var(--gray-50) 0%, rgba(251, 191, 36, 0.05) 100%);
+            padding: 5rem 2rem;
+        }
+
+        .pricing-section .section-header,
+        .pricing-section .pricing-grid,
+        .pricing-section .pricing-note {
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border-top: 4px solid transparent;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Couleurs distinctes pour chaque pack */
+        .pricing-card.essentiel {
+            border-top-color: var(--blue-500);
+        }
+
+        .pricing-card.pro {
+            border-top-color: var(--orange-500);
+            border: 2px solid var(--orange-500);
+            border-top: 4px solid var(--orange-500);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .pricing-card.serenite {
+            border-top-color: var(--purple-500);
+        }
+
+        .pricing-card.carte {
+            border-top-color: var(--emerald-500);
+        }
+
+        .pricing-card.pro::before {
+            content: 'LE + POPULAIRE';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--orange-500), var(--orange-600));
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.35rem 1rem;
+            border-radius: 50px;
+            letter-spacing: 0.03em;
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .pricing-header h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--blue-900);
+        }
+
+        .pricing-card.essentiel .pricing-header h3 { color: var(--blue-600); }
+        .pricing-card.pro .pricing-header h3 { color: var(--orange-600); }
+        .pricing-card.serenite .pricing-header h3 { color: var(--purple-600); }
+        .pricing-card.carte .pricing-header h3 { color: var(--emerald-600); }
+
+        .pricing-header .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+        }
+
+        .pricing-card.essentiel .price { color: var(--blue-500); }
+        .pricing-card.pro .price { color: var(--orange-500); }
+        .pricing-card.serenite .price { color: var(--purple-500); }
+        .pricing-card.carte .price { color: var(--emerald-500); }
+
+        .pricing-header .price span {
+            font-size: 0.9rem;
+            color: var(--gray-500);
+            font-weight: 500;
+        }
+
+        .pricing-header .desc {
+            color: var(--gray-500);
+            font-size: 0.85rem;
+            margin-top: 0.35rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            padding: 0.5rem 0;
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--green-500);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .pricing-cta {
+            display: block;
+            text-align: center;
+            padding: 0.875rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .pricing-card.essentiel .pricing-cta {
+            background: var(--blue-500);
+            color: white;
+        }
+        .pricing-card.essentiel .pricing-cta:hover {
+            background: var(--blue-600);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.35);
+        }
+
+        .pricing-card.pro .pricing-cta {
+            background: linear-gradient(135deg, var(--orange-500), var(--orange-600));
+            color: white;
+        }
+        .pricing-card.pro .pricing-cta:hover {
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .pricing-card.serenite .pricing-cta {
+            background: var(--purple-500);
+            color: white;
+        }
+        .pricing-card.serenite .pricing-cta:hover {
+            background: var(--purple-600);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.35);
+        }
+
+        .pricing-card.carte .pricing-cta {
+            background: var(--emerald-500);
+            color: white;
+        }
+        .pricing-card.carte .pricing-cta:hover {
+            background: var(--emerald-600);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);
+        }
+
+        .pricing-note {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--white);
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-200);
+        }
+
+        .pricing-note p {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+        }
+
+        .pricing-note strong {
+            color: var(--orange-500);
+        }
+
+        /* Unit pricing table */
+        .unit-pricing {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .unit-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            font-size: 0.85rem;
+            border-bottom: 1px dashed var(--gray-200);
+        }
+
+        .unit-item:last-child {
+            border-bottom: none;
+        }
+
+        .unit-item .unit-name {
+            color: var(--gray-600);
+        }
+
+        .unit-item .unit-price {
+            font-weight: 700;
+            color: var(--blue-900);
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .testimonial-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .testimonial-card blockquote {
+            font-size: 1rem;
+            color: var(--gray-600);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .testimonial-card blockquote::before {
+            content: '"';
+            color: var(--orange-500);
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 0;
+            vertical-align: -0.5rem;
+            margin-right: 0.25rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .author-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .author-avatar.orange { background: linear-gradient(135deg, var(--orange-500), var(--orange-600)); }
+        .author-avatar.blue { background: linear-gradient(135deg, #3B82F6, #2563EB); }
+        .author-avatar.green { background: linear-gradient(135deg, #22C55E, #16A34A); }
+
+        .author-info strong {
+            display: block;
+            color: var(--blue-900);
+            font-size: 0.95rem;
+        }
+
+        .author-info span {
+            color: var(--gray-500);
+            font-size: 0.85rem;
+        }
+
+        /* FAQ */
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 1.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            text-align: left;
+            color: var(--blue-900);
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .faq-question svg {
+            transition: transform 0.3s;
+            flex-shrink: 0;
+            color: var(--gray-400);
+        }
+
+        .faq-item.active .faq-question svg {
+            transform: rotate(45deg);
+            color: var(--orange-500);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        .faq-answer p {
+            padding-bottom: 1.5rem;
+            color: var(--gray-600);
+            line-height: 1.7;
+        }
+
+        /* CTA Final */
+        .cta-final {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--blue-900), var(--blue-800));
+            border-radius: 24px;
+            margin: 3rem auto;
+            max-width: 1100px;
+            color: white;
+        }
+
+        .cta-final h2 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-final p {
+            color: rgba(255,255,255,0.7);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .cta-final .btn-primary {
+            background: linear-gradient(135deg, var(--orange-500), var(--orange-400));
+        }
+
+        .cta-final .btn-secondary {
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+        }
+
+        .cta-final .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 2rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand p {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-top: 1rem;
+        }
+
+        .footer-links h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--gray-400);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--orange-500);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-200);
+            color: var(--gray-400);
+            font-size: 0.85rem;
+        }
+
+        .footer-legal a {
+            color: var(--gray-400);
+            text-decoration: none;
+            margin-left: 1.5rem;
+        }
+
+        .footer-legal a:hover {
+            color: var(--gray-600);
+        }
+
+        /* Honeypot */
+        .hp-field {
+            position: absolute;
+            left: -9999px;
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+        }
+
+        .whatsapp-float svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+
+        .whatsapp-float .tooltip {
+            position: absolute;
+            right: 70px;
+            background: var(--blue-900);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .whatsapp-float:hover .tooltip {
+            opacity: 1;
+        }
+
+        .whatsapp-float .tooltip::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shine 3s infinite;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 6px solid transparent;
+            border-left-color: var(--blue-900);
         }
-        
-        @keyframes shine {
-            0% { left: -100%; }
-            100% { left: 100%; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .diagnostic-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pricing-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-links a:not(.nav-cta) {
+                display: none;
+            }
+
+            .hero {
+                padding: 6rem 1.5rem 3rem;
+            }
+
+            h1 {
+                font-size: 1.875rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .trust-indicators {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+                max-width: 320px;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .diagnostic-section {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+
+            .checkbox-group,
+            .pack-selection {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-final {
+                padding: 3rem 1.5rem;
+                margin: 2rem 1rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .footer-legal {
+                display: flex;
+                gap: 1rem;
+            }
+
+            .footer-legal a {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    
+<body>
     <!-- Navigation -->
-    <nav class="fixed w-full top-0 z-50 glass-effect shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex items-center space-x-3">
-                    <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-xl flex items-center justify-center shadow-lg">
-                        <i class="fas fa-solar-panel text-white text-xl"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-2xl font-black text-gray-900">SOLAIRE FACILE</h1>
-                        <p class="text-xs text-orange-600 font-semibold tracking-wider">ADMIN</p>
-                    </div>
-                </div>
-                
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#services" class="text-gray-700 hover:text-orange-500 font-medium transition">Nos Services</a>
-                    <a href="#avantages" class="text-gray-700 hover:text-orange-500 font-medium transition">Avantages</a>
-                    <a href="#contact" class="text-gray-700 hover:text-orange-500 font-medium transition">Contact</a>
-                    <a href="https://solaire-frontend-828508661560.europe-west1.run.app/client/login" class="px-4 py-2 border border-emerald-500 text-emerald-700 font-semibold rounded-xl hover:bg-emerald-50 transition">Espace client</a>
-                    <a href="https://solaire-frontend-828508661560.europe-west1.run.app/admin/login" class="px-6 py-3 bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-bold rounded-xl hover:shadow-xl transition transform hover:scale-105">
-                        Espace admin →
-                    </a>
-                </div>
-                
-                <button id="mobileMenuBtn" class="md:hidden text-gray-700 focus:outline-none">
-                    <i class="fas fa-bars text-2xl"></i>
-                </button>
+    <nav>
+        <a href="#" class="logo">
+            <div class="logo-icon">☀️</div>
+            <div class="logo-text">
+                <strong>SOLAIRE FACILE</strong>
+                <span>Admin</span>
             </div>
-            
-            <!-- Mobile Menu -->
-            <div id="mobileMenu" class="hidden md:hidden absolute top-20 left-0 right-0 bg-white shadow-xl rounded-b-2xl">
-                <div class="px-4 py-6 space-y-4">
-                    <a href="#services" class="block text-gray-700 hover:text-orange-500 font-medium transition py-2">Nos Services</a>
-                    <a href="#avantages" class="block text-gray-700 hover:text-orange-500 font-medium transition py-2">Avantages</a>
-                    <a href="#contact" class="block text-gray-700 hover:text-orange-500 font-medium transition py-2">Contact</a>
-                    <a href="https://solaire-frontend-828508661560.europe-west1.run.app/client/login" class="block px-6 py-3 bg-emerald-500 text-white font-bold rounded-xl text-center">
-                        Espace client
-                    </a>
-                    <a href="https://solaire-frontend-828508661560.europe-west1.run.app/admin/login" class="block px-6 py-3 bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-bold rounded-xl text-center">
-                        Espace admin →
-                    </a>
-                </div>
-            </div>
+        </a>
+        <div class="nav-links">
+            <a href="#services">Services</a>
+            <a href="#pricing">Tarifs</a>
+            <a href="#faq">FAQ</a>
+            <a href="#diagnostic" class="nav-cta">Diagnostic gratuit →</a>
         </div>
     </nav>
-    
-    <!-- Hero Section -->
-    <section class="relative pt-32 pb-20 overflow-hidden">
-        <div class="absolute inset-0 gradient-bg opacity-10"></div>
-        <div class="absolute top-20 right-10 w-72 h-72 bg-orange-300 rounded-full blur-3xl opacity-20 float"></div>
-        <div class="absolute bottom-10 left-10 w-96 h-96 bg-yellow-300 rounded-full blur-3xl opacity-20 float" style="animation-delay: 2s;"></div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="badge">🎯 Offre lancement : -30% le premier mois</div>
         
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center mb-8">
-                <div class="inline-flex items-center space-x-2 px-4 py-2 bg-orange-100 rounded-full mb-6 badge-promo">
-                    <span class="w-2 h-2 bg-orange-500 rounded-full pulse-glow"></span>
-                    <span class="text-orange-700 font-bold text-sm">🎯 OFFRE DE LANCEMENT : -30% LE PREMIER MOIS</span>
-                </div>
+        <h1>Et si vos démarches administratives devenaient automatiques ?</h1>
+        
+        <p>Consuel, Enedis, EDF... Nous gérons <strong>tout le back-office</strong> de vos installations photovoltaïques.</p>
+        <p class="highlight">Résultat immédiat. Sans prise de tête.</p>
+
+        <div class="hero-buttons">
+            <a href="#diagnostic" class="btn-primary">
+                🚀 Démarrer mon diagnostic gratuit
+            </a>
+            <a href="#pricing" class="btn-secondary">
+                💰 Voir les tarifs
+            </a>
+        </div>
+
+        <div class="trust-indicators">
+            <span>⏱️ <strong>2 minutes</strong> pour commencer</span>
+            <span>👤 Sans inscription</span>
+            <span>⚡ Réponse sous 24h</span>
+        </div>
+
+        <p class="social-proof">👥 Rejoint par <strong>47 installateurs solaires</strong> ce mois-ci</p>
+    </section>
+
+    <!-- Services -->
+    <section id="services">
+        <div class="section-header">
+            <h2>Ce que nous gérons pour vous</h2>
+            <p>Concentrez-vous sur vos installations, on s'occupe du reste</p>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon orange">☀️</div>
+                <h3>Attestations Consuel</h3>
+                <p>Constitution et suivi complet de vos dossiers Consuel. Conformité garantie.</p>
+                <ul class="service-features">
+                    <li>Consuel Bleu (sans batterie)</li>
+                    <li>Consuel Violet (avec stockage)</li>
+                    <li>Suivi jusqu'à validation</li>
+                </ul>
             </div>
-            
-            <div class="text-center max-w-4xl mx-auto fade-in-up">
-                <h2 class="text-5xl md:text-7xl font-black text-gray-900 mb-6 leading-tight">
-                    Et si vos démarches administratives <br>
-                    <span class="text-gradient">devenaient automatiques ?</span>
-                </h2>
-                
-                <p class="text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed">
-                    Consuel, Enedis, EDF... Nous gérons <strong>tout le back-office</strong> de vos installations photovoltaïques.<br>
-                    <span class="text-orange-600 font-semibold">Résultat immédiat. Sans prise de tête.</span>
-                </p>
-                
-                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-                    <a href="#diagnostic" class="px-10 py-5 bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-bold text-lg rounded-2xl hover:shadow-2xl transition transform hover:scale-105 pulse-glow">
-                        <i class="fas fa-rocket mr-2"></i>
-                        Démarrer mon diagnostic gratuit
-                    </a>
-                    <a href="#services" class="px-10 py-5 bg-white text-gray-800 font-bold text-lg rounded-2xl border-2 border-gray-300 hover:border-orange-500 hover:shadow-xl transition transform hover:scale-105">
-                        <i class="fas fa-play-circle mr-2"></i>
-                        Découvrir nos services
-                    </a>
-                </div>
-                
-                <div class="flex items-center justify-center space-x-8 text-sm text-gray-600">
-                    <div class="flex items-center space-x-2">
-                        <i class="fas fa-clock text-orange-500"></i>
-                        <span><strong>2 minutes</strong> pour commencer</span>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <i class="fas fa-user-check text-orange-500"></i>
-                        <span>Sans inscription</span>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <i class="fas fa-bolt text-orange-500"></i>
-                        <span>Recommandation instantanée</span>
-                    </div>
-                </div>
-                
-                <p class="mt-6 text-sm text-gray-500">
-                    <i class="fas fa-users text-orange-500 mr-2"></i>
-                    Rejoint par <strong>47 installateurs solaires</strong> ce mois-ci
-                </p>
+
+            <div class="service-card">
+                <div class="service-icon green">⚡</div>
+                <h3>Raccordement Enedis</h3>
+                <p>Gestion intégrale de vos demandes de raccordement et mises en service.</p>
+                <ul class="service-features">
+                    <li>Demandes de raccordement</li>
+                    <li>Suivi des travaux</li>
+                    <li>Mise en service</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon pink">📄</div>
+                <h3>Contrats EDF OA</h3>
+                <p>Constitution et transmission de tous vos contrats d'Obligation d'Achat.</p>
+                <ul class="service-features">
+                    <li>Montage des dossiers OA</li>
+                    <li>Suivi des signatures</li>
+                    <li>Validation finale</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon purple">🏛️</div>
+                <h3>DP Mairie</h3>
+                <p>Gestion des déclarations préalables de travaux. Dossiers complets et conformes.</p>
+                <ul class="service-features">
+                    <li>Constitution du dossier</li>
+                    <li>Dépôt en mairie</li>
+                    <li>Suivi de l'instruction</li>
+                </ul>
             </div>
         </div>
     </section>
 
-    <!-- TESTIMONIALS -->
-    <section id="testimonials" class="py-16 bg-gray-50">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-10 section-fade">
-          <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-3">Témoignages</h2>
-          <p class="text-lg text-gray-600">Ce que disent les installateurs qui utilisent Solaire Facile</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-x-auto pb-2">
-          <!-- 1 -->
-          <article class="bg-white border border-gray-200 shadow-sm rounded-2xl p-6 flex flex-col gap-4">
-            <p class="text-lg font-semibold italic text-gray-900">"Avant Solaire Facile, c'était un cauchemar administratif... J'ai gagné 15 installations par an juste en libérant du temps."</p>
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-yellow-500 text-white font-bold flex items-center justify-center">TL</div>
-              <div class="text-sm text-gray-600 leading-tight">
-                <div class="font-semibold text-gray-800">Thomas Leclerc</div>
-                Chef d'entreprise, Leclerc Énergies (Rhône-Alpes)
-              </div>
+    <!-- Diagnostic -->
+    <div class="diagnostic-section" id="diagnostic">
+        <div class="diagnostic-grid">
+            <div class="diagnostic-left">
+                <h2>Estimez votre gain de temps ⚡</h2>
+                <p>Répondez à quelques questions. On calcule votre gain de temps et on vous recontacte sous 24h avec une proposition adaptée.</p>
+                
+                <div class="result-preview" id="resultPreview">
+                    <h4>Votre estimation</h4>
+                    <div class="result-item">
+                        <span class="label">Dossiers / mois</span>
+                        <span class="value" id="resultDossiers">—</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Temps actuel estimé</span>
+                        <span class="value" id="resultTempsActuel">—</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Temps récupéré</span>
+                        <span class="value highlight" id="resultGain">—</span>
+                    </div>
+                </div>
             </div>
-          </article>
-          <!-- 2 -->
-          <article class="bg-white border border-gray-200 shadow-sm rounded-2xl p-6 flex flex-col gap-4">
-            <p class="text-lg font-semibold italic text-gray-900">"Avec la checklist, on est passés de 30% de rejets Consuel à 5%. Ça change tout l'équilibre financier d'un petit projet."</p>
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 text-white font-bold flex items-center justify-center">MD</div>
-              <div class="text-sm text-gray-600 leading-tight">
-                <div class="font-semibold text-gray-800">Marie Dubois</div>
-                Responsable Administratif, SolTech Occitanie
-              </div>
-            </div>
-          </article>
-          <!-- 3 -->
-          <article class="bg-white border border-gray-200 shadow-sm rounded-2xl p-6 flex flex-col gap-4">
-            <p class="text-lg font-semibold italic text-gray-900">"Je suis installateur, pas documentaliste. Je fais ma visite, j'envoie les plans et 2 semaines après tout est en ordre."</p>
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 text-white font-bold flex items-center justify-center">LM</div>
-              <div class="text-sm text-gray-600 leading-tight">
-                <div class="font-semibold text-gray-800">Laurent Marin</div>
-                Gérant, Marin Installation Solaire (Provence)
-              </div>
-            </div>
-          </article>
-          <!-- 4 -->
-          <article class="bg-white border border-gray-200 shadow-sm rounded-2xl p-6 flex flex-col gap-4">
-            <p class="text-lg font-semibold italic text-gray-900">"Maintenant c'est unifié, centralisé, traçable. On perd zéro dossier et zéro temps en réadministration interne."</p>
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 text-white font-bold flex items-center justify-center">SB</div>
-              <div class="text-sm text-gray-600 leading-tight">
-                <div class="font-semibold text-gray-800">Stéphane Bernier</div>
-                Directeur Opérations, Groupe Solaris (MultiSites)
-              </div>
-            </div>
-          </article>
-          <!-- 5 -->
-          <article class="bg-white border border-gray-200 shadow-sm rounded-2xl p-6 flex flex-col gap-4">
-            <p class="text-lg font-semibold italic text-gray-900">"Avec Solaire Facile, je peux dire 'ça prend 4 semaines, voici l'état' en live. Transparence qu'on n'avait jamais eue."</p>
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-teal-500 to-emerald-500 text-white font-bold flex items-center justify-center">VA</div>
-              <div class="text-sm text-gray-600 leading-tight">
-                <div class="font-semibold text-gray-800">Véronique Arnould</div>
-                Directrice Commerciale, Énergies & Habitat (Auvergne)
-              </div>
-            </div>
-          </article>
-          <!-- 6 -->
-          <article class="bg-white border border-gray-200 shadow-sm rounded-2xl p-6 flex flex-col gap-4">
-            <p class="text-lg font-semibold italic text-gray-900">"Je pouvais pas scaler — la paperasse absorbait tout. Maintenant je peux prendre 30-40 installs/an sans embaucher. Déblocage commercial."</p>
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 text-white font-bold flex items-center justify-center">OR</div>
-              <div class="text-sm text-gray-600 leading-tight">
-                <div class="font-semibold text-gray-800">Olivier Roux</div>
-                Gérant, RouX Solaire (Hauts-de-France)
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-    <!-- LIVE TRACKER -->
-    <section class="live-tracker">
-        <div class="live-marquee">
-            <span class="live-pill"><span class="live-dot"></span>🔴 LIVE: <span id="live-diagnostics">47</span> installateurs diagnostiqués ce mois-ci</span>
-            <span class="live-pill">📊 <span id="live-conv">3</span> conversions en cours</span>
-            <span class="live-pill">⚡ Prochaine mise en service dans <span id="live-mes">4</span> jours</span>
-            <span class="live-pill">😊 <span id="live-sat">150</span> clients satisfaits</span>
-        </div>
-    </section>
 
-    <!-- Chatbot Widget -->
-    <div id="chatbot-bubble" class="chatbot-bubble" title="Besoin d'aide?">💬</div>
-    <div id="chatbot-window" class="chatbot-window">
-        <div class="chatbot-header">
-            <span>Assistant IA Solaire</span>
-            <button id="chatbot-close" style="background:transparent;border:none;font-weight:800;color:#0D1117;">✕</button>
-        </div>
-        <div class="chat-suggestions" id="chatbot-suggestions">
-            <div class="chat-pill" data-question="Quel est le délai pour Enedis ?">Délai Enedis</div>
-            <div class="chat-pill" data-question="Comment obtenir l'attestation Consuel ?">Attestation Consuel</div>
-            <div class="chat-pill" data-question="Quel est le prix de vos services ?">Tarifs</div>
-            <div class="chat-pill" data-question="Quels documents vous envoyer ?">Documents à fournir</div>
-        </div>
-        <div class="chatbot-messages" id="chatbot-messages"></div>
-        <div class="chat-actions">
-            <button id="chatbot-copy">Copy</button>
-            <button id="chatbot-clear">Clear</button>
-        </div>
-        <div class="chatbot-input">
-            <input id="chatbot-input" type="text" placeholder="Posez votre question..." />
-            <button id="chatbot-send">Envoyer</button>
+            <form class="diagnostic-form" id="diagnosticForm">
+                <div class="form-group">
+                    <label for="volume">Combien d'installations par mois ?</label>
+                    <select id="volume" name="volume" required>
+                        <option value="">— Sélectionnez —</option>
+                        <option value="1-5">1 à 5 installations</option>
+                        <option value="6-15">6 à 15 installations</option>
+                        <option value="16-30">16 à 30 installations</option>
+                        <option value="30+">Plus de 30 installations</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Quel pack vous intéresse ?</label>
+                    <div class="pack-selection">
+                        <div class="pack-option essentiel">
+                            <input type="radio" name="pack" id="pack-essentiel" value="essentiel">
+                            <label for="pack-essentiel">
+                                <span class="pack-name">Essentiel</span>
+                                <span class="pack-price">DP + Consuel · 169€</span>
+                            </label>
+                        </div>
+                        <div class="pack-option pro">
+                            <input type="radio" name="pack" id="pack-pro" value="pro" checked>
+                            <label for="pack-pro">
+                                <span class="pack-name">Pro ⭐</span>
+                                <span class="pack-price">DP + Consuel + Enedis · 269€</span>
+                            </label>
+                        </div>
+                        <div class="pack-option serenite">
+                            <input type="radio" name="pack" id="pack-serenite" value="serenite">
+                            <label for="pack-serenite">
+                                <span class="pack-name">Sérénité</span>
+                                <span class="pack-price">Tout inclus · 449€</span>
+                            </label>
+                        </div>
+                        <div class="pack-option carte">
+                            <input type="radio" name="pack" id="pack-carte" value="carte">
+                            <label for="pack-carte">
+                                <span class="pack-name">À la carte</span>
+                                <span class="pack-price">Dès 45€ / service</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Votre email pro</label>
+                    <input type="email" id="email" name="email" placeholder="contact@votre-entreprise.fr" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Téléphone</label>
+                    <input type="tel" id="phone" name="phone" placeholder="06 00 00 00 00">
+                </div>
+
+                <!-- Honeypot -->
+                <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off">
+
+                <button type="submit" class="submit-btn">Recevoir ma proposition personnalisée</button>
+                <p class="form-note">Réponse garantie sous 24h · Sans engagement</p>
+            </form>
         </div>
     </div>
-    
-    <!-- Diagnostic Section -->
-    <section id="diagnostic" class="py-20 bg-white">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12 section-fade">
-                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">
-                    Diagnostic Gratuit en 2 Minutes ⚡
-                </h2>
-                <p class="text-xl text-gray-600">
-                    Répondez à quelques questions et obtenez une recommandation personnalisée
-                </p>
+
+    <!-- Pricing -->
+    <div class="pricing-section" id="pricing">
+        <div class="section-header">
+            <h2>Nos forfaits</h2>
+            <p>Achetez des crédits, utilisez-les quand vous voulez. Sans expiration.</p>
+        </div>
+
+        <div class="pricing-grid">
+            <!-- Pack Essentiel -->
+            <div class="pricing-card essentiel">
+                <div class="pricing-header">
+                    <h3>Essentiel</h3>
+                    <div class="price">169€ <span>/ crédit</span></div>
+                    <p class="desc">Démarrage administratif</p>
+                </div>
+                <ul class="pricing-features">
+                    <li>DP Mairie complète</li>
+                    <li>Attestation Consuel</li>
+                    <li>Suivi jusqu'à validation</li>
+                    <li>Support email</li>
+                </ul>
+                <a href="#diagnostic" class="pricing-cta">Choisir ce pack</a>
             </div>
-            
-            <div class="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-3xl p-8 md:p-12 shadow-2xl section-fade">
-                <form id="diagnosticForm" class="space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-bold text-gray-800 mb-3">Vous êtes :</label>
-                            <select name="profile" class="w-full px-4 py-4 border-2 border-orange-200 rounded-xl focus:border-orange-500 focus:outline-none transition bg-white font-medium" required>
-                                <option value="">-- Sélectionnez --</option>
-                                <option value="installateur">Installateur photovoltaïque</option>
-                                <option value="bureau-etudes">Bureau d'études</option>
-                                <option value="artisan">Artisan électricien</option>
-                                <option value="entreprise">Entreprise générale du bâtiment</option>
-                            </select>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-bold text-gray-800 mb-3">Nombre d'installations par mois :</label>
-                            <select name="installs" class="w-full px-4 py-4 border-2 border-orange-200 rounded-xl focus:border-orange-500 focus:outline-none transition bg-white font-medium" required>
-                                <option value="">-- Sélectionnez --</option>
-                                <option value="1-5">1 à 5 installations</option>
-                                <option value="6-15">6 à 15 installations</option>
-                                <option value="16-30">16 à 30 installations</option>
-                                <option value="30+">Plus de 30 installations</option>
-                            </select>
-                        </div>
+
+            <!-- Pack Pro -->
+            <div class="pricing-card pro">
+                <div class="pricing-header">
+                    <h3>Pro</h3>
+                    <div class="price">269€ <span>/ crédit</span></div>
+                    <p class="desc">Le parcours complet</p>
+                </div>
+                <ul class="pricing-features">
+                    <li>DP Mairie complète</li>
+                    <li>Attestation Consuel</li>
+                    <li>Raccordement Enedis</li>
+                    <li>Suivi intégral</li>
+                    <li>Support prioritaire</li>
+                </ul>
+                <a href="#diagnostic" class="pricing-cta">Choisir ce pack</a>
+            </div>
+
+            <!-- Pack Sérénité -->
+            <div class="pricing-card serenite">
+                <div class="pricing-header">
+                    <h3>Sérénité</h3>
+                    <div class="price">449€ <span>/ crédit</span></div>
+                    <p class="desc">On gère tout pour vous</p>
+                </div>
+                <ul class="pricing-features">
+                    <li>DP + Consuel + Enedis</li>
+                    <li>Ligne directe client final</li>
+                    <li>Zéro contact avec le particulier</li>
+                    <li>Account manager dédié</li>
+                    <li>Vous installez, on gère le reste</li>
+                </ul>
+                <a href="#diagnostic" class="pricing-cta">Choisir ce pack</a>
+            </div>
+
+            <!-- À la carte -->
+            <div class="pricing-card carte">
+                <div class="pricing-header">
+                    <h3>À la carte</h3>
+                    <div class="price" style="font-size: 1.5rem;">Flex</div>
+                    <p class="desc">Choisissez ce dont vous avez besoin</p>
+                </div>
+                <div class="unit-pricing">
+                    <div class="unit-item">
+                        <span class="unit-name">DP Mairie</span>
+                        <span class="unit-price">89€</span>
                     </div>
-                    
-                    <div>
-                        <label class="block text-sm font-bold text-gray-800 mb-3">Vos besoins principaux (plusieurs choix possibles) :</label>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <label class="flex items-center space-x-3 p-4 bg-white rounded-xl border-2 border-orange-200 hover:border-orange-500 cursor-pointer transition">
-                                <input name="needs" value="Attestations Consuel" type="checkbox" class="w-5 h-5 text-orange-500 rounded">
-                                <span class="font-medium">Attestations Consuel</span>
-                            </label>
-                            <label class="flex items-center space-x-3 p-4 bg-white rounded-xl border-2 border-orange-200 hover:border-orange-500 cursor-pointer transition">
-                                <input name="needs" value="Raccordement Enedis" type="checkbox" class="w-5 h-5 text-orange-500 rounded">
-                                <span class="font-medium">Raccordement Enedis</span>
-                            </label>
-                            <label class="flex items-center space-x-3 p-4 bg-white rounded-xl border-2 border-orange-200 hover:border-orange-500 cursor-pointer transition">
-                                <input name="needs" value="Contrats EDF OA" type="checkbox" class="w-5 h-5 text-orange-500 rounded">
-                                <span class="font-medium">Contrats EDF OA</span>
-                            </label>
-                            <label class="flex items-center space-x-3 p-4 bg-white rounded-xl border-2 border-orange-200 hover:border-orange-500 cursor-pointer transition">
-                                <input name="needs" value="DP Mairie" type="checkbox" class="w-5 h-5 text-orange-500 rounded">
-                                <span class="font-medium">DP Mairie</span>
-                            </label>
-                        </div>
+                    <div class="unit-item">
+                        <span class="unit-name">Consuel Bleu</span>
+                        <span class="unit-price">45€</span>
                     </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-bold text-gray-800 mb-3">Votre email :</label>
-                            <input name="email" type="email" class="w-full px-4 py-4 border-2 border-orange-200 rounded-xl focus:border-orange-500 focus:outline-none transition bg-white" placeholder="votre@email.com" required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-bold text-gray-800 mb-3">Votre téléphone (optionnel) :</label>
-                            <input name="phone" type="tel" class="w-full px-4 py-4 border-2 border-orange-200 rounded-xl focus:border-orange-500 focus:outline-none transition bg-white" placeholder="06 12 34 56 78">
-                        </div>
+                    <div class="unit-item">
+                        <span class="unit-name">Consuel Violet</span>
+                        <span class="unit-price">65€</span>
                     </div>
-                    
-                    <div class="flex items-start space-x-3">
-                        <input name="consent" type="checkbox" class="w-5 h-5 text-orange-500 rounded mt-1" required>
-                        <label class="text-sm text-gray-700">
-                            J'accepte d'être recontacté par Solaire Facile Admin et j'ai pris connaissance de la politique de confidentialité
-                        </label>
+                    <div class="unit-item">
+                        <span class="unit-name">Raccordement Enedis</span>
+                        <span class="unit-price">99€</span>
                     </div>
-                    
-                    <button type="submit" class="w-full px-8 py-5 bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-bold text-lg rounded-2xl hover:shadow-2xl transition transform hover:scale-105 pulse-glow">
-                        <i class="fas fa-magic mr-2"></i>
-                        Obtenir mon diagnostic personnalisé
-                    </button>
-                    
-                    <p class="text-center text-sm text-gray-600">
-                        <i class="fas fa-lock mr-2"></i>
-                        Vos données sont sécurisées et ne seront jamais partagées
-                    </p>
-                </form>
+                </div>
+                <a href="#diagnostic" class="pricing-cta">Commander</a>
             </div>
         </div>
-    </section>
-    
-    <!-- Stats Section -->
-    <section class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-                <div class="section-fade">
-                    <div class="stat-number text-gradient">500+</div>
-                    <p class="text-gray-600 font-semibold mt-2">Dossiers traités</p>
-                </div>
-                <div class="section-fade" style="transition-delay: 0.1s;">
-                    <div class="stat-number text-gradient">98%</div>
-                    <p class="text-gray-600 font-semibold mt-2">Taux de réussite</p>
-                </div>
-                <div class="section-fade" style="transition-delay: 0.2s;">
-                    <div class="stat-number text-gradient">24h</div>
-                    <p class="text-gray-600 font-semibold mt-2">Délai de réponse</p>
-                </div>
-                <div class="section-fade" style="transition-delay: 0.3s;">
-                    <div class="stat-number text-gradient">150+</div>
-                    <p class="text-gray-600 font-semibold mt-2">Clients satisfaits</p>
-                </div>
-            </div>
+
+        <div class="pricing-note">
+            <p>🎁 <strong>-10% dès 20 crédits/mois</strong> · <strong>-20% dès 50 crédits/mois</strong> · Crédits sans expiration</p>
         </div>
-    </section>
-    
-    <!-- Services Section -->
-    <section id="services" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 section-fade">
-                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">
-                    Ce que nous gérons pour vous
-                </h2>
-                <p class="text-xl text-gray-600">
-                    Concentrez-vous sur vos installations, on s'occupe du reste
-                </p>
+    </div>
+
+    <!-- Testimonials -->
+    <section id="testimonials">
+        <div class="section-header">
+            <h2>Témoignages</h2>
+            <p>Ce que disent les installateurs qui utilisent Solaire Facile</p>
+        </div>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <blockquote>Avant Solaire Facile, c'était un cauchemar administratif... J'ai gagné 15 installations par an juste en libérant du temps.</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar orange">TL</div>
+                    <div class="author-info">
+                        <strong>Thomas Leclerc</strong>
+                        <span>SunPro Installations, Lyon</span>
+                    </div>
+                </div>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="bg-white rounded-2xl p-8 shadow-lg hover-lift section-fade">
-                    <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
-                        <i class="fas fa-certificate text-white text-2xl"></i>
+
+            <div class="testimonial-card">
+                <blockquote>Avec leur service, on est passés de 30% de rejets Consuel à 5%. Ça change tout l'équilibre financier d'un petit projet.</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar blue">MD</div>
+                    <div class="author-info">
+                        <strong>Marie Dubois</strong>
+                        <span>EcoSoleil, Toulouse</span>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Attestations Consuel</h3>
-                    <p class="text-gray-600 mb-6 leading-relaxed">
-                        Constitution et suivi complet de vos dossiers Consuel. Conformité garantie pour toutes vos installations.
-                    </p>
-                    <ul class="space-y-3">
-                        <li class="flex items-start space-x-3">
-                            <i class="fas fa-check-circle text-orange-500 mt-1"></i>
-                            <span class="text-gray-700">Montage du dossier complet</span>
-                        </li>
-                        <li class="flex items-start space-x-3">
-                            <i class="fas fa-check-circle text-orange-500 mt-1"></i>
-                            <span class="text-gray-700">Suivi jusqu'à validation</span>
-                        </li>
-                        <li class="flex items-start space-x-3">
-                            <i class="fas fa-check-circle text-orange-500 mt-1"></i>
-                            <span class="text-gray-700">Relances automatiques</span>
-                        </li>
-                    </ul>
                 </div>
-                
-                <div class="bg-white rounded-2xl p-8 shadow-lg hover-lift section-fade" style="transition-delay: 0.1s;">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
-                        <i class="fas fa-plug text-white text-2xl"></i>
+            </div>
+
+            <div class="testimonial-card">
+                <blockquote>Le pack Sérénité est parfait. Je pose les panneaux, j'envoie les infos, et je n'entends plus parler de l'admin. Mes clients sont ravis.</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-avatar green">PG</div>
+                    <div class="author-info">
+                        <strong>Pierre Garnier</strong>
+                        <span>Solaris Energy, Bordeaux</span>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Raccordement Enedis</h3>
-                    <p class="text-gray-600 mb-6 leading-relaxed">
-                        Gestion intégrale de vos demandes de raccordement et mises en service. Délais optimisés.
-                    </p>
-                    <ul class="space-y-3">
-                        <li class="flex items-start space-x-3">
-                            <i class="fas fa-check-circle text-blue-500 mt-1"></i>
-                            <span class="text-gray-700">Demandes de raccordement</span>
-                        </li>
-                        <li class="flex items-start space-x-3">
-                            <i class="fas fa-check-circle text-blue-500 mt-1"></i>
-                            <span class="text-gray-700">Suivi des travaux</span>
-                        </li>
-                        <li class="flex items-start space-x-3">
-                            <i class="fas fa-check-circle text-blue-500 mt-1"></i>
-                            <span class="text-gray-700">Mise en service</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="bg-white rounded-2xl p-8 shadow-lg hover-lift section-fade" style="transition-delay: 0.2s;">
-                    <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
-                        <i class="fas fa-file-contract text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Contrats EDF OA</h3>
-                    <p class="text-gray-600 mb-6 leading-relaxed">
-                        Constitution et transmission de tous vos contrats d'Obligation d'Achat. Process complet et sécurisé.
-                    </p>
-                    <ul class="space-y-3">
-                        <li class="flex items-start space-x-3">
-                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
-                            <span class="text-gray-700">Montage des dossiers OA</span>
-                        </li>
-                        <li class="flex items-start space-x-3">
-                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
-                            <span class="text-gray-700">Suivi des signatures</span>
-                        </li>
-                        <li class="flex items-start space-x-3">
-                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
-                            <span class="text-gray-700">Validation finale</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="bg-white rounded-2xl p-8 shadow-lg hover-lift section-fade" style="transition-delay: 0.3s;">
-                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
-                        <i class="fas fa-building text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">DP Mairie</h3>
-                    <p class="text-gray-600 mb-6 leading-relaxed">
-                        Gestion des déclarations préalables de travaux en mairie. Dossiers complets et conformes aux normes.
-                    </p>
-                    <ul class="space-y-3">
-                        <li class="flex items-start space-x-3">
-                            <i class="fas fa-check-circle text-purple-500 mt-1"></i>
-                            <span class="text-gray-700">Constitution du dossier DP</span>
-                        </li>
-                        <li class="flex items-start space-x-3">
-                            <i class="fas fa-check-circle text-purple-500 mt-1"></i>
-                            <span class="text-gray-700">Dépôt en mairie</span>
-                        </li>
-                        <li class="flex items-start space-x-3">
-                            <i class="fas fa-check-circle text-purple-500 mt-1"></i>
-                            <span class="text-gray-700">Suivi de l'instruction</span>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    
-    <!-- Benefits Section -->
-    <section id="avantages" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 section-fade">
-                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">
-                    Pourquoi choisir Solaire Facile Admin ?
-                </h2>
-                <p class="text-xl text-gray-600">
-                    Plus qu'un service, un véritable partenaire de croissance
-                </p>
+    <!-- FAQ -->
+    <section id="faq">
+        <div class="section-header">
+            <h2>Questions fréquentes</h2>
+        </div>
+
+        <div class="faq-list">
+            <div class="faq-item">
+                <button class="faq-question">
+                    Comment fonctionne le système de crédits ?
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p>Vous achetez des crédits à l'avance (ex: 10 crédits "Pro"). Chaque crédit = 1 dossier complet traité. Vous les utilisez quand vous voulez, ils n'expirent jamais. Au fur et à mesure de vos installations, vous nous envoyez les infos et on débite un crédit à chaque dossier lancé.</p>
+                </div>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div class="flex items-start space-x-4 section-fade">
-                    <div class="flex-shrink-0 w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-lightbulb text-orange-600 text-2xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Clarté immédiate</h3>
-                        <p class="text-gray-600 leading-relaxed">
-                            Fini le bazar administratif. Nous transformons vos dossiers en process simple et actionnable, étape par étape. Vous savez toujours où vous en êtes.
-                        </p>
-                    </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Quelle différence entre Consuel Bleu et Violet ?
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p><strong>Consuel Bleu</strong> = installation photovoltaïque classique, sans système de stockage. <strong>Consuel Violet</strong> = installation avec batterie de stockage. Le dossier violet est plus complexe (documentation batterie, schémas spécifiques), d'où la différence de tarif.</p>
                 </div>
-                
-                <div class="flex items-start space-x-4 section-fade" style="transition-delay: 0.1s;">
-                    <div class="flex-shrink-0 w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-handshake text-blue-600 text-2xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Accompagnement humain</h3>
-                        <p class="text-gray-600 leading-relaxed">
-                            Une équipe dédiée qui fait avec vous (ou pour vous). Parce qu'un installateur solaire mérite un vrai partenaire, pas juste un prestataire.
-                        </p>
-                    </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Quelles infos devez-vous nous fournir pour démarrer ?
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p>Pour chaque installation : nom et adresse du client, numéro PDL, caractéristiques des panneaux et onduleurs (marque, puissance, quantité), type d'installation (mono/triphasé), mode de revente, présence éventuelle d'une batterie. On vous envoie une fiche pré-remplie simple à compléter.</p>
                 </div>
-                
-                <div class="flex items-start space-x-4 section-fade" style="transition-delay: 0.2s;">
-                    <div class="flex-shrink-0 w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-chart-line text-green-600 text-2xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Résultats concrets</h3>
-                        <p class="text-gray-600 leading-relaxed">
-                            Moins de retards, plus de réponses, des clients rassurés et des dossiers qui avancent vraiment. Votre taux de mise en service explose.
-                        </p>
-                    </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Quels sont vos délais réels ?
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p><strong>DP Mairie :</strong> 1 mois d'instruction (2 mois si zone protégée). <strong>Consuel :</strong> 15-30 jours selon visite ou non. <strong>Enedis :</strong> 2-6 semaines, mise en service sous 10 jours avec Linky (95% des cas). On assure des relances systématiques pour minimiser ces délais.</p>
                 </div>
-                
-                <div class="flex items-start space-x-4 section-fade" style="transition-delay: 0.3s;">
-                    <div class="flex-shrink-0 w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-rocket text-purple-600 text-2xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Gain de temps massif</h3>
-                        <p class="text-gray-600 leading-relaxed">
-                            Récupérez en moyenne 10h par semaine. Concentrez-vous sur ce qui compte : installer, vendre, développer votre activité.
-                        </p>
-                    </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Que se passe-t-il en cas de refus ?
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p>On gère tout. Demande de complément : on vous alerte et coordonne les documents manquants. Refus technique : on analyse, propose un plan correctif et repasse le dossier. Erreur de notre part : reprise gratuite jusqu'à validation. Vous n'êtes jamais seul face à un problème administratif.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Comment je suis l'avancement de mes dossiers ?
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p>Tableau de bord en ligne 24/7, notifications automatiques à chaque étape (email + SMS), contact direct (téléphone, email, WhatsApp) avec réponse garantie sous 24h.</p>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- Process Section -->
-    <section class="py-20 bg-gradient-to-br from-orange-50 to-yellow-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 section-fade">
-                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">
-                    Comment ça marche ?
-                </h2>
-                <p class="text-xl text-gray-600">
-                    3 étapes pour vous libérer de l'administratif
-                </p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="text-center section-fade">
-                    <div class="relative inline-block mb-6">
-                        <div class="w-20 h-20 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-full flex items-center justify-center shadow-2xl">
-                            <span class="text-white text-3xl font-black">1</span>
-                        </div>
-                        <div class="absolute -bottom-2 -right-2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg">
-                            <i class="fas fa-check text-orange-500"></i>
-                        </div>
-                    </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Diagnostic gratuit</h3>
-                    <p class="text-gray-600 leading-relaxed">
-                        Répondez à quelques questions sur vos besoins. On analyse votre situation et vous propose un plan d'action personnalisé.
-                    </p>
-                </div>
-                
-                <div class="text-center section-fade" style="transition-delay: 0.1s;">
-                    <div class="relative inline-block mb-6">
-                        <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center shadow-2xl">
-                            <span class="text-white text-3xl font-black">2</span>
-                        </div>
-                        <div class="absolute -bottom-2 -right-2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg">
-                            <i class="fas fa-check text-blue-500"></i>
-                        </div>
-                    </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-3">On s'occupe de tout</h3>
-                    <p class="text-gray-600 leading-relaxed">
-                        Vous nous transmettez vos documents une seule fois. Nous gérons Consuel, Enedis, EDF et tous les suivis nécessaires.
-                    </p>
-                </div>
-                
-                <div class="text-center section-fade" style="transition-delay: 0.2s;">
-                    <div class="relative inline-block mb-6">
-                        <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center shadow-2xl">
-                            <span class="text-white text-3xl font-black">3</span>
-                        </div>
-                        <div class="absolute -bottom-2 -right-2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg">
-                            <i class="fas fa-check text-green-500"></i>
-                        </div>
-                    </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Vous restez informé</h3>
-                    <p class="text-gray-600 leading-relaxed">
-                        Tableau de bord en temps réel. Notifications à chaque étape. Vous contrôlez tout sans lever le petit doigt.
-                    </p>
-                </div>
-            </div>
+
+    <!-- CTA Final -->
+    <div class="cta-final">
+        <h2>Prêt à récupérer vos journées ?</h2>
+        <p>Diagnostic gratuit en 2 minutes. On vous rappelle sous 24h.</p>
+        <div class="cta-buttons">
+            <a href="#diagnostic" class="btn-primary">
+                🚀 Lancer mon diagnostic
+            </a>
+            <a href="tel:0777227434" class="btn-secondary">
+                📞 07 77 22 74 34
+            </a>
         </div>
-    </section>
-    
-    <!-- CTA Section -->
-    <section class="py-20 bg-gradient-to-r from-orange-600 to-yellow-500 relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10">
-            <div class="absolute top-10 left-10 w-64 h-64 bg-white rounded-full blur-3xl"></div>
-            <div class="absolute bottom-10 right-10 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-        </div>
-        
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <h2 class="text-4xl md:text-5xl font-black text-white mb-6">
-                Prêt à automatiser votre back-office ?
-            </h2>
-            <p class="text-xl text-white mb-10 opacity-90">
-                Commencez par le diagnostic. Et si besoin, on vous rappelle <strong>sous 24h</strong>.
-            </p>
-            
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="#diagnostic" class="px-10 py-5 bg-white text-orange-600 font-bold text-lg rounded-2xl hover:shadow-2xl transition transform hover:scale-105">
-                    <i class="fas fa-rocket mr-2"></i>
-                    Lancer mon diagnostic gratuit
-                </a>
-                <a href="tel:0777227434" class="px-10 py-5 bg-transparent border-2 border-white text-white font-bold text-lg rounded-2xl hover:bg-white hover:text-orange-600 transition transform hover:scale-105">
-                    <i class="fas fa-phone mr-2"></i>
-                    07 77 22 74 34
-                </a>
-            </div>
-            
-            <p class="mt-8 text-white text-sm opacity-75">
-                En cliquant, vous acceptez notre politique de confidentialité. Aucun compte requis.
-            </p>
-        </div>
-    </section>
-    
-    <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div class="section-fade">
-                    <h2 class="text-4xl font-black text-gray-900 mb-6">
-                        Une question ? <br>Parlons-en !
-                    </h2>
-                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
-                        Notre équipe est là pour répondre à toutes vos questions et vous accompagner dans votre projet.
-                    </p>
-                    
-                    <div class="space-y-6">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-14 h-14 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-xl flex items-center justify-center shadow-lg">
-                                <i class="fas fa-phone text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500 font-semibold">Téléphone</p>
-                                <a href="tel:0777227434" class="text-2xl font-bold text-gray-900 hover:text-orange-500 transition">
-                                    07 77 22 74 34
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center space-x-4">
-                            <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
-                                <i class="fas fa-envelope text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500 font-semibold">Email</p>
-                                <a href="mailto:info@solaire-facile.com" class="text-2xl font-bold text-gray-900 hover:text-blue-500 transition">
-                                    info@solaire-facile.com
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center space-x-4">
-                            <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center shadow-lg">
-                                <i class="fas fa-globe text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500 font-semibold">Site web</p>
-                                <a href="https://www.solaire-facile-admin.com" target="_blank" class="text-2xl font-bold text-gray-900 hover:text-green-500 transition">
-                                    www.solaire-facile-admin.com
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-10 p-6 bg-orange-50 rounded-2xl border-2 border-orange-200">
-                        <div class="flex items-start space-x-4">
-                            <i class="fas fa-clock text-orange-500 text-2xl mt-1"></i>
-                            <div>
-                                <h3 class="font-bold text-gray-900 mb-2">Réponse garantie sous 24h</h3>
-                                <p class="text-gray-600">
-                                    Du lundi au vendredi, 9h-18h. <br>Pour les urgences, nous restons joignables en dehors de ces horaires.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-2xl shadow-xl p-8 section-fade" style="transition-delay: 0.2s;">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Envoyez-nous un message</h3>
-                    <form class="space-y-6">
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Nom complet *</label>
-                            <input type="text" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:outline-none transition" placeholder="Jean Dupont">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Email *</label>
-                            <input type="email" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:outline-none transition" placeholder="jean@example.com">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Téléphone</label>
-                            <input type="tel" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:outline-none transition" placeholder="06 12 34 56 78">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Votre besoin *</label>
-                            <select class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:outline-none transition">
-                                <option>Attestation Consuel</option>
-                                <option>Raccordement Enedis</option>
-                                <option>Contrat EDF OA</option>
-                                <option>Pack complet</option>
-                                <option>Autre / Renseignement</option>
-                            </select>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Message</label>
-                            <textarea rows="4" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:outline-none transition" placeholder="Décrivez-nous votre projet..."></textarea>
-                        </div>
-                        
-                        <button type="submit" class="w-full px-8 py-4 bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-bold text-lg rounded-xl hover:shadow-xl transition transform hover:scale-105">
-                            <i class="fas fa-paper-plane mr-2"></i>
-                            Envoyer ma demande
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- RDV Section -->
-    <section id="rdv" class="py-20 bg-white">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12 section-fade">
-                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">
-                    Réservez votre créneau 📅
-                </h2>
-                <p class="text-xl text-gray-600">
-                    Échangeons 30 minutes pour analyser vos besoins et définir la meilleure solution
-                </p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-3xl p-8 section-fade">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-6">
-                        <i class="fas fa-calendar-check text-orange-500 mr-3"></i>
-                        Ce que nous allons aborder :
-                    </h3>
-                    
-                    <ul class="space-y-4">
-                        <li class="flex items-start space-x-4">
-                            <div class="flex-shrink-0 w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
-                                <i class="fas fa-check text-white"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-900 mb-1">Analyse de votre situation</h4>
-                                <p class="text-gray-600 text-sm">Volume d'installations, types de projets, délais actuels</p>
-                            </div>
-                        </li>
-                        
-                        <li class="flex items-start space-x-4">
-                            <div class="flex-shrink-0 w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
-                                <i class="fas fa-check text-white"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-900 mb-1">Identification des priorités</h4>
-                                <p class="text-gray-600 text-sm">Quels dossiers prendre en charge en premier</p>
-                            </div>
-                        </li>
-                        
-                        <li class="flex items-start space-x-4">
-                            <div class="flex-shrink-0 w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
-                                <i class="fas fa-check text-white"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-900 mb-1">Proposition personnalisée</h4>
-                                <p class="text-gray-600 text-sm">Pack adapté + tarification transparente</p>
-                            </div>
-                        </li>
-                        
-                        <li class="flex items-start space-x-4">
-                            <div class="flex-shrink-0 w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
-                                <i class="fas fa-check text-white"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-900 mb-1">Plan d'action immédiat</h4>
-                                <p class="text-gray-600 text-sm">Les premières étapes pour démarrer rapidement</p>
-                            </div>
-                        </li>
-                    </ul>
-                    
-                    <div class="mt-8 p-6 bg-white rounded-2xl border-2 border-orange-200">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-gray-700 font-semibold">Durée :</span>
-                            <span class="text-gray-900 font-bold">30 minutes</span>
-                        </div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-gray-700 font-semibold">Format :</span>
-                            <span class="text-gray-900 font-bold">Visio ou téléphone</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="text-gray-700 font-semibold">Prix :</span>
-                            <span class="text-green-600 font-bold text-xl">Gratuit !</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-3xl p-8 shadow-xl section-fade" style="transition-delay: 0.2s;">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Choisissez votre créneau</h3>
-                    
-                    <form class="space-y-6">
-                        <div>
-                            <label class="block text-sm font-bold text-gray-800 mb-3">Nom complet *</label>
-                            <input type="text" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:outline-none transition" placeholder="Jean Dupont" required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-bold text-gray-800 mb-3">Email *</label>
-                            <input type="email" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:outline-none transition" placeholder="jean@entreprise.com" required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-bold text-gray-800 mb-3">Téléphone *</label>
-                            <input type="tel" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:outline-none transition" placeholder="06 12 34 56 78" required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-bold text-gray-800 mb-3">Entreprise</label>
-                            <input type="text" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:outline-none transition" placeholder="Nom de votre entreprise">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-bold text-gray-800 mb-3">Préférence de créneau</label>
-                            <select class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:outline-none transition" required>
-                                <option value="">-- Sélectionnez --</option>
-                                <option value="matin">Matin (9h-12h)</option>
-                                <option value="apres-midi">Après-midi (14h-17h)</option>
-                                <option value="fin-journee">Fin de journée (17h-19h)</option>
-                            </select>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-bold text-gray-800 mb-3">Message (optionnel)</label>
-                            <textarea rows="3" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:outline-none transition" placeholder="Décrivez brièvement votre situation..."></textarea>
-                        </div>
-                        
-                        <button type="submit" class="w-full px-8 py-4 bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-bold text-lg rounded-xl hover:shadow-xl transition transform hover:scale-105">
-                            <i class="fas fa-calendar-plus mr-2"></i>
-                            Réserver mon créneau gratuit
-                        </button>
-                        
-                        <p class="text-center text-xs text-gray-500">
-                            Vous recevrez une confirmation par email avec le lien de visio
-                        </p>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- About Section -->
-    <section id="a-propos" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 section-fade">
-                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">
-                    Notre Histoire
-                </h2>
-                <p class="text-xl text-gray-600">
-                    Nés de la frustration des installateurs face à la complexité administrative
-                </p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div class="section-fade">
-                    <div class="bg-gradient-to-br from-orange-500 to-yellow-500 rounded-3xl p-12 text-white shadow-2xl">
-                        <i class="fas fa-quote-left text-4xl mb-6 opacity-50"></i>
-                        <p class="text-xl leading-relaxed mb-6">
-                            "Après 5 ans dans le secteur photovoltaïque, j'ai constaté que les meilleurs installateurs perdaient un temps fou sur l'administratif. Des dossiers qui stagnent, des relances sans fin, des clients frustrés... J'ai créé Solaire Facile Admin pour libérer les professionnels de ce fardeau."
-                        </p>
-                        <div class="flex items-center space-x-4">
-                            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center">
-                                <i class="fas fa-user text-orange-500 text-2xl"></i>
-                            </div>
-                            <div>
-                                <p class="font-bold text-lg">L'équipe Solaire Facile</p>
-                                <p class="text-orange-100">Fondateurs</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="space-y-8 section-fade" style="transition-delay: 0.2s;">
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center">
-                            <i class="fas fa-lightbulb text-orange-600 text-2xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">Notre Mission</h3>
-                            <p class="text-gray-600">
-                                Simplifier radicalement la vie des professionnels du photovoltaïque en automatisant 100% de leur back-office administratif.
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center">
-                            <i class="fas fa-heart text-blue-600 text-2xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">Nos Valeurs</h3>
-                            <p class="text-gray-600">
-                                Transparence, réactivité et excellence. Chaque dossier est traité avec le même soin que si c'était le nôtre.
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center">
-                            <i class="fas fa-rocket text-green-600 text-2xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">Notre Vision</h3>
-                            <p class="text-gray-600">
-                                Devenir le partenaire indispensable de tous les installateurs photovoltaïques en France, permettant à chacun de se concentrer sur son cœur de métier.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 section-fade">
-                <div class="text-center">
-                    <div class="text-4xl font-black text-gradient mb-2">2023</div>
-                    <p class="text-gray-600 font-semibold">Année de création</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl font-black text-gradient mb-2">150+</div>
-                    <p class="text-gray-600 font-semibold">Clients actifs</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl font-black text-gradient mb-2">98%</div>
-                    <p class="text-gray-600 font-semibold">Satisfaction client</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl font-black text-gradient mb-2">24/7</div>
-                    <p class="text-gray-600 font-semibold">Support disponible</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- FAQ Section -->
-    <section id="faq" class="py-20 bg-white">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 section-fade">
-                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">
-                    Questions Fréquentes
-                </h2>
-                <p class="text-xl text-gray-600">
-                    Tout ce que vous devez savoir sur nos services
-                </p>
-            </div>
-            
-            <div class="space-y-4">
-                <div class="bg-white border-2 border-gray-200 rounded-2xl p-6 hover:border-orange-500 transition section-fade">
-                    <button class="w-full flex items-center justify-between text-left faq-question">
-                        <h3 class="text-xl font-bold text-gray-900 pr-4">Quelles informations devez-vous me fournir pour le Consuel et le raccordement Enedis ?</h3>
-                        <i class="fas fa-chevron-down text-orange-500 text-xl flex-shrink-0"></i>
-                    </button>
-                    <div class="faq-answer hidden mt-4 text-gray-600 leading-relaxed">
-                        <strong>Nous avons besoin des informations suivantes :</strong>
-                        <ul class="mt-3 space-y-2 ml-4">
-                            <li><i class="fas fa-check text-orange-500 mr-2"></i>Nom, prénom et adresse complète du client</li>
-                            <li><i class="fas fa-check text-orange-500 mr-2"></i>Numéro de PDL (Point De Livraison)</li>
-                            <li><i class="fas fa-check text-orange-500 mr-2"></i>Nombre de panneaux + puissance par panneau (Wc) + marque</li>
-                            <li><i class="fas fa-check text-orange-500 mr-2"></i>Nombre d'onduleurs + modèle et référence exacte</li>
-                            <li><i class="fas fa-check text-orange-500 mr-2"></i>Type d'installation (Mono ou Triphasé)</li>
-                            <li><i class="fas fa-check text-orange-500 mr-2"></i>Mode de revente (Autoconsommation avec surplus ou Revente totale)</li>
-                            <li><i class="fas fa-check text-orange-500 mr-2"></i>Type d'intégration (Surimposition)</li>
-                            <li><i class="fas fa-check text-orange-500 mr-2"></i>Présence d'une batterie de stockage (Oui/Non + marque et modèle si applicable)</li>
-                        </ul>
-                        <p class="mt-3 text-sm text-orange-600"><i class="fas fa-file-download mr-2"></i>Nous vous envoyons une fiche de renseignements pré-remplie à compléter !</p>
-                    </div>
-                </div>
-                
-                <div class="bg-white border-2 border-gray-200 rounded-2xl p-6 hover:border-orange-500 transition section-fade" style="transition-delay: 0.1s;">
-                    <button class="w-full flex items-center justify-between text-left faq-question">
-                        <h3 class="text-xl font-bold text-gray-900 pr-4">Quelles informations pour la Déclaration Préalable en Mairie (DP) ?</h3>
-                        <i class="fas fa-chevron-down text-orange-500 text-xl flex-shrink-0"></i>
-                    </button>
-                    <div class="faq-answer hidden mt-4 text-gray-600 leading-relaxed">
-                        <strong>Pour constituer votre dossier de DP Mairie, nous avons besoin de :</strong>
-                        <ul class="mt-3 space-y-2 ml-4">
-                            <li><i class="fas fa-check text-purple-500 mr-2"></i>Nom, prénom et adresse complète du propriétaire</li>
-                            <li><i class="fas fa-check text-purple-500 mr-2"></i>Nombre de panneaux + puissance par panneau (Wc) + marque</li>
-                            <li><i class="fas fa-check text-purple-500 mr-2"></i>Type d'installation (Mono ou Triphasé)</li>
-                            <li><i class="fas fa-check text-purple-500 mr-2"></i>Mode de revente (Autoconsommation avec surplus ou Revente totale)</li>
-                            <li><i class="fas fa-check text-purple-500 mr-2"></i>Type d'intégration (Surimposition)</li>
-                            <li><i class="fas fa-check text-purple-500 mr-2"></i>Support de pose : Toiture, Sol, Carport, Pergola, Façade ou Autre</li>
-                        </ul>
-                        <p class="mt-3 text-sm text-purple-600"><i class="fas fa-building mr-2"></i>Nous gérons toute la relation avec la mairie et le suivi du dossier jusqu'à l'accord !</p>
-                    </div>
-                </div>
-                
-                <div class="bg-white border-2 border-gray-200 rounded-2xl p-6 hover:border-orange-500 transition section-fade" style="transition-delay: 0.2s;">
-                    <button class="w-full flex items-center justify-between text-left faq-question">
-                        <h3 class="text-xl font-bold text-gray-900 pr-4">Quels sont vos délais de traitement réels ?</h3>
-                        <i class="fas fa-chevron-down text-orange-500 text-xl flex-shrink-0"></i>
-                    </button>
-                    <div class="faq-answer hidden mt-4 text-gray-600 leading-relaxed">
-                        <strong>Délais moyens constatés :</strong>
-                        <ul class="mt-3 space-y-2 ml-4">
-                            <li><i class="fas fa-certificate text-orange-500 mr-2"></i><strong>Attestation Consuel :</strong> 5 à 10 jours ouvrés après réception du dossier complet</li>
-                            <li><i class="fas fa-plug text-blue-500 mr-2"></i><strong>Raccordement Enedis :</strong> 15 à 30 jours selon la zone géographique et la charge du gestionnaire</li>
-                            <li><i class="fas fa-file-contract text-green-500 mr-2"></i><strong>Contrat EDF OA :</strong> 10 à 15 jours ouvrés pour la signature</li>
-                            <li><i class="fas fa-building text-purple-500 mr-2"></i><strong>DP Mairie :</strong> 1 à 2 mois d'instruction (délai légal de la mairie)</li>
-                        </ul>
-                        <p class="mt-3 font-semibold text-gray-900"><i class="fas fa-bolt text-yellow-500 mr-2"></i>Nous assurons des relances systématiques pour minimiser les délais et vous tenir informé à chaque étape !</p>
-                    </div>
-                </div>
-                
-                <div class="bg-white border-2 border-gray-200 rounded-2xl p-6 hover:border-orange-500 transition section-fade" style="transition-delay: 0.3s;">
-                    <button class="w-full flex items-center justify-between text-left faq-question">
-                        <h3 class="text-xl font-bold text-gray-900 pr-4">Comment fonctionne votre système de facturation ?</h3>
-                        <i class="fas fa-chevron-down text-orange-500 text-xl flex-shrink-0"></i>
-                    </button>
-                    <div class="faq-answer hidden mt-4 text-gray-600 leading-relaxed">
-                        <strong>Nous proposons 2 formules adaptées à votre volume :</strong>
-                        <ul class="mt-3 space-y-3 ml-4">
-                            <li><i class="fas fa-file-invoice text-orange-500 mr-2"></i><strong>Facturation au dossier</strong> : Idéal si vous démarrez ou avez moins de 10 installations/mois. Vous payez uniquement pour les dossiers traités.</li>
-                            <li><i class="fas fa-calendar-alt text-blue-500 mr-2"></i><strong>Abonnement mensuel</strong> : Plus économique à partir de 10 installations/mois. Tarif dégressif selon le volume.</li>
-                        </ul>
-                        <p class="mt-3"><strong>Modalités de paiement :</strong> Paiement à la livraison de l'attestation ou du certificat validé. Pas d'avance de frais, pas de frais cachés.</p>
-                        <p class="mt-2 text-orange-600 font-semibold"><i class="fas fa-gift mr-2"></i>Offre de lancement : -30% le premier mois !</p>
-                    </div>
-                </div>
-                
-                <div class="bg-white border-2 border-gray-200 rounded-2xl p-6 hover:border-orange-500 transition section-fade" style="transition-delay: 0.4s;">
-                    <button class="w-full flex items-center justify-between text-left faq-question">
-                        <h3 class="text-xl font-bold text-gray-900 pr-4">Que se passe-t-il en cas de refus ou de demande de complément ?</h3>
-                        <i class="fas fa-chevron-down text-orange-500 text-xl flex-shrink-0"></i>
-                    </button>
-                    <div class="faq-answer hidden mt-4 text-gray-600 leading-relaxed">
-                        <strong>Nous gérons TOUS les cas de figure :</strong>
-                        <ul class="mt-3 space-y-2 ml-4">
-                            <li><i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i><strong>Demande de complément :</strong> Nous vous alertons immédiatement et coordonnons la récupération des documents manquants</li>
-                            <li><i class="fas fa-times-circle text-red-500 mr-2"></i><strong>Refus technique :</strong> Nous analysons la raison, vous proposons un plan d'action correctif et repassons le dossier</li>
-                            <li><i class="fas fa-tools text-blue-500 mr-2"></i><strong>Modifications nécessaires :</strong> Nous vous accompagnons sur les ajustements techniques à apporter</li>
-                            <li><i class="fas fa-shield-alt text-green-500 mr-2"></i><strong>Erreur de notre part :</strong> Nous reprenons le dossier GRATUITEMENT jusqu'à validation</li>
-                        </ul>
-                        <p class="mt-3 font-semibold text-gray-900"><i class="fas fa-headset text-orange-500 mr-2"></i>Vous n'êtes jamais seul face à un problème administratif !</p>
-                    </div>
-                </div>
-                
-                <div class="bg-white border-2 border-gray-200 rounded-2xl p-6 hover:border-orange-500 transition section-fade" style="transition-delay: 0.5s;">
-                    <button class="w-full flex items-center justify-between text-left faq-question">
-                        <h3 class="text-xl font-bold text-gray-900 pr-4">Comment puis-je suivre l'avancement de mes dossiers en temps réel ?</h3>
-                        <i class="fas fa-chevron-down text-orange-500 text-xl flex-shrink-0"></i>
-                    </button>
-                    <div class="faq-answer hidden mt-4 text-gray-600 leading-relaxed">
-                        <strong>Plusieurs moyens de suivi à votre disposition :</strong>
-                        <ul class="mt-3 space-y-2 ml-4">
-                            <li><i class="fas fa-desktop text-orange-500 mr-2"></i><strong>Tableau de bord en ligne 24/7 :</strong> Consultez l'état de tous vos dossiers à tout moment</li>
-                            <li><i class="fas fa-bell text-blue-500 mr-2"></i><strong>Notifications automatiques :</strong> Email + SMS à chaque étape importante (dépôt, validation, refus, complément...)</li>
-                            <li><i class="fas fa-phone text-green-500 mr-2"></i><strong>Contact direct :</strong> Téléphone, email, WhatsApp - Réponse sous 24h garantie</li>
-                            <li><i class="fas fa-file-alt text-purple-500 mr-2"></i><strong>Rapports hebdomadaires :</strong> Synthèse de tous vos dossiers en cours envoyée chaque semaine</li>
-                        </ul>
-                        <p class="mt-3 font-semibold text-gray-900"><i class="fas fa-eye text-orange-500 mr-2"></i>Transparence totale sur l'avancement de chaque dossier !</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="mt-12 text-center section-fade">
-                <p class="text-gray-600 mb-6">Vous avez d'autres questions ?</p>
-                <a href="#contact" class="inline-flex items-center space-x-2 px-8 py-4 bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-bold rounded-xl hover:shadow-xl transition transform hover:scale-105">
-                    <i class="fas fa-comments"></i>
-                    <span>Contactez-nous</span>
-                </a>
-            </div>
-        </div>
-    </section>
-    
+    </div>
+
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <div class="flex items-center space-x-3 mb-4">
-                        <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-solar-panel text-white"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-black">SOLAIRE FACILE</h3>
-                            <p class="text-xs text-orange-400">ADMIN</p>
-                        </div>
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <div class="logo-icon">☀️</div>
+                    <div class="logo-text">
+                        <strong>SOLAIRE FACILE</strong>
+                        <span>Admin</span>
                     </div>
-                    <p class="text-gray-400 text-sm">
-                        Votre partenaire back-office pour installations photovoltaïques. Simple. Efficace. Fiable.
-                    </p>
-                </div>
-                
-                <div>
-                    <h4 class="font-bold mb-4">Services</h4>
-                    <ul class="space-y-2 text-gray-400 text-sm">
-                        <li><a href="#services" class="hover:text-orange-400 transition">Attestations Consuel</a></li>
-                        <li><a href="#services" class="hover:text-orange-400 transition">Raccordement Enedis</a></li>
-                        <li><a href="#services" class="hover:text-orange-400 transition">Contrats EDF OA</a></li>
-                        <li><a href="#services" class="hover:text-orange-400 transition">DP Mairie</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-bold mb-4">Entreprise</h4>
-                    <ul class="space-y-2 text-gray-400 text-sm">
-                        <li><a href="#a-propos" class="hover:text-orange-400 transition">À propos</a></li>
-                        <li><a href="#diagnostic" class="hover:text-orange-400 transition">Diagnostic gratuit</a></li>
-                        <li><a href="#faq" class="hover:text-orange-400 transition">FAQ</a></li>
-                        <li><a href="#rdv" class="hover:text-orange-400 transition">Prendre RDV</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-bold mb-4">Contact</h4>
-                    <ul class="space-y-2 text-gray-400 text-sm">
-                        <li><i class="fas fa-phone text-orange-400 mr-2"></i>07 77 22 74 34</li>
-                        <li><i class="fas fa-envelope text-orange-400 mr-2"></i>info@solaire-facile.com</li>
-                        <li><i class="fas fa-globe text-orange-400 mr-2"></i>www.solaire-facile-admin.com</li>
-                    </ul>
-                    <div class="flex space-x-3 mt-4">
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-orange-500 transition">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-orange-500 transition">
-                            <i class="fab fa-facebook"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-orange-500 transition">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </div>
-                </div>
+                </a>
+                <p>Votre partenaire back-office pour installations photovoltaïques. Nous simplifions l'administratif pour que vous puissiez vous concentrer sur votre métier.</p>
             </div>
-            
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400 text-sm">
-                    © 2025 Solaire Facile Admin — Tous droits réservés
-                </p>
-                <div class="flex space-x-6 mt-4 md:mt-0 text-sm text-gray-400">
-                    <a href="#" class="hover:text-orange-400 transition">Mentions légales</a>
-                    <a href="#" class="hover:text-orange-400 transition">CGV</a>
-                    <a href="#" class="hover:text-orange-400 transition">Politique de confidentialité</a>
-                </div>
+
+            <div class="footer-links">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#services">Attestations Consuel</a></li>
+                    <li><a href="#services">Raccordement Enedis</a></li>
+                    <li><a href="#services">Contrats EDF OA</a></li>
+                    <li><a href="#services">DP Mairie</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="tel:0777227434">📞 07 77 22 74 34</a></li>
+                    <li><a href="mailto:info@solaire-facile.com">✉️ info@solaire-facile.com</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>© 2025 Solaire Facile Admin — Tous droits réservés</span>
+            <div class="footer-legal">
+                <a href="legal.html#mentions">Mentions légales</a>
+                <a href="legal.html#cgv">CGV</a>
+                <a href="legal.html#confidentialite">Confidentialité</a>
             </div>
         </div>
     </footer>
-    
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getFirestore, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-        
-        const firebaseConfig = {
-            apiKey: "AIzaSyBdQP61dhT8it9_Ua-U8u-xgh40DLnfNbg",
-            authDomain: "solaire-admin.firebaseapp.com",
-            projectId: "solaire-admin",
-            storageBucket: "solaire-admin.appspot.com",
-            messagingSenderId: "294963767896",
-            appId: "1:294963767896:web:a2f6590fba1de9a0d2782d"
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            const icon = mobileMenuBtn.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
-        });
-        
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('#mobileMenu a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-                const icon = mobileMenuBtn.querySelector('i');
-                icon.classList.add('fa-bars');
-                icon.classList.remove('fa-times');
-            });
-        });
-        
-// Diagnostic Form Handler -> envoi vers l'API Cloud Run (solaire-api)
-const diagnosticForm = document.getElementById('diagnosticForm');
 
-if (diagnosticForm) {
-  diagnosticForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/33756978517?text=Bonjour%2C%20je%20suis%20installateur%20PV%20et%20je%20souhaite%20en%20savoir%20plus%20sur%20vos%20services%20Solaire%20Facile." class="whatsapp-float" target="_blank" rel="noopener">
+        <span class="tooltip">Une question ? Écrivez-nous</span>
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+    </a>
 
-    const data = new FormData(diagnosticForm);
-
-    const needs = Array.from(
-      document.querySelectorAll('input[name="needs"]:checked')
-    ).map(el => el.value);
-
-    const payload = {
-      name: data.get('profile') || '',
-      email: data.get('email') || '',
-      phone: data.get('phone') || '',
-      source: 'landing-admin-facile',
-      needs
-    };
-
-    try {
-      const res = await fetch('https://solaire-api-828508661560.europe-west1.run.app/leads', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Api-Token': 'saftoken-123'
-        },
-        body: JSON.stringify(payload)
-      });
-
-      const body = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        alert(`Erreur ${res.status} : ${body.error || body.message || 'API'}`);
-        return;
-      }
-
-      const successDiv = document.createElement('div');
-      successDiv.className = 'mt-6 p-6 bg-green-50 border-2 border-green-500 rounded-2xl text-center';
-      successDiv.innerHTML = `
-        <i class="fas fa-check-circle text-green-500 text-4xl mb-3"></i>
-        <h4 class="text-2xl font-bold text-gray-900 mb-2">Diagnostic envoyé !</h4>
-        <p class="text-gray-600">ID : ${body.id || 'créé'}</p>
-      `;
-
-      diagnosticForm.replaceWith(successDiv);
-      successDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } catch (err) {
-      console.error(err);
-      alert('Erreur réseau : ' + (err?.message || err));
-    }
-  });
-}      
-        
-        // Intersection Observer for fade-in animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+    <script>
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const isActive = item.classList.contains('active');
+                
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                
+                if (!isActive) {
+                    item.classList.add('active');
                 }
             });
-        }, { threshold: 0.1 });
-        
-        document.querySelectorAll('.section-fade').forEach(el => observer.observe(el));
-        
+        });
+
+        // Diagnostic Calculator - prend en compte volume ET pack
+        const volumeSelect = document.getElementById('volume');
+        const packRadios = document.querySelectorAll('input[name="pack"]');
+
+        function updateEstimate() {
+            const volume = volumeSelect.value;
+            const packSelected = document.querySelector('input[name="pack"]:checked');
+            
+            if (!volume || !packSelected) return;
+
+            const pack = packSelected.value;
+
+            // Nombre de dossiers selon volume
+            let dossiers;
+            switch(volume) {
+                case '1-5': dossiers = 3; break;
+                case '6-15': dossiers = 10; break;
+                case '16-30': dossiers = 23; break;
+                case '30+': dossiers = 40; break;
+                default: return;
+            }
+
+            // Heures par dossier selon pack
+            let heuresParDossier;
+            switch(pack) {
+                case 'essentiel': heuresParDossier = 1; break;      // DP + Consuel
+                case 'pro': heuresParDossier = 2; break;            // DP + Consuel + Enedis
+                case 'serenite': heuresParDossier = 3.5; break;     // Tout + gestion client
+                case 'carte': heuresParDossier = 1.5; break;        // Variable
+                default: heuresParDossier = 2;
+            }
+
+            const tempsActuel = Math.round(dossiers * heuresParDossier);
+            const tempsGagne = Math.round(tempsActuel * 0.9); // 90% du temps récupéré
+
+            document.getElementById('resultDossiers').textContent = `~${dossiers}`;
+            document.getElementById('resultTempsActuel').textContent = `~${tempsActuel}h / mois`;
+            document.getElementById('resultGain').textContent = `${tempsGagne}h récupérées`;
+        }
+
+        volumeSelect.addEventListener('change', updateEstimate);
+        packRadios.forEach(radio => radio.addEventListener('change', updateEstimate));
+
+        // Form submission
+        document.getElementById('diagnosticForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (document.querySelector('input[name="website"]').value) {
+                return;
+            }
+
+            const formData = new FormData(e.target);
+            const data = {
+                email: formData.get('email'),
+                phone: formData.get('phone') || '',
+                volume: formData.get('volume'),
+                pack: formData.get('pack'),
+                source: 'landing-diagnostic-v3'
+            };
+
+            // TODO: Replace with actual API endpoint
+            // await fetch('https://your-api.run.app/api/leads', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify(data)
+            // });
+
+            alert('Merci ! Votre demande a été envoyée.\n\nPack sélectionné : ' + data.pack.toUpperCase() + '\n\nNous vous recontactons sous 24h.');
+            e.target.reset();
+            document.getElementById('resultDossiers').textContent = '—';
+            document.getElementById('resultTempsActuel').textContent = '—';
+            document.getElementById('resultGain').textContent = '—';
+        });
+
         // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1427,187 +1765,20 @@ if (diagnosticForm) {
                 }
             });
         });
-        
-        // Stats counter animation
-        const animateCounter = (element, target) => {
-            let current = 0;
-            const increment = target / 100;
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    element.textContent = target + (element.textContent.includes('%') ? '%' : element.textContent.includes('h') ? 'h' : '+');
-                    clearInterval(timer);
-                } else {
-                    element.textContent = Math.floor(current) + (element.textContent.includes('%') ? '%' : element.textContent.includes('h') ? 'h' : '+');
-                }
-            }, 20);
-        };
-        
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const statElement = entry.target.querySelector('.stat-number');
-                    const value = parseInt(statElement.textContent);
-                    animateCounter(statElement, value);
-                    statsObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-        
-        document.querySelectorAll('.section-fade').forEach(el => {
-            if (el.querySelector('.stat-number')) {
-                statsObserver.observe(el);
-            }
-        });
-        
-        // FAQ Accordion
-        document.querySelectorAll('.faq-question').forEach(button => {
-            button.addEventListener('click', () => {
-                const answer = button.nextElementSibling;
-                const icon = button.querySelector('i');
+
+        // Pricing card click → select pack in form
+        document.querySelectorAll('.pricing-cta').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const card = e.target.closest('.pricing-card');
+                let packValue = 'pro';
                 
-                // Toggle current FAQ
-                answer.classList.toggle('hidden');
-                icon.classList.toggle('fa-chevron-down');
-                icon.classList.toggle('fa-chevron-up');
+                if (card.classList.contains('essentiel')) packValue = 'essentiel';
+                else if (card.classList.contains('pro')) packValue = 'pro';
+                else if (card.classList.contains('serenite')) packValue = 'serenite';
+                else if (card.classList.contains('carte')) packValue = 'carte';
+                
+                document.getElementById('pack-' + packValue).checked = true;
             });
-        });
-
-        // Live tracker data (hardcoded)
-        const liveData = {
-            diagnostiquesThisMonth: 47,
-            inConversation: 3,
-            daysUntilNextMES: 4,
-            clientsSatisfied: 150
-        };
-        const updateLive = () => {
-            const d = document.getElementById('live-diagnostics');
-            const c = document.getElementById('live-conv');
-            const m = document.getElementById('live-mes');
-            const s = document.getElementById('live-sat');
-            if (!d) return;
-            liveData.diagnostiquesThisMonth += Math.floor(Math.random()*2); // +0 or +1
-            d.textContent = liveData.diagnostiquesThisMonth;
-            c.textContent = liveData.inConversation;
-            m.textContent = Math.max(0, liveData.daysUntilNextMES - Math.floor(Math.random()*2));
-            s.textContent = liveData.clientsSatisfied;
-        };
-        setInterval(updateLive, 5000);
-
-        // Chatbot Q&A local (gratuit)
-        const qaDatabase = {
-          consuel: {
-            keywords: ["consuel","attestation","certificat","agréé","conformité"],
-            answer: "L'attestation Consuel valide la conformité électrique. Nous montons et suivons 100% du dossier jusqu'à l'obtention (5-10 jours ouvrés après dossier complet)."
-          },
-          enedis: {
-            keywords: ["enedis","raccordement","mise en service","pdl"],
-            answer: "Nous gérons la demande de raccordement Enedis, suivi des travaux et mise en service. Délai moyen 15-30 jours selon la zone."
-          },
-          edf: {
-            keywords: ["edf","obligation d'achat","oa","contrat","achat"],
-            answer: "Contrats EDF OA : nous constituons le dossier, gérons la signature et la validation. Délai typique 10-15 jours."
-          },
-          dp: {
-            keywords: ["dp","mairie","déclaration préalable","permis","autorisation"],
-            answer: "La DP mairie est obligatoire avant installation. On constitue le dossier, on dépose et on suit jusqu'à l'accord (1-2 mois selon mairie)."
-          },
-          tarif: {
-            keywords: ["cout","prix","tarif","combien","facture","paiement"],
-            answer: "Tarifs :\n• À la carte (dossier) si <10 installs/mois\n• Abonnement dégressif dès 10 installs/mois\nFacturation à la livraison du doc validé. Offre lancement -30% 1er mois."
-          },
-          delai: {
-            keywords: ["délai","combien de temps","rapide","urgent","quand"],
-            answer: "Délais moyens : Consuel 5-10j | Enedis 15-30j | EDF OA 10-15j | DP 1-2 mois. Relances systématiques incluses."
-          },
-          documents: {
-            keywords: ["document","fichier","quoi envoyer","que faut","list"],
-            answer: "Pour démarrer :\n• Consuel : PDL, puissance, onduleur\n• Enedis : identifiants client, caractéristiques installation\n• DP : adresse, type d'installation, support de pose."
-          },
-          garantie: {
-            keywords: ["refus","complément","erreur","problème","qui paie"],
-            answer: "Si complément : on vous alerte et on collecte. Si refus technique : analyse, plan d'action, nouveau dépôt. Si erreur de notre part : reprise gratuite."
-          },
-          contact: {
-            keywords: ["contact","mail","phone","téléphone","appel","email","joindre"],
-            answer: "Joignez-nous : 📞 07 77 22 74 34 | ✉️ info@solaire-facile.com | réponse sous 24h (lun-ven 9h-18h)."
-          },
-          default: {
-            answer: "Je n'ai pas compris. Reformulez ou contactez-nous : 📞 07 77 22 74 34 | ✉️ info@solaire-facile.com"
-          }
-        };
-
-        const findBestAnswer = (msg) => {
-          const lower = msg.toLowerCase();
-          for (const data of Object.values(qaDatabase)) {
-            if (data.keywords && data.keywords.some(k => lower.includes(k))) {
-              return data.answer;
-            }
-          }
-          return qaDatabase.default.answer;
-        };
-
-        const bubble = document.getElementById('chatbot-bubble');
-        const win = document.getElementById('chatbot-window');
-        const closeBtn = document.getElementById('chatbot-close');
-        const sendBtn = document.getElementById('chatbot-send');
-        const input = document.getElementById('chatbot-input');
-        const messages = document.getElementById('chatbot-messages');
-        const copyBtn = document.getElementById('chatbot-copy');
-        const clearBtn = document.getElementById('chatbot-clear');
-        const suggestions = document.querySelectorAll('.chat-pill');
-        let lastSend = 0;
-
-        const appendMsg = (text, type) => {
-          const div = document.createElement('div');
-          div.className = `msg ${type}`;
-          div.textContent = text;
-          messages.appendChild(div);
-          messages.scrollTop = messages.scrollHeight;
-        };
-
-        const sendMessage = () => {
-          const now = Date.now();
-          if (now - lastSend < 1000) return; // rate limit 1s
-          const content = input.value.trim();
-          if (!content) return;
-          appendMsg(content, 'user');
-          input.value = '';
-          lastSend = now;
-
-          const reply = findBestAnswer(content);
-          appendMsg(reply, 'bot');
-
-          // store Q&A for suivi
-          const timestamp = new Date().toISOString();
-          const history = JSON.parse(localStorage.getItem('chatbot_history') || '[]');
-          history.push({ question: content, answer: reply, timestamp });
-          localStorage.setItem('chatbot_history', JSON.stringify(history));
-          localStorage.setItem('sf_chat_history', messages.innerHTML);
-        };
-
-        // Restore history
-        const saved = localStorage.getItem('sf_chat_history');
-        if (saved) messages.innerHTML = saved;
-
-        bubble?.addEventListener('click', ()=> win.style.display = win.style.display==='flex'?'none':'flex');
-        closeBtn?.addEventListener('click', ()=> win.style.display='none');
-        sendBtn?.addEventListener('click', sendMessage);
-        input?.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); sendMessage(); }});
-        copyBtn?.addEventListener('click', ()=>{
-          const text = Array.from(messages.querySelectorAll('.msg')).map(m=>m.textContent).join('\n');
-          navigator.clipboard.writeText(text);
-        });
-        clearBtn?.addEventListener('click', ()=>{
-          messages.innerHTML='';
-          localStorage.removeItem('sf_chat_history');
-        });
-
-        suggestions.forEach(pill=>{
-          pill.addEventListener('click', ()=>{
-            input.value = pill.dataset.question || pill.textContent;
-            sendMessage();
-          });
         });
     </script>
 </body>
