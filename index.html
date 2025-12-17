@@ -1894,17 +1894,31 @@
             }
 
             const formData = new FormData(e.target);
-            const pack = formData.get('pack');
-            
-            const data = {
-                company: formData.get('company') || '',
-                name: formData.get('name') || formData.get('fullname') || '',
-                email: formData.get('email'),
-                phone: formData.get('phone') || '',
-                volume: formData.get('volume'),
-                pack: pack,
-                source: 'landing-diagnostic-v3'
-            };
+        const pack = formData.get('pack');
+
+        // Mapping interne label -> code métier
+        const packMap = {
+            essentiel: { packCode: 'ESSENTIEL', packLabel: 'Essentiel', packPrice: 169, flexItems: [] },
+            pro: { packCode: 'PRO', packLabel: 'Pro', packPrice: 269, flexItems: [] },
+            serenite: { packCode: 'SERENITE', packLabel: 'Sérénité', packPrice: 449, flexItems: [] },
+            carte: { packCode: 'FLEX', packLabel: 'Flex', packPrice: null, flexItems: [] },
+        };
+        const selectedPack = packMap[pack] || packMap.pro;
+
+        const data = {
+            company: formData.get('company') || '',
+            name: formData.get('name') || formData.get('fullname') || '',
+            email: formData.get('email'),
+            phone: formData.get('phone') || '',
+            volume: formData.get('volume'),
+            packCode: selectedPack.packCode,
+            packLabel: selectedPack.packLabel,
+            flexItems: selectedPack.flexItems,
+            source: 'landing-diagnostic-v3'
+        };
+        if (selectedPack.packPrice !== null && selectedPack.packCode !== 'FLEX') {
+            data.packPrice = selectedPack.packPrice;
+        }
 
             // Envoi lead -> API CRM
             try {
