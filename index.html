@@ -1513,7 +1513,17 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Votre email pro</label>
+                    <label for="company">Nom de votre entreprise *</label>
+                    <input type="text" id="company" name="company" placeholder="Ex: SunPro Installations" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Votre nom *</label>
+                    <input type="text" id="name" name="name" placeholder="Prénom Nom" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Votre email pro *</label>
                     <input type="email" id="email" name="email" placeholder="contact@votre-entreprise.fr" required>
                 </div>
 
@@ -1887,6 +1897,8 @@
             const pack = formData.get('pack');
             
             const data = {
+                company: formData.get('company'),
+                name: formData.get('name'),
                 email: formData.get('email'),
                 phone: formData.get('phone') || '',
                 volume: formData.get('volume'),
@@ -1894,28 +1906,12 @@
                 source: 'landing-diagnostic-v3'
             };
 
-            // Envoi vers l'API leads (même backend que le CRM)
-            try {
-                const res = await fetch('https://solaire-api-828508661560.europe-west1.run.app/leads', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Api-Token': 'saftoken-123'
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                const body = await res.json().catch(() => ({}));
-                if (!res.ok) {
-                    console.warn('Lead non enregistré', body);
-                    alert(`Erreur ${res.status} : ${body.error || body.message || 'API'}`);
-                    return;
-                }
-            } catch (err) {
-                console.error('Erreur API', err);
-                alert("Impossible d'enregistrer votre demande pour le moment.");
-                return;
-            }
+            // TODO: Replace with actual API endpoint
+            // await fetch('https://your-api.run.app/api/leads', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify(data)
+            // });
 
             // Pack descriptions
             const packInfo = {
