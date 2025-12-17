@@ -1897,13 +1897,8 @@
             const pack = formData.get('pack');
             
             const data = {
-<<<<<<< ours
-                company: formData.get('company'),
-                name: formData.get('name'),
-=======
                 company: formData.get('company') || '',
-                name: formData.get('fullname') || '',
->>>>>>> theirs
+                name: formData.get('name') || formData.get('fullname') || '',
                 email: formData.get('email'),
                 phone: formData.get('phone') || '',
                 volume: formData.get('volume'),
