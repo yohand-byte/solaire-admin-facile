@@ -1906,12 +1906,27 @@
                 source: 'landing-diagnostic-v3'
             };
 
-            // TODO: Replace with actual API endpoint
-            // await fetch('https://your-api.run.app/api/leads', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify(data)
-            // });
+            // Envoi lead -> API CRM
+            try {
+                const res = await fetch('https://solaire-api-828508661560.europe-west1.run.app/leads', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Api-Token': 'saftoken-123'
+                    },
+                    body: JSON.stringify(data)
+                });
+                const body = await res.json().catch(() => ({}));
+                if (!res.ok) {
+                    console.warn('Lead non enregistré', body);
+                    alert(`Erreur ${res.status} : ${body.error || body.message || 'API'}`);
+                    return;
+                }
+            } catch (err) {
+                console.error('Erreur API', err);
+                alert("Impossible d'enregistrer votre demande pour le moment.");
+                return;
+            }
 
             // Pack descriptions
             const packInfo = {
