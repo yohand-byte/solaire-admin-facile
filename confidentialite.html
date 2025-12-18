@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Politique de Confidentialité | Solaire Facile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --white: #ffffff;
+            --black: #1a1a1a;
+            --orange-500: #f97316;
+            --orange-600: #ea580c;
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-400: #a3a3a3;
+            --gray-500: #737373;
+            --gray-600: #525252;
+            --gray-700: #404040;
+            --gray-900: #171717;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--white);
+            color: var(--gray-900);
+            line-height: 1.7;
+        }
+
+        header {
+            background: var(--gray-900);
+            padding: 1.5rem 2rem;
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: var(--white);
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--orange-500);
+        }
+
+        .back-link {
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--white);
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--gray-900);
+        }
+
+        .last-update {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--gray-900);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gray-100);
+        }
+
+        h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--gray-700);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--gray-600);
+        }
+
+        ul {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--gray-600);
+        }
+
+        .info-block {
+            background: var(--gray-50);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-block p {
+            margin-bottom: 0.5rem;
+        }
+
+        .info-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-block strong {
+            color: var(--gray-900);
+        }
+
+        a {
+            color: var(--orange-600);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        th {
+            background: var(--gray-50);
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        td {
+            color: var(--gray-600);
+        }
+
+        footer {
+            background: var(--gray-50);
+            padding: 2rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copy {
+            color: var(--gray-500);
+            font-size: 0.85rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--gray-500);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gray-900);
+        }
+
+        @media (max-width: 768px) {
+            main { padding: 2rem 1.5rem 3rem; }
+            h1 { font-size: 1.75rem; }
+            h2 { font-size: 1.15rem; }
+            .footer-content { flex-direction: column; text-align: center; }
+            .footer-links { gap: 1.5rem; }
+            table { font-size: 0.9rem; }
+            th, td { padding: 0.75rem 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">Solaire <span>Facile</span></a>
+            <a href="index.html" class="back-link">← Retour à l'accueil</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Politique de Confidentialité</h1>
+        <p class="last-update">Dernière mise à jour : Décembre 2025</p>
+
+        <p>SNATCH GROUP FRANCE, société éditrice du service Solaire Facile, attache une grande importance à la protection de vos données personnelles. Cette politique de confidentialité vous informe sur la manière dont nous collectons, utilisons et protégeons vos données conformément au Règlement Général sur la Protection des Données (RGPD).</p>
+
+        <h2>1. Responsable du traitement</h2>
+        
+        <div class="info-block">
+            <p><strong>Raison sociale :</strong> SNATCH GROUP FRANCE</p>
+            <p><strong>Adresse :</strong> 7 Avenue Niel, 75017 Paris, France</p>
+            <p><strong>Email :</strong> <a href="mailto:contact@solaire-facile.com">contact@solaire-facile.com</a></p>
+            <p><strong>Téléphone :</strong> 07 56 97 85 17</p>
+        </div>
+
+        <h2>2. Données collectées</h2>
+        
+        <h3>2.1 Données d'identification</h3>
+        <ul>
+            <li>Nom et prénom du contact</li>
+            <li>Dénomination de l'entreprise</li>
+            <li>Numéro SIRET</li>
+            <li>Adresse professionnelle</li>
+            <li>Adresse email professionnelle</li>
+            <li>Numéro de téléphone</li>
+        </ul>
+
+        <h3>2.2 Données relatives aux dossiers</h3>
+        <ul>
+            <li>Informations techniques des installations photovoltaïques</li>
+            <li>Documents administratifs (attestations, formulaires)</li>
+            <li>Coordonnées des sites d'installation</li>
+            <li>Historique des dossiers traités</li>
+        </ul>
+
+        <h3>2.3 Données de connexion</h3>
+        <ul>
+            <li>Adresse IP</li>
+            <li>Données de navigation (pages visitées, durée)</li>
+            <li>Type de navigateur et système d'exploitation</li>
+        </ul>
+
+        <h2>3. Finalités du traitement</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Finalité</th>
+                    <th>Base légale</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Gestion des dossiers administratifs</td>
+                    <td>Exécution du contrat</td>
+                </tr>
+                <tr>
+                    <td>Facturation et paiement</td>
+                    <td>Exécution du contrat</td>
+                </tr>
+                <tr>
+                    <td>Communication sur l'avancement des dossiers</td>
+                    <td>Exécution du contrat</td>
+                </tr>
+                <tr>
+                    <td>Support client</td>
+                    <td>Intérêt légitime</td>
+                </tr>
+                <tr>
+                    <td>Amélioration des services</td>
+                    <td>Intérêt légitime</td>
+                </tr>
+                <tr>
+                    <td>Envoi de communications commerciales</td>
+                    <td>Consentement</td>
+                </tr>
+                <tr>
+                    <td>Mesure d'audience du site</td>
+                    <td>Consentement</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>4. Destinataires des données</h2>
+        <p>Vos données peuvent être transmises aux destinataires suivants :</p>
+        <ul>
+            <li><strong>Équipe interne :</strong> Personnel habilité de SNATCH GROUP FRANCE</li>
+            <li><strong>Organismes tiers :</strong> Consuel, Enedis, EDF OA, mairies (dans le cadre du traitement de vos dossiers)</li>
+            <li><strong>Sous-traitants techniques :</strong> Hébergeur (Google Cloud), service d'emailing</li>
+        </ul>
+        <p>Nous ne vendons ni ne louons vos données personnelles à des tiers.</p>
+
+        <h2>5. Transferts hors UE</h2>
+        <p>Certaines données peuvent être transférées vers des pays situés hors de l'Union Européenne (notamment vers les États-Unis pour les services Google). Ces transferts sont encadrés par des garanties appropriées (clauses contractuelles types, certification Privacy Shield ou équivalent).</p>
+
+        <h2>6. Durée de conservation</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Type de données</th>
+                    <th>Durée de conservation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Données clients actifs</td>
+                    <td>Durée de la relation commerciale</td>
+                </tr>
+                <tr>
+                    <td>Données clients inactifs</td>
+                    <td>3 ans après le dernier contact</td>
+                </tr>
+                <tr>
+                    <td>Documents comptables</td>
+                    <td>10 ans (obligation légale)</td>
+                </tr>
+                <tr>
+                    <td>Données de connexion</td>
+                    <td>13 mois</td>
+                </tr>
+                <tr>
+                    <td>Cookies analytiques</td>
+                    <td>13 mois maximum</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>7. Vos droits</h2>
+        <p>Conformément au RGPD, vous disposez des droits suivants :</p>
+        
+        <ul>
+            <li><strong>Droit d'accès :</strong> Obtenir une copie de vos données personnelles</li>
+            <li><strong>Droit de rectification :</strong> Corriger des données inexactes ou incomplètes</li>
+            <li><strong>Droit à l'effacement :</strong> Demander la suppression de vos données</li>
+            <li><strong>Droit à la limitation :</strong> Limiter le traitement de vos données</li>
+            <li><strong>Droit à la portabilité :</strong> Recevoir vos données dans un format structuré</li>
+            <li><strong>Droit d'opposition :</strong> Vous opposer au traitement de vos données</li>
+            <li><strong>Droit de retirer votre consentement :</strong> À tout moment pour les traitements basés sur le consentement</li>
+        </ul>
+
+        <h3>Comment exercer vos droits ?</h3>
+        <div class="info-block">
+            <p>Envoyez votre demande par email à : <a href="mailto:contact@solaire-facile.com">contact@solaire-facile.com</a></p>
+            <p>Ou par courrier à : SNATCH GROUP FRANCE — 7 Avenue Niel, 75017 Paris</p>
+            <p>Merci de joindre une copie de votre pièce d'identité pour toute demande.</p>
+            <p>Nous répondrons dans un délai de 30 jours maximum.</p>
+        </div>
+
+        <h2>8. Réclamation</h2>
+        <p>Si vous estimez que le traitement de vos données ne respecte pas la réglementation, vous pouvez introduire une réclamation auprès de la CNIL :</p>
+        
+        <div class="info-block">
+            <p><strong>Commission Nationale de l'Informatique et des Libertés (CNIL)</strong></p>
+            <p>3 Place de Fontenoy, TSA 80715, 75334 Paris Cedex 07</p>
+            <p>Site web : <a href="https://www.cnil.fr" target="_blank" rel="noopener">www.cnil.fr</a></p>
+        </div>
+
+        <h2>9. Cookies</h2>
+        
+        <h3>9.1 Qu'est-ce qu'un cookie ?</h3>
+        <p>Un cookie est un petit fichier texte déposé sur votre terminal (ordinateur, tablette, smartphone) lors de la visite d'un site web. Il permet de stocker des informations relatives à votre navigation.</p>
+
+        <h3>9.2 Cookies utilisés</h3>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Finalité</th>
+                    <th>Durée</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cookies techniques</td>
+                    <td>Fonctionnement du site, authentification</td>
+                    <td>Session</td>
+                </tr>
+                <tr>
+                    <td>Cookies de préférences</td>
+                    <td>Mémorisation de vos choix</td>
+                    <td>12 mois</td>
+                </tr>
+                <tr>
+                    <td>Cookies analytiques</td>
+                    <td>Mesure d'audience (Google Analytics)</td>
+                    <td>13 mois</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>9.3 Gestion des cookies</h3>
+        <p>Vous pouvez à tout moment modifier vos préférences en matière de cookies :</p>
+        <ul>
+            <li>Via le bandeau de consentement lors de votre première visite</li>
+            <li>Via les paramètres de votre navigateur</li>
+        </ul>
+        <p>La désactivation des cookies techniques peut affecter le bon fonctionnement du site.</p>
+
+        <h2>10. Sécurité</h2>
+        <p>Nous mettons en œuvre des mesures techniques et organisationnelles appropriées pour protéger vos données contre tout accès non autorisé, modification, divulgation ou destruction :</p>
+        <ul>
+            <li>Chiffrement des données en transit (HTTPS/TLS)</li>
+            <li>Authentification sécurisée (magic link)</li>
+            <li>Accès restreint aux données (principe du moindre privilège)</li>
+            <li>Sauvegardes régulières</li>
+            <li>Surveillance des accès</li>
+        </ul>
+
+        <h2>11. Modification de la politique</h2>
+        <p>Cette politique de confidentialité peut être mise à jour à tout moment. En cas de modification substantielle, nous vous en informerons par email ou via une notification sur notre plateforme.</p>
+        <p>La date de dernière mise à jour est indiquée en haut de cette page.</p>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p class="footer-copy">© 2025 Solaire Facile — Service de SNATCH GROUP FRANCE</p>
+            <nav class="footer-links">
+                <a href="mentions-legales.html">Mentions légales</a>
+                <a href="cgv.html">CGV</a>
+                <a href="confidentialite.html">Confidentialité</a>
+            </nav>
+        </div>
+    </footer>
+</body>
+</html>

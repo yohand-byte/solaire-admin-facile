@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conditions Générales de Vente | Solaire Facile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --white: #ffffff;
+            --black: #1a1a1a;
+            --orange-500: #f97316;
+            --orange-600: #ea580c;
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-400: #a3a3a3;
+            --gray-500: #737373;
+            --gray-600: #525252;
+            --gray-700: #404040;
+            --gray-900: #171717;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--white);
+            color: var(--gray-900);
+            line-height: 1.7;
+        }
+
+        header {
+            background: var(--gray-900);
+            padding: 1.5rem 2rem;
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: var(--white);
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--orange-500);
+        }
+
+        .back-link {
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--white);
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--gray-900);
+        }
+
+        .last-update {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--gray-900);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gray-100);
+        }
+
+        h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--gray-700);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--gray-600);
+        }
+
+        ul {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--gray-600);
+        }
+
+        .info-block {
+            background: var(--gray-50);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-block p {
+            margin-bottom: 0.5rem;
+        }
+
+        .info-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-block strong {
+            color: var(--gray-900);
+        }
+
+        a {
+            color: var(--orange-600);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        th {
+            background: var(--gray-50);
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        td {
+            color: var(--gray-600);
+        }
+
+        footer {
+            background: var(--gray-50);
+            padding: 2rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copy {
+            color: var(--gray-500);
+            font-size: 0.85rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--gray-500);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gray-900);
+        }
+
+        @media (max-width: 768px) {
+            main { padding: 2rem 1.5rem 3rem; }
+            h1 { font-size: 1.75rem; }
+            h2 { font-size: 1.15rem; }
+            .footer-content { flex-direction: column; text-align: center; }
+            .footer-links { gap: 1.5rem; }
+            table { font-size: 0.9rem; }
+            th, td { padding: 0.75rem 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">Solaire <span>Facile</span></a>
+            <a href="index.html" class="back-link">← Retour à l'accueil</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Conditions Générales de Vente</h1>
+        <p class="last-update">Dernière mise à jour : Décembre 2025</p>
+
+        <h2>1. Objet</h2>
+        <p>Les présentes Conditions Générales de Vente (CGV) régissent les relations contractuelles entre SNATCH GROUP FRANCE (ci-après "le Prestataire") et tout professionnel (ci-après "le Client") souhaitant bénéficier des services de gestion administrative proposés sous la marque Solaire Facile.</p>
+        <p>Les services concernent la prise en charge des démarches administratives liées aux installations photovoltaïques : attestations Consuel, raccordements Enedis, contrats EDF OA, déclarations préalables en mairie.</p>
+
+        <h2>2. Acceptation des CGV</h2>
+        <p>Toute commande implique l'acceptation sans réserve des présentes CGV. Le Client déclare avoir pris connaissance des présentes CGV avant de passer commande.</p>
+
+        <h2>3. Services et tarifs</h2>
+        
+        <h3>3.1 Offres packagées</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Pack</th>
+                    <th>Services inclus</th>
+                    <th>Tarif HT</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Pack Essentiel</strong></td>
+                    <td>Consuel + Enedis</td>
+                    <td>149 €</td>
+                </tr>
+                <tr>
+                    <td><strong>Pack Pro</strong></td>
+                    <td>Consuel + Enedis + EDF OA</td>
+                    <td>229 €</td>
+                </tr>
+                <tr>
+                    <td><strong>Pack Sérénité</strong></td>
+                    <td>Consuel + Enedis + EDF OA + Déclaration Mairie</td>
+                    <td>390 €</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>3.2 Système de crédits</h3>
+        <p>Le Client peut également acquérir des crédits permettant de passer des commandes de manière flexible. Les crédits sont utilisables sur l'ensemble des services proposés.</p>
+        <p>Les crédits achetés sont valables 12 mois à compter de leur date d'achat. Passé ce délai, les crédits non utilisés sont perdus.</p>
+
+        <h3>3.3 Modification des tarifs</h3>
+        <p>Les tarifs peuvent être modifiés à tout moment. Les nouvelles conditions tarifaires s'appliquent aux commandes passées après leur entrée en vigueur.</p>
+
+        <h2>4. Commande et paiement</h2>
+
+        <h3>4.1 Processus de commande</h3>
+        <p>Les commandes sont passées via la plateforme en ligne Solaire Facile. Le Client doit fournir l'ensemble des documents et informations nécessaires au traitement de son dossier.</p>
+
+        <h3>4.2 Moyens de paiement</h3>
+        <p>Les paiements peuvent être effectués par :</p>
+        <ul>
+            <li>Virement bancaire</li>
+            <li>Carte bancaire</li>
+            <li>Prélèvement SEPA (sur accord préalable)</li>
+        </ul>
+
+        <h3>4.3 Facturation</h3>
+        <p>Une facture est émise pour chaque commande et transmise au Client par voie électronique. Les prix sont indiqués en euros hors taxes (HT). La TVA applicable est celle en vigueur au jour de la facturation.</p>
+
+        <h3>4.4 Retard de paiement</h3>
+        <p>En cas de retard de paiement, des pénalités de retard seront appliquées au taux de 3 fois le taux d'intérêt légal. Une indemnité forfaitaire de 40 € pour frais de recouvrement sera également due.</p>
+
+        <h2>5. Obligations du Prestataire</h2>
+        <p>Le Prestataire s'engage à :</p>
+        <ul>
+            <li>Traiter les dossiers avec diligence et professionnalisme</li>
+            <li>Informer le Client de l'avancement de ses dossiers</li>
+            <li>Respecter la confidentialité des informations transmises</li>
+            <li>Assurer un support client réactif</li>
+        </ul>
+        <p>Le Prestataire s'engage sur une obligation de moyens et non de résultat. Les délais de traitement dépendent en partie des organismes tiers (Consuel, Enedis, EDF, mairies).</p>
+
+        <h2>6. Obligations du Client</h2>
+        <p>Le Client s'engage à :</p>
+        <ul>
+            <li>Fournir des informations exactes et complètes</li>
+            <li>Transmettre tous les documents nécessaires dans les délais requis</li>
+            <li>Répondre aux demandes de compléments d'information</li>
+            <li>Régler les factures dans les délais convenus</li>
+        </ul>
+        <p>Tout retard ou défaut de transmission de documents par le Client peut entraîner un allongement des délais de traitement, sans que la responsabilité du Prestataire puisse être engagée.</p>
+
+        <h2>7. Délais de traitement</h2>
+        <p>Les délais de traitement indicatifs sont :</p>
+        <ul>
+            <li>Attestation Consuel : 5 à 10 jours ouvrés</li>
+            <li>Raccordement Enedis : 10 à 15 jours ouvrés (hors délais Enedis)</li>
+            <li>Contrat EDF OA : 5 à 10 jours ouvrés</li>
+            <li>Déclaration préalable mairie : 15 à 30 jours ouvrés (hors délais d'instruction)</li>
+        </ul>
+        <p>Ces délais sont donnés à titre indicatif et peuvent varier selon la complexité du dossier et les délais de réponse des organismes concernés.</p>
+
+        <h2>8. Droit de rétractation</h2>
+        <p>Conformément à l'article L221-3 du Code de la consommation, le droit de rétractation ne s'applique pas aux contrats conclus entre professionnels (B2B).</p>
+        <p>Toutefois, le Client peut annuler sa commande sans frais dans un délai de 24 heures suivant la passation de commande, à condition que le traitement du dossier n'ait pas encore débuté.</p>
+
+        <h2>9. Responsabilité</h2>
+        <p>La responsabilité du Prestataire est limitée aux dommages directs résultant d'une faute prouvée dans l'exécution de ses obligations. En tout état de cause, la responsabilité du Prestataire ne pourra excéder le montant des sommes versées par le Client pour la commande concernée.</p>
+        <p>Le Prestataire ne saurait être tenu responsable des retards ou dysfonctionnements imputables aux organismes tiers (Consuel, Enedis, EDF, mairies) ou à des cas de force majeure.</p>
+
+        <h2>10. Confidentialité</h2>
+        <p>Les parties s'engagent à maintenir confidentielles les informations échangées dans le cadre de leur relation commerciale. Cette obligation de confidentialité perdure pendant une durée de 2 ans après la fin de la relation contractuelle.</p>
+
+        <h2>11. Protection des données</h2>
+        <p>Le traitement des données personnelles est effectué conformément à notre <a href="confidentialite.html">Politique de confidentialité</a> et au Règlement Général sur la Protection des Données (RGPD).</p>
+
+        <h2>12. Réclamations</h2>
+        <p>Toute réclamation doit être adressée par email à <a href="mailto:contact@solaire-facile.com">contact@solaire-facile.com</a> dans un délai de 30 jours suivant la survenance du fait générateur. Le Prestataire s'engage à répondre dans un délai de 10 jours ouvrés.</p>
+
+        <h2>13. Modification des CGV</h2>
+        <p>Le Prestataire se réserve le droit de modifier les présentes CGV à tout moment. Les nouvelles conditions seront applicables aux commandes passées après leur publication sur le site.</p>
+
+        <h2>14. Droit applicable et litiges</h2>
+        <p>Les présentes CGV sont soumises au droit français. En cas de litige, les parties s'engagent à rechercher une solution amiable. À défaut d'accord, les tribunaux de Paris seront seuls compétents.</p>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p class="footer-copy">© 2025 Solaire Facile — Service de SNATCH GROUP FRANCE</p>
+            <nav class="footer-links">
+                <a href="mentions-legales.html">Mentions légales</a>
+                <a href="cgv.html">CGV</a>
+                <a href="confidentialite.html">Confidentialité</a>
+            </nav>
+        </div>
+    </footer>
+</body>
+</html>
